@@ -11,9 +11,11 @@
 	},
 	"dependencies": {
 		"@astrojs/node": "^5.0.4",
+		"@picocss/pico": "^1.5.7",
 		"astro": "^2.0.15"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^7.6.0",
 		"prettier": "^2.8.4",
 		"prettier-plugin-astro": "^0.8.0"
 	}

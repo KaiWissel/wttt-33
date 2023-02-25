@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import users from "../../test/data/users.json";
+
+const pageTitle = "Nutzer";
+---
+
+<BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
+  <h1>{pageTitle}</h1>
+  <div class="grid">
+    <input type="text" placeholder="Name" />
+    <input type="text" placeholder="Klasse" />
+    <input type="text" placeholder="Jahrgang" />
+    <input type="text" placeholder="UID" />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Nachname</th>
+        <th scope="col">Vorname</th>
+        <th scope="col">Klasse</th>
+        <th scope="col">Jahrgang</th>
+        <th scope="col">UID</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        users.map((b) => (
+          <tr>
+            <td> {b.lastName}</td>
+            <td> {b.firstName}</td>
+            <td> {b.courseType}</td>
+            <td> {b.year}</td>
+            <td> {b.uId}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</BaseLayout>

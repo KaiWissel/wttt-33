@@ -1,15 +1,27 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout pageTitle="WTTT 33 - Home">
+  <hgroup>
+    <h1>Willkommen</h1>
+    <h2>zur Zeiterfassung der ABW 33</h2>
+  </hgroup>
+  <article>
+    <!-- <header><h3>Login</h3></header> -->
+
+    <select>
+      <option selected>Viewer</option>
+      <option>Admin</option>
+    </select>
+    <input type="text" placeholder="Passwort" />
+    <a href="/bookings"><button>Login</button></a>
+  </article>
+</BaseLayout>
+
+<!-- Don't show site navigation on landing page -->
+<style is:global>
+  .sites-navigation {
+    display: none;
+  }
+</style>

@@ -1,0 +1,72 @@
+[
+  {
+    "firstName": "Björn",
+    "lastName": "Clarius",
+    "courseType": "EGS",
+    "year": 2021,
+    "uId": "7voozzectz"
+  },
+  {
+    "firstName": "Joanna",
+    "lastName": "Nytra",
+    "courseType": "FGM",
+    "year": 2021,
+    "uId": "fmmsz633q3"
+  },
+  {
+    "firstName": "Vitus",
+    "lastName": "Keller",
+    "courseType": "FGM",
+    "year": 2022,
+    "uId": "uzhos2c69f"
+  },
+  {
+    "firstName": "Luna",
+    "lastName": "Orth",
+    "courseType": "EGS",
+    "year": 2021,
+    "uId": "oid46x4dtl"
+  },
+  {
+    "firstName": "Jill",
+    "lastName": "Keiner",
+    "courseType": "FGM",
+    "year": 2022,
+    "uId": "a7rt7tiyq8"
+  },
+  {
+    "firstName": "Abigail",
+    "lastName": "Laws",
+    "courseType": "EGS",
+    "year": 2022,
+    "uId": "at9dxo4dvt"
+  },
+  {
+    "firstName": "Felina",
+    "lastName": "Tsamonikian",
+    "courseType": "FGM",
+    "year": 2021,
+    "uId": "6od1gd0tso"
+  },
+  {
+    "firstName": "Leonidas",
+    "lastName": "Stern",
+    "courseType": "FGM",
+    "year": 2023,
+    "uId": "5he6asj0w5"
+  },
+  {
+    "firstName": "Kerim",
+    "lastName": "Schahbasian",
+    "courseType": "FGM",
+    "year": 2022,
+    "uId": "w5iwks6mcb"
+  },
+  {
+    "firstName": "Nathan",
+    "lastName": "Kluwe",
+    "courseType": "FGM",
+    "year": 2022,
+    "uId": "w3cj5onc76"
+  }
+]

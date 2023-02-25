@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import bookings from "../../test/data/bookings.json";
+
+let bookingsCount = 10;
+const showedBookings = bookings.slice(0, bookingsCount);
+
+const pageTitle = "Buchungen";
+---
+
+<BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
+  <h1>{pageTitle}</h1>
+
+  <div class="grid">
+    <input type="text" placeholder="Von (11.11.2011)" />
+    <input type="text" placeholder="Bis (12.12.2012)" />
+    <input type="text" placeholder="Klasse" />
+    <input type="text" placeholder="Standort" />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Datum</th>
+        <th scope="col">Uhrzeit</th>
+        <th scope="col">Name</th>
+        <th scope="col">Aktion</th>
+        <th scope="col">Klasse</th>
+        <th scope="col">Standort</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        showedBookings.map((b) => (
+          <tr>
+            <td> {b.date.slice(0, 10)}</td>
+            <td> {b.date.slice(11, 16)}</td>
+            <td> {b.username}</td>
+            <td> {b.action}</td>
+            <td> {b.course}</td>
+            <td> {b.location}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+  <button onclick="loadMore()">Lade mehr Einträge</button>
+</BaseLayout>
