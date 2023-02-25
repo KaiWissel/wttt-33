@@ -25,6 +25,7 @@ export function createRandomUser(course) {
 }
 
 export function createRandomCourse() {
+  courseTypes.map;
   return {
     type: courseTypes[Math.floor(Math.random() * 2)],
     year: years[Math.floor(Math.random() * 3)],
