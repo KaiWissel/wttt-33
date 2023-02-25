@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-02-25T10:15:39.145Z" agent="5.0 (Windows)" etag="al12O9cgcOXw1UXYcFpk" version="20.8.23" type="github">
+<mxfile host="app.diagrams.net" modified="2023-02-25T10:17:18.705Z" agent="5.0 (Windows)" etag="OJAf8w6GPBwu-5yD1uOW" version="20.8.23" type="github">
   <diagram name="Seite-1" id="IerMHQKbE69juIeoWYwx">
     <mxGraphModel dx="1434" dy="822" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -48,19 +48,8 @@
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-15" value="PgAdmin" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="800" y="725" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="h5z63Fl-7ZgzWy86kFCa-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-19" target="h5z63Fl-7ZgzWy86kFCa-23">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="h5z63Fl-7ZgzWy86kFCa-37" value="Kann neue Benutzer und Kurse erstellen" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="h5z63Fl-7ZgzWy86kFCa-24">
-          <mxGeometry x="-0.7401" y="3" relative="1" as="geometry">
-            <mxPoint x="112" y="-6" as="offset" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-19" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="205" y="650" width="30" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="h5z63Fl-7ZgzWy86kFCa-23" value="Web-Client" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="800" y="602.5" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-22" target="h5z63Fl-7ZgzWy86kFCa-15">
           <mxGeometry relative="1" as="geometry" />
@@ -70,13 +59,11 @@
             <mxPoint x="51" y="-2" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="h5z63Fl-7ZgzWy86kFCa-33" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-30" target="h5z63Fl-7ZgzWy86kFCa-23">
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-45" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-44" target="h5z63Fl-7ZgzWy86kFCa-13">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="h5z63Fl-7ZgzWy86kFCa-35" value="Kann nur Buchung ansehen" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="h5z63Fl-7ZgzWy86kFCa-33">
-          <mxGeometry x="-0.6443" relative="1" as="geometry">
-            <mxPoint x="69" y="-7" as="offset" />
-          </mxGeometry>
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-44" value="Nuxt? / Astro?" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="779" y="467" width="422" height="215" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-30" value="Viewer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="205" y="540" width="30" height="60" as="geometry" />
@@ -104,6 +91,25 @@
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-39" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-9" target="h5z63Fl-7ZgzWy86kFCa-38">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-23" value="Web-Client" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="602.5" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-33" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-30" target="h5z63Fl-7ZgzWy86kFCa-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-35" value="Kann nur Buchung ansehen" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="h5z63Fl-7ZgzWy86kFCa-33">
+          <mxGeometry x="-0.6443" relative="1" as="geometry">
+            <mxPoint x="69" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-19" target="h5z63Fl-7ZgzWy86kFCa-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-37" value="Kann neue Benutzer und Kurse erstellen" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="h5z63Fl-7ZgzWy86kFCa-24">
+          <mxGeometry x="-0.7401" y="3" relative="1" as="geometry">
+            <mxPoint x="112" y="-6" as="offset" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
