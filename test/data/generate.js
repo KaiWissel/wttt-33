@@ -10,23 +10,33 @@ export function createRandomBooking(user) {
     username: user.firstName + " " + user.lastName,
     date: faker.date.between("2022-11-11", "2022-12-12"),
     action: actions[Math.floor(Math.random() * 4)],
-    course: user.courseType + " " + user.year,
+    course: user.course,
     location: faker.address.city(),
   };
 }
 
-export function createRandomUser() {
+export function createRandomUser(course) {
   return {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    courseType: courseTypes[Math.floor(Math.random() * 2)],
-    year: years[Math.floor(Math.random() * 3)],
+    course: course.type + " " + course.year,
     uId: faker.random.alphaNumeric(10),
   };
 }
 
+export function createRandomCourse() {
+  return {
+    type: courseTypes[Math.floor(Math.random() * 2)],
+    year: years[Math.floor(Math.random() * 3)],
+  };
+}
+
+const courses = Array.from({ length: 6 }).map(() => {
+  return createRandomCourse();
+});
+
 const users = Array.from({ length: 10 }).map(() => {
-  return createRandomUser();
+  return createRandomUser(courses[Math.floor(Math.random() * courses.length)]);
 });
 
 const bookings = Array.from({ length: 100 }).map(() => {
@@ -34,7 +44,9 @@ const bookings = Array.from({ length: 100 }).map(() => {
 });
 
 console.log(JSON.stringify(bookings, null, 2));
+console.log(JSON.stringify(courses, null, 2));
 console.log(JSON.stringify(users, null, 2));
 
 fs.writeFileSync("bookings.json", JSON.stringify(bookings));
 fs.writeFileSync("users.json", JSON.stringify(users));
+fs.writeFileSync("courses.json", JSON.stringify(courses));

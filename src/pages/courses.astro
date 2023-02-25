@@ -1,9 +1,39 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import courses from "../../test/data/courses.json";
+import EditIcon from "../components/EditIcon.astro";
+import DeleteIcon from "../components/DeleteIcon.astro";
 
 const pageTitle = "Klassen";
 ---
 
 <BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
   <h1>{pageTitle}</h1>
+  <button>Neue Klasse anlegen</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Art</th>
+        <th scope="col">Jahrgang</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        courses.map((c) => (
+          <tr>
+            <td> {c.type}</td>
+            <td> {c.year}</td>
+            <td>
+              <div class="table-action-col">
+                <EditIcon />
+                <DeleteIcon />
+              </div>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
 </BaseLayout>
