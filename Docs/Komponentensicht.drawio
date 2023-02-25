@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-02-25T10:17:18.705Z" agent="5.0 (Windows)" etag="OJAf8w6GPBwu-5yD1uOW" version="20.8.23" type="github">
+<mxfile host="app.diagrams.net" modified="2023-02-25T10:19:06.879Z" agent="5.0 (Windows)" etag="RF-BlYS8sRNVuWJE2W8P" version="20.8.23" type="github">
   <diagram name="Seite-1" id="IerMHQKbE69juIeoWYwx">
-    <mxGraphModel dx="1434" dy="822" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1687" dy="967" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -11,7 +11,7 @@
           <mxGeometry x="400" y="190" width="890" height="760" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-2" value="Mutterhaus" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" vertex="1" parent="1">
-          <mxGeometry x="160" y="190" width="130" height="130" as="geometry" />
+          <mxGeometry x="155" y="190" width="130" height="130" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-4" value="Terminal" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="180" y="230" width="60" height="55" as="geometry" />
@@ -49,7 +49,7 @@
           <mxGeometry x="800" y="725" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-19" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
-          <mxGeometry x="205" y="650" width="30" height="60" as="geometry" />
+          <mxGeometry x="205" y="732" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-22" target="h5z63Fl-7ZgzWy86kFCa-15">
           <mxGeometry relative="1" as="geometry" />
@@ -66,13 +66,13 @@
           <mxGeometry x="779" y="467" width="422" height="215" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-30" value="Viewer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
-          <mxGeometry x="205" y="540" width="30" height="60" as="geometry" />
+          <mxGeometry x="205" y="625" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-22" value="DB-Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
-          <mxGeometry x="205" y="775" width="30" height="60" as="geometry" />
+          <mxGeometry x="205" y="835" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-31" value="" style="group" vertex="1" connectable="0" parent="1">
-          <mxGeometry x="158" y="360" width="130" height="128" as="geometry" />
+          <mxGeometry x="155" y="359" width="130" height="128" as="geometry" />
         </mxCell>
         <mxCell id="h5z63Fl-7ZgzWy86kFCa-3" value="EloGeb" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" vertex="1" parent="h5z63Fl-7ZgzWy86kFCa-31">
           <mxGeometry width="130" height="128" as="geometry" />
@@ -110,6 +110,12 @@
           <mxGeometry x="-0.7401" y="3" relative="1" as="geometry">
             <mxPoint x="112" y="-6" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-47" value="Bucht mittels NFC" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="h5z63Fl-7ZgzWy86kFCa-46" target="h5z63Fl-7ZgzWy86kFCa-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="h5z63Fl-7ZgzWy86kFCa-46" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="205" y="532" width="30" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
