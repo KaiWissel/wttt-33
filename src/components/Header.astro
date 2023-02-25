@@ -1,11 +1,17 @@
 ---
+import Logo from "./Logo.astro";
+
 const { pageTitle } = Astro.props;
 ---
 
 <header>
   <nav>
     <ul>
-      <li><a href="/"><strong>A most beautiful logo</strong></a></li>
+      <li>
+        <a href="/">
+          <Logo size="100" />
+        </a>
+      </li>
     </ul>
     <ul class="sites-navigation">
       <li>
