@@ -3,7 +3,7 @@ Worktime tracking tool for the ABW 33
 
 ## Live-Demo
 
-https://cozy-florentine-405d6d.netlify.app/
+https://wttt-33.netlify.app/
 
 ## 🧞 Commands
 
