@@ -1,16 +1,17 @@
 import { faker } from "@faker-js/faker/locale/de";
+import crypto from "crypto";
 import fs from "fs";
+import courseTypes from "./courseTypes.json" assert { type: "json" };
 
 const actions = ["Kommen", "Gehen", "Pause Start", "Pause Ende"];
-const courseTypes = ["FGM", "EGS"];
+
 const years = [2021, 2022, 2023];
 
 export function createRandomBooking(user) {
   return {
-    username: user.firstName + " " + user.lastName,
-    date: faker.date.between("2022-11-11", "2022-12-12"),
+    userId: user.id,
+    createdAt: faker.date.between("2022-11-11", "2022-12-12"),
     action: actions[Math.floor(Math.random() * 4)],
-    course: user.course,
     location: faker.address.city(),
   };
 }
@@ -19,24 +20,30 @@ export function createRandomUser(course) {
   return {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    course: course.type + " " + course.year,
+    id: crypto.randomUUID(),
+    status: "Aktiv",
     uId: faker.random.alphaNumeric(10),
+    courseId: course.id,
   };
 }
 
 export function createRandomCourse() {
-  courseTypes.map;
-  return {
-    type: courseTypes[Math.floor(Math.random() * 2)],
-    year: years[Math.floor(Math.random() * 3)],
-  };
+  return courseTypes
+    .map((t) =>
+      years.map((y) => {
+        return {
+          courseTypeShortName: t.shortName,
+          year: y,
+          id: crypto.randomUUID(),
+        };
+      })
+    )
+    .flat();
 }
 
-const courses = Array.from({ length: 6 }).map(() => {
-  return createRandomCourse();
-});
+const courses = createRandomCourse();
 
-const users = Array.from({ length: 10 }).map(() => {
+const users = Array.from({ length: 20 }).map(() => {
   return createRandomUser(courses[Math.floor(Math.random() * courses.length)]);
 });
 
