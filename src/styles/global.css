@@ -1,3 +1,12 @@
 .table-action-col {
   text-align: right;
 }
+
+.zoom-on-hover {
+  transition: transform 0.2s; /* Animation */
+}
+.zoom-on-hover:hover {
+  transform: scale(
+    1.5
+  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
