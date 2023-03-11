@@ -1,5 +1,4 @@
 import type { APIRoute } from "astro";
-import { URL } from "url";
 import { findBookings } from "../../../services/BookingService";
 import { BookingRequest } from "../../../types/Booking";
 import { handleErrorRequest, parseRequest } from "../../../utils/apiRequests";
