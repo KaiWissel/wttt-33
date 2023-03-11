@@ -1,19 +1,25 @@
-import { PrismaClient } from "@prisma/client";
 import type { APIRoute } from "astro";
-
-const prisma = new PrismaClient();
+import { URL } from "url";
+import { findBookings } from "../../../services/BookingService";
+import { BookingRequest } from "../../../types/Booking";
+import { handleErrorRequest, parseRequest } from "../../../utils/apiRequests";
 
 export const get: APIRoute = async ({ params, request }) => {
-  console.log("test");
+  console.log("R: ", request.url);
 
-  const result = await prisma.courseType.findMany();
+  try {
+    const res = parseRequest(request, BookingRequest);
+    const result = await findBookings(res);
 
-  return {
-    body: JSON.stringify({
-      message:
-        "Grüße von der WTTT-33 API. Das war ein GET! " + result[0].shortName,
-    }),
-  };
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    return handleErrorRequest(error);
+  }
 };
 
 export const post: APIRoute = ({ request }) => {

@@ -1,9 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import bookings from "../../test/data/bookings.json";
+import type { BookingResponse } from "../types/Booking";
 
-let bookingsCount = 10;
-const showedBookings = bookings.slice(0, bookingsCount);
+let DEFAULT_TAKE = 25;
+
+const response = await fetch(
+  `http://localhost:3000/api/bookings?skip=0&take=${DEFAULT_TAKE}`
+);
+const bookings = (await response.json()) as BookingResponse;
 
 const pageTitle = "Buchungen";
 ---
@@ -30,13 +34,15 @@ const pageTitle = "Buchungen";
     </thead>
     <tbody>
       {
-        showedBookings.map((b) => (
+        bookings.map((b) => (
           <tr>
-            <td> {b.date.slice(0, 10)}</td>
-            <td> {b.date.slice(11, 16)}</td>
-            <td> {b.username}</td>
+            <td> {b.createdAt.slice(0, 10)}</td>
+            <td> {b.createdAt.slice(11, 16)}</td>
+            <td> {b.user.firstName + " " + b.user.lastName}</td>
             <td> {b.action}</td>
-            <td> {b.course}</td>
+            <td>
+              {b.user.course?.courseTypeShortName + " " + b.user.course?.year}
+            </td>
             <td> {b.location}</td>
           </tr>
         ))
