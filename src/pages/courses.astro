@@ -1,8 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import courses from "../../test/data/courses.json";
 import EditIcon from "../components/EditIcon.astro";
 import DeleteIcon from "../components/DeleteIcon.astro";
+import type { CourseResponse } from "../types/Courses";
+
+let DEFAULT_TAKE = 25;
+
+const response = await fetch(
+  `http://localhost:3000/api/courses?skip=0&take=${DEFAULT_TAKE}`
+);
+const courses = (await response.json()) as CourseResponse;
 
 const pageTitle = "Klassen";
 ---
@@ -23,7 +30,7 @@ const pageTitle = "Klassen";
       {
         courses.map((c) => (
           <tr>
-            <td> {c.type}</td>
+            <td> {c.courseTypeShortName}</td>
             <td> {c.year}</td>
             <td>
               <div class="table-action-col">

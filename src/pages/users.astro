@@ -1,8 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import users from "../../test/data/users.json";
 import EditIcon from "../components/EditIcon.astro";
 import DeleteIcon from "../components/DeleteIcon.astro";
+import type { UserResponse } from "../types/User";
+
+let DEFAULT_TAKE = 25;
+
+const response = await fetch(
+  `http://localhost:3000/api/users?skip=0&take=${DEFAULT_TAKE}`
+);
+const users = (await response.json()) as UserResponse;
 
 const pageTitle = "Nutzer";
 ---
@@ -33,7 +40,7 @@ const pageTitle = "Nutzer";
           <tr>
             <td> {b.lastName}</td>
             <td> {b.firstName}</td>
-            <td> {b.course}</td>
+            <td> {b.course?.courseTypeShortName + " " + b.course?.year}</td>
             <td> {b.uId}</td>
             <td>
               <div class="table-action-col">

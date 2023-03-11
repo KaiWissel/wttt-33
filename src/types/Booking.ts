@@ -10,6 +10,8 @@ export const BookingRequest = z.object({
   course: z.string().optional(),
 });
 
+export type BookingRequestType = z.infer<typeof BookingRequest>;
+
 export type BookingResponse = (Omit<Booking, "createdAt" | "updatedAt"> & {
   createdAt: string;
   updatedAt: string;
