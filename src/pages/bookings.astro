@@ -1,13 +1,6 @@
 ---
+import TableBooking from "../components/tables/TableBooking.vue";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import type { BookingResponse } from "../types/Booking";
-
-let DEFAULT_TAKE = 25;
-
-const response = await fetch(
-  `http://localhost:3000/api/bookings?skip=0&take=${DEFAULT_TAKE}`
-);
-const bookings = (await response.json()) as BookingResponse;
 
 const pageTitle = "Buchungen";
 ---
@@ -15,39 +8,5 @@ const pageTitle = "Buchungen";
 <BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
   <h1>{pageTitle}</h1>
 
-  <div class="grid">
-    <input type="text" placeholder="Von (11.11.2011)" />
-    <input type="text" placeholder="Bis (12.12.2012)" />
-    <input type="text" placeholder="Klasse" />
-    <input type="text" placeholder="Standort" />
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Datum</th>
-        <th scope="col">Uhrzeit</th>
-        <th scope="col">Name</th>
-        <th scope="col">Aktion</th>
-        <th scope="col">Klasse</th>
-        <th scope="col">Standort</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        bookings.map((b) => (
-          <tr>
-            <td> {b.createdAt.slice(0, 10)}</td>
-            <td> {b.createdAt.slice(11, 16)}</td>
-            <td> {b.user.firstName + " " + b.user.lastName}</td>
-            <td> {b.action}</td>
-            <td>
-              {b.user.course?.courseTypeShortName + " " + b.user.course?.year}
-            </td>
-            <td> {b.location}</td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
-  <button onclick="loadMore()">Lade mehr Einträge</button>
+  <TableBooking client:load />
 </BaseLayout>

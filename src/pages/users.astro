@@ -1,56 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import EditIcon from "../components/EditIcon.astro";
-import DeleteIcon from "../components/DeleteIcon.astro";
-import type { UserResponse } from "../types/User";
-
-let DEFAULT_TAKE = 25;
-
-const response = await fetch(
-  `http://localhost:3000/api/users?skip=0&take=${DEFAULT_TAKE}`
-);
-const users = (await response.json()) as UserResponse;
+import TableUser from "../components/tables/TableUser.vue";
 
 const pageTitle = "Nutzer";
 ---
 
 <BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
   <h1>{pageTitle}</h1>
-  <button>Neuen Nutzer anlegen</button>
-  <div class="grid">
-    <input type="text" placeholder="Name" />
-    <input type="text" placeholder="Klasse" />
-    <input type="text" placeholder="Jahrgang" />
-    <input type="text" placeholder="UID" />
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Nachname</th>
-        <th scope="col">Vorname</th>
-        <th scope="col">Klasse</th>
-        <th scope="col">UID</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        users.map((b) => (
-          <tr>
-            <td> {b.lastName}</td>
-            <td> {b.firstName}</td>
-            <td> {b.course?.courseTypeShortName + " " + b.course?.year}</td>
-            <td> {b.uId}</td>
-            <td>
-              <div class="table-action-col">
-                <EditIcon />
-                <DeleteIcon />
-              </div>
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+  <TableUser client:load />
 </BaseLayout>

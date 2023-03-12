@@ -1,46 +1,13 @@
 ---
+import TableCourse from "../components/tables/TableCourse.vue";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import EditIcon from "../components/EditIcon.astro";
-import DeleteIcon from "../components/DeleteIcon.astro";
 import type { CourseResponse } from "../types/Courses";
-
-let DEFAULT_TAKE = 25;
-
-const response = await fetch(
-  `http://localhost:3000/api/courses?skip=0&take=${DEFAULT_TAKE}`
-);
-const courses = (await response.json()) as CourseResponse;
 
 const pageTitle = "Klassen";
 ---
 
 <BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
   <h1>{pageTitle}</h1>
-  <button>Neue Klasse anlegen</button>
 
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Art</th>
-        <th scope="col">Jahrgang</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        courses.map((c) => (
-          <tr>
-            <td> {c.courseTypeShortName}</td>
-            <td> {c.year}</td>
-            <td>
-              <div class="table-action-col">
-                <EditIcon />
-                <DeleteIcon />
-              </div>
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+  <TableCourse />
 </BaseLayout>
