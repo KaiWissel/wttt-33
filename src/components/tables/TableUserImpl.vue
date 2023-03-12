@@ -17,6 +17,8 @@ import TableActionColumn from "./parts/TableActionColumn.vue";
 
 let DEFAULT_TAKE = 10;
 
+const { PUBLIC_API_URL } = import.meta.env;
+
 const users = ref(await fetchData(DEFAULT_TAKE));
 const disableLoad = ref(false);
 
@@ -33,7 +35,7 @@ async function loadMore() {
 
 async function fetchData(take: number, skip: number = 0) {
   const response = await fetch(
-    `http://localhost:3000/api/users?skip=${skip}&take=${take}`
+    `${PUBLIC_API_URL}/api/users?skip=${skip}&take=${take}`
   );
   return (await response.json()) as UserResponse;
 }
