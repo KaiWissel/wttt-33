@@ -57,7 +57,7 @@ function deleteUser(user: User) {
     <input type="text" placeholder="UID" />
   </div>
 
-  <table>
+  <table v-if="users.length">
     <thead>
       <tr>
         <th scope="col">Nachname</th>
@@ -85,5 +85,6 @@ function deleteUser(user: User) {
       </tr>
     </tbody>
   </table>
+  <div v-else>Loading...</div>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
 </template>

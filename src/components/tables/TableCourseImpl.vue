@@ -28,7 +28,7 @@ function deleteCourse(course: Course) {
 <template>
   <button>Neue Klasse anlegen</button>
 
-  <table>
+  <table v-if="courses.length">
     <thead>
       <tr>
         <th scope="col">Art</th>
@@ -50,4 +50,5 @@ function deleteCourse(course: Course) {
       </tr>
     </tbody>
   </table>
+  <div v-else>Loading...</div>
 </template>

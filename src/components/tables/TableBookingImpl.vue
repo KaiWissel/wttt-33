@@ -37,7 +37,7 @@ async function fetchData(take: number, skip: number = 0) {
     <input type="text" placeholder="Standort" />
   </div>
 
-  <table>
+  <table v-if="bookings.length">
     <thead>
       <tr>
         <th scope="col">Datum</th>
@@ -61,5 +61,6 @@ async function fetchData(take: number, skip: number = 0) {
       </tr>
     </tbody>
   </table>
+  <div v-else>Loading...</div>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
 </template>
