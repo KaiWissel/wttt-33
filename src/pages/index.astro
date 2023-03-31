@@ -1,4 +1,5 @@
 ---
+import Login from "../components/Login.vue";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
@@ -9,19 +10,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </hgroup>
   <article>
     <!-- <header><h3>Login</h3></header> -->
-
-    <select>
-      <option selected>Viewer</option>
-      <option>Admin</option>
-    </select>
-    <input type="text" placeholder="Passwort" />
-    <a href="/bookings"><button>Login</button></a>
+    <Login client:load />
   </article>
-</BaseLayout>
 
-<!-- Don't show site navigation on landing page -->
-<style is:global>
-  .sites-navigation {
-    display: none;
-  }
-</style>
+  <!-- Don't show site navigation on landing page -->
+  <style is:global>
+    .sites-navigation {
+      display: none;
+    }
+  </style>
+</BaseLayout>
