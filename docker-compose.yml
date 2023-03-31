@@ -12,8 +12,8 @@ services:
     env_file: .env
     volumes:
       - db:/var/lib/mysql
-    # networks:
-    #   - wttt-network
+    networks:
+      - wttt-network
 
   phpmyadmin:
     image: phpmyadmin
@@ -21,28 +21,27 @@ services:
     ports:
       - 8080:80
     env_file: .env
-    # networks:
-    #   - wttt-network
+    networks:
+      - wttt-network
 
-    # server:
-    #   build:
-    #     context: .
-    #     dockerfile: Dockerfile
-    #   image: xccup/server
-    #   container_name: server
-    #   restart: always
-    #   env_file: .env
-    #   environment:
-    #     - NODE_ENV=development
-    #   ports:
-    #     - "3000:65090"
-    #   volumes:
-    #     - .:/home/node/app
-    #   networks:
-    #     - xccup-network
-    #   depends_on:
-    #     - db
-
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: wttt-33/server
+    container_name: server
+    restart: always
+    env_file: .env
+    # environment:
+    #   - NODE_ENV=development
+    ports:
+      - "63000:1234"
+    volumes:
+      - .:/home/node/app
+    networks:
+      - wttt-network
+    depends_on:
+      - db
     # yarn:
     #   image: node:18.10.0-alpine3.16
     #   working_dir: /home/node/app

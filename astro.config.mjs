@@ -11,9 +11,9 @@ import vue from "@astrojs/vue";
 export default defineConfig({
   output: "server",
   adapter: node({
-    mode: "standalone"
-  })
+    mode: "standalone",
+  }),
+  server: { port: 1234, host: true },
   //   // adapter: netlify(),
-  ,
-  integrations: [vue()]
+  integrations: [vue()],
 });
