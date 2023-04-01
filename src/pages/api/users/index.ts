@@ -1,13 +1,16 @@
 import type { APIRoute } from "astro";
 import { findUsers } from "../../../services/UserService";
 import { UserRequest } from "../../../types/User";
-import { handleErrorRequest, parseRequest } from "../../../utils/apiRequests";
+import {
+  handleErrorRequest,
+  parseRequestParams,
+} from "../../../utils/apiRequests";
 
 export const get: APIRoute = async ({ params, request }) => {
   console.log("R: ", request.url);
 
   try {
-    const res = parseRequest(request, UserRequest);
+    const res = parseRequestParams(request, UserRequest);
     const result = await findUsers(res);
 
     return new Response(JSON.stringify(result), {

@@ -1,13 +1,16 @@
 import type { APIRoute } from "astro";
 import { findCourses } from "../../../services/CourseService";
 import { CourseRequest } from "../../../types/Courses";
-import { handleErrorRequest, parseRequest } from "../../../utils/apiRequests";
+import {
+  handleErrorRequest,
+  parseRequestParams,
+} from "../../../utils/apiRequests";
 
 export const get: APIRoute = async ({ params, request }) => {
   console.log("R: ", request.url);
 
   try {
-    const res = parseRequest(request, CourseRequest);
+    const res = parseRequestParams(request, CourseRequest);
     const result = await findCourses(res);
 
     return new Response(JSON.stringify(result), {

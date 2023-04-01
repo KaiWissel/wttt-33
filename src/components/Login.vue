@@ -6,21 +6,110 @@
       </option>
     </select>
     <input type="password" placeholder="Passwort" v-model="password" />
-    <button @click="login">Login</button>
+
+    <button @click="login" :disabled="password.length == 0">Login</button>
+    <a href="/bookings" id="bookingsLink"></a>
+    <div v-if="errorMsg" class="error-msg">{{ errorMsg }}</div>
+    <div v-if="showLoader" class="loader"></div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 
+const { PUBLIC_API_URL } = import.meta.env;
+
 const loginOptions = ["Viewer", "Admin"];
 
-const selected = ref(loginOptions[0]);
-const password = ref();
+const bookingsLink = ref(null);
 
-function login() {
-  console.log("Login: ", selected.value, password.value);
+const selected = ref(loginOptions[0]);
+const password = ref("");
+const errorMsg = ref("");
+const showLoader = ref(false);
+
+async function login() {
+  try {
+    showLoader.value = true;
+    const response = await fetch(`${PUBLIC_API_URL}/api/auth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        password: password.value,
+        role: selected.value,
+      }),
+    });
+
+    if (response.status == 200) {
+      errorMsg.value = "";
+      document?.getElementById("bookingsLink")?.click();
+      return;
+    }
+
+    if (response.status == 401) {
+      errorMsg.value = "Falsches Passwort";
+      password.value = "";
+      return;
+    }
+  } catch (error) {
+    errorMsg.value = "Ein unbekannter Fehler ist eingetreten";
+    console.log(error);
+  } finally {
+    showLoader.value = false;
+  }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.error-msg {
+  text-align: center;
+  color: darkred;
+  animation: jump-shaking 0.83s;
+}
+
+@keyframes jump-shaking {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateY(-9px);
+  }
+  35% {
+    transform: translateY(-9px) rotate(17deg);
+  }
+  55% {
+    transform: translateY(-9px) rotate(-17deg);
+  }
+  65% {
+    transform: translateY(-9px) rotate(17deg);
+  }
+  75% {
+    transform: translateY(-9px) rotate(-17deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}
+
+.loader {
+  justify-content: center;
+  border: 6px solid;
+  border-top: 6px solid var(--primary);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  margin: auto;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>

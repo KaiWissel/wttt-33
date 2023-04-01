@@ -8,11 +8,18 @@ export function handleErrorRequest(error: unknown) {
   });
 }
 
-export function parseRequest<T extends ZodRawShape>(
+export function parseRequestParams<T extends ZodRawShape>(
   request: Request,
   zodRequestObject: ZodObject<T>
 ) {
   return zodRequestObject.parse(
     Object.fromEntries(new URL(request.url).searchParams)
   );
+}
+
+export async function parseRequestBody<T extends ZodRawShape>(
+  request: Request,
+  zodRequestObject: ZodObject<T>
+) {
+  return zodRequestObject.parse(await request.json());
 }
