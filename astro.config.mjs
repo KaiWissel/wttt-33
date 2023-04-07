@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { prisma } from "./src/plugins/prisma-client";
 
 //
 import node from "@astrojs/node";
@@ -15,5 +16,5 @@ export default defineConfig({
   }),
   server: { port: 1234, host: true },
   //   // adapter: netlify(),
-  integrations: [vue()],
+  integrations: [vue(), prisma],
 });

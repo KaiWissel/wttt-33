@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div v-if="loggedInRole">
+    <h3>Du bist eingelogged als {{ loggedInRole }}</h3>
+    <a href="/bookings"><button>Zeitbuchungen</button></a>
+    <button class="secondary" @click="logoff">Logoff</button>
+  </div>
+  <div v-else>
     <select v-model="selected">
       <option v-for="option in loginOptions" :value="option">
         {{ option }}
@@ -7,7 +12,7 @@
     </select>
     <input type="password" placeholder="Passwort" v-model="password" />
 
-    <button @click="login" :disabled="password.length == 0">Login</button>
+    <button @click="login" :disabled="password.length === 0">Login</button>
     <a href="/bookings" id="bookingsLink"></a>
     <div v-if="errorMsg" class="error-msg">{{ errorMsg }}</div>
     <div v-if="showLoader" class="loader"></div>
@@ -15,18 +20,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import type { Ref } from "vue";
+import {
+  storeToken,
+  clearToken,
+  getLoggedInRole,
+} from "../utils/handleLoginToken";
 
 const { PUBLIC_API_URL } = import.meta.env;
 
 const loginOptions = ["Viewer", "Admin"];
-
 const bookingsLink = ref(null);
-
+const loggedInRole: Ref<string | null> = ref(null);
 const selected = ref(loginOptions[0]);
 const password = ref("");
 const errorMsg = ref("");
 const showLoader = ref(false);
+
+onMounted(() => {
+  // Because of hydration errors we have to call DOM changing effects only after the component was successfully mounted
+  loggedInRole.value = getLoggedInRole();
+});
+
+async function logoff() {
+  clearToken();
+  loggedInRole.value = getLoggedInRole();
+}
 
 async function login() {
   try {
@@ -45,6 +65,11 @@ async function login() {
     if (response.status == 200) {
       errorMsg.value = "";
       document?.getElementById("bookingsLink")?.click();
+
+      const token = await response.json();
+      console.log("BODY: ", token);
+      storeToken(token);
+      loggedInRole.value = getLoggedInRole();
       return;
     }
 

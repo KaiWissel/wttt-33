@@ -1,7 +1,6 @@
 ---
 import Logo from "./Logo.astro";
-
-const { pageTitle } = Astro.props;
+import RoleDisplay from "./RoleDisplay.vue";
 ---
 
 <header>
@@ -24,9 +23,8 @@ const { pageTitle } = Astro.props;
         <a href="/courses">Klassen</a>
       </li>
       <li>
-        {pageTitle}
+        <RoleDisplay client:idle />
       </li>
     </ul>
-    <!-- <a href="#" role="button">Button</a> -->
   </nav>
 </header>

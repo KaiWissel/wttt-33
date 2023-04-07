@@ -9,3 +9,19 @@ const pageTitle = "Nutzer";
   <h1>{pageTitle}</h1>
   <TableUser client:load />
 </BaseLayout>
+
+<script>
+  // TODO: Why can't I load scripts from the script folder?
+  function redirectToNewUrl() {
+    window.location.href = "/";
+  }
+
+  document.addEventListener("DOMContentLoaded", function (event) {
+    // Code, der ausgeführt wird, wenn das DOM vollständig geladen ist
+    console.log("DOM vollständig geladen.");
+    const token = localStorage.getItem("wttt-33-login-token");
+
+    if (token) return;
+    redirectToNewUrl();
+  });
+</script>

@@ -11,20 +11,22 @@ export const post: APIRoute = async ({ params, request }) => {
 
   try {
     const body = await parseRequestBody(request, AuthRequest);
-    const result = await login(body);
+    const token = await login(body);
 
-    if (!result) {
+    if (!token) {
       console.log("A: Wrong credentials");
       return new Response(null, { status: 401 });
     }
 
-    return new Response(JSON.stringify(result), {
+    return new Response(JSON.stringify(token), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
       },
     });
   } catch (error) {
+    console.log("test");
+
     return handleErrorRequest(error);
   }
 };

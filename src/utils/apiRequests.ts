@@ -1,6 +1,8 @@
 import type { ZodObject, ZodRawShape } from "zod";
 
 export function handleErrorRequest(error: unknown) {
+  console.log("AR: Error during log-in attempt");
+
   console.log(JSON.stringify(error, null, 2));
 
   return new Response(JSON.stringify(error, null, 2), {
