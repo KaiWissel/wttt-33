@@ -26,8 +26,6 @@ function deleteCourse(course: Course) {
 </script>
 
 <template>
-  <button>Neue Klasse anlegen</button>
-
   <table v-if="courses.length">
     <thead>
       <tr>

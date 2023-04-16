@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: wttt-33/server
-    container_name: server
+    container_name: wttt-33_server
     restart: always
     env_file: .env
     # environment:
