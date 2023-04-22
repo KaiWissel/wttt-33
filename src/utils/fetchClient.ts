@@ -16,6 +16,17 @@ export async function fetchPost<T>(route: String, requestBody: T) {
   return await response.json();
 }
 
+export async function fetchPut<T>(route: String, requestBody: T) {
+  const response = await fetch(`${PUBLIC_API_URL}/api/${route}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestBody),
+  });
+  return await response.json();
+}
+
 export async function fetchDelete(route: String) {
   return await fetch(`${PUBLIC_API_URL}/api/${route}`, {
     method: "DELETE",

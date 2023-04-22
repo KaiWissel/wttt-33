@@ -1,37 +1,45 @@
 import { PrismaClient } from "@prisma/client";
-import type { NewCourseRequestType } from "../types/Courses";
+import type { CourseRequestType } from "../types/Courses";
 
 const prisma = new PrismaClient();
 
 export async function findCourses() {
   return await prisma.course.findMany({
+    orderBy: [
+      {
+        year: "desc",
+      },
+      {
+        courseTypeShortName: "asc",
+      },
+    ],
+  });
+}
+export async function findCourseTypes() {
+  return await prisma.courseType.findMany({
     orderBy: {
-      createdAt: "desc",
+      shortName: "asc",
     },
   });
 }
 
-export async function createCourse(request: NewCourseRequestType) {
-  let courseType = null;
-  courseType = await prisma.courseType.findFirst({
-    where: { shortName: request.shortName },
-  });
-
-  if (!courseType) {
-    console.log(
-      "CS: Course type didn't existed yet. Will create new type entry."
-    );
-    courseType = await prisma.courseType.create({
-      data: { longName: "", shortName: request.shortName },
-    });
-    console.log("CS: Created new type entry.");
-  }
-
+export async function createCourse(data: CourseRequestType) {
   console.log("CS: Will create new course");
   const newCourse = await prisma.course.create({
-    data: { year: request.year, courseTypeShortName: request.shortName },
+    data: { year: data.year, courseTypeShortName: data.shortName },
   });
   console.log("CS: New course created");
+
+  return newCourse;
+}
+
+export async function updateCourse(id: string, data: CourseRequestType) {
+  console.log("CS: Will update course");
+  const newCourse = await prisma.course.update({
+    where: { id },
+    data: { courseTypeShortName: data.shortName, year: data.year },
+  });
+  console.log("CS: Course updated");
 
   return newCourse;
 }

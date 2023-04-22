@@ -16,10 +16,14 @@ const isDeleting = ref(false);
 
 const selectedCourse = ref<Course | undefined>(undefined);
 
-const courses = ref(await fetchData(DEFAULT_TAKE));
+const courses = ref<Course[]>([]);
 
-async function fetchData(take: number, skip: number = 0) {
-  return (await fetchGet(`courses?skip=${skip}&take=${take}`)) as Course[];
+fetchData();
+
+async function fetchData(take: number = DEFAULT_TAKE, skip: number = 0) {
+  courses.value = (await fetchGet(
+    `courses?skip=${skip}&take=${take}`
+  )) as Course[];
 }
 
 function onDeleteEntry(course: Course) {
@@ -27,17 +31,14 @@ function onDeleteEntry(course: Course) {
   confirmModal.value.toggleModal();
 }
 
-function handleNewEntry(course: Course) {
-  courses.value.push(course);
-}
-
 function editCourse(course: Course) {
   selectedCourse.value = course;
   toggleAddEditModal();
 }
 
-function toggleAddEditModal() {
-  addEditModal.value.toggleModal();
+function toggleAddEditModal(isNew?: boolean) {
+  if (isNew) selectedCourse.value = undefined;
+  addEditModal.value.toggleModal(isNew);
 }
 
 function toggleConfirmModal() {
@@ -69,7 +70,7 @@ async function deleteRequest(id: String) {
 
 <template>
   <div>
-    <button @click="toggleAddEditModal">Neue Klasse anlegen</button>
+    <button @click="toggleAddEditModal(true)">Neue Klasse anlegen</button>
   </div>
   <table v-if="courses.length">
     <thead>
@@ -98,7 +99,7 @@ async function deleteRequest(id: String) {
     ref="addEditModal"
     :courses="courses"
     :selected-course="selectedCourse"
-    @newEntry="handleNewEntry"
+    @updatedEntry="fetchData"
   />
   <ConfirmModal
     ref="confirmModal"

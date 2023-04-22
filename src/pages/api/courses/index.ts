@@ -1,11 +1,11 @@
 import type { APIRoute } from "astro";
 import { createCourse, findCourses } from "../../../services/CourseService";
-import { NewCourseRequest } from "../../../types/Courses";
+import { CourseRequest } from "../../../types/Courses";
 import { handleErrorRequest } from "../../../utils/apiRequests";
 import { parseRequestBody } from "../../../utils/apiRequests";
 
 export const get: APIRoute = async ({ request }) => {
-  console.log("R: ", request.url);
+  console.log("R: ", request.method, request.url);
 
   try {
     const result = await findCourses();
@@ -22,9 +22,9 @@ export const get: APIRoute = async ({ request }) => {
 };
 
 export const post: APIRoute = async ({ request }) => {
-  console.log("R: ", request.url);
+  console.log("R: ", request.method, request.url);
 
-  const requestBody = await parseRequestBody(request, NewCourseRequest);
+  const requestBody = await parseRequestBody(request, CourseRequest);
   const newCourse = await createCourse(requestBody);
   return {
     body: JSON.stringify(newCourse),

@@ -1,7 +1,7 @@
 <template>
   <BaseModal
     modal-id="modal-add-edit-course"
-    modal-title="Klassen"
+    :modal-title="selectedCourse ? 'Klasse bearbeiten' : 'Klasse erstellen'"
     button-text="Neue Klasse anlegen"
     :disable-confirm="disableConfirm"
     @confirmed="onConfirm"
@@ -9,11 +9,11 @@
     :is-waiting="isWaiting"
     ref="modal"
   >
-    <TextInput
+    <BaseSelect
       v-model="type"
-      v-model:is-validation-invalid="isTypeValidationInvalid"
-      placeholder="Art"
-      :validation="typeValidation"
+      :options="typeOptions"
+      options-key="shortName"
+      placeholder="Bitte wähle einen Typ aus"
     />
     <TextInput
       v-model="year"
@@ -27,10 +27,11 @@
 <script setup lang="ts">
 import BaseModal from "../modals/BaseModal.vue";
 import TextInput from "../inputs/TextInput.vue";
+import BaseSelect from "../inputs/BaseSelect.vue";
 import { computed, ref, watchEffect } from "vue";
-import { fetchPost } from "../../utils/fetchClient";
-import type { NewCourseRequestType } from "../../types/Courses";
-import type { Course } from ".prisma/client";
+import { fetchGet, fetchPost, fetchPut } from "../../utils/fetchClient";
+import type { CourseRequestType } from "../../types/Courses";
+import type { Course, CourseType } from ".prisma/client";
 
 const props = defineProps<{
   courses: Course[];
@@ -41,13 +42,12 @@ defineExpose({
   toggleModal,
 });
 
-const emits = defineEmits(["newEntry"]);
+const emits = defineEmits(["updatedEntry"]);
 
 const modal = ref<any>();
 
+const typeOptions = ref<string[]>([]);
 const type = ref("");
-const typeValidation = new RegExp(/^\w{3,5}$/);
-const isTypeValidationInvalid = ref(true);
 
 const year = ref("");
 const yearValidation = new RegExp(/^20\d{2}$/);
@@ -56,8 +56,15 @@ const isYearValidationInvalid = ref(true);
 const errorMessage = ref("");
 const isWaiting = ref(false);
 
+fetchTypes();
+
 watchEffect(() => {
-  if (!props.selectedCourse) return;
+  if (!props.selectedCourse) {
+    type.value = "";
+    year.value = "";
+    return;
+  }
+
   type.value = props.selectedCourse?.courseTypeShortName;
   year.value = "" + props.selectedCourse?.year;
 });
@@ -72,7 +79,6 @@ watchEffect(() => {
 
 const disableConfirm = computed(() => {
   return (
-    isTypeValidationInvalid.value ||
     isYearValidationInvalid.value ||
     courseExists({ shortName: type.value, year: +year.value })
   );
@@ -83,15 +89,11 @@ function toggleModal() {
 }
 
 async function onConfirm() {
+  const functionToCall = props.selectedCourse ? updateRequest : postRequest;
   try {
     isWaiting.value = true;
-    const responseData = await postRequest({
-      shortName: type.value,
-      year: +year.value,
-    });
-    clearCurrentEntries();
+    await functionToCall();
     toggleModal();
-    emits("newEntry", responseData);
   } catch (error: any) {
     console.log(error);
     errorMessage.value = error;
@@ -100,29 +102,34 @@ async function onConfirm() {
   }
 }
 
-async function postRequest(requestBody: NewCourseRequestType) {
-  return await fetchPost(`courses`, requestBody);
-  // const url = `${PUBLIC_API_URL}/api/courses`;
-  // return await fetch(url, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(requestBody),
-  // }).then((response) => response.json());
+async function fetchTypes() {
+  const typeObjects = (await fetchGet("courses/types")) as CourseType[];
+  typeOptions.value = typeObjects.map((t) => t.shortName);
 }
 
-function courseExists(requestBody: NewCourseRequestType) {
+async function postRequest() {
+  const responseData = await fetchPost(`courses`, {
+    shortName: type.value,
+    year: +year.value,
+  });
+  emits("updatedEntry");
+}
+
+async function updateRequest() {
+  if (!props.selectedCourse) return;
+  const responseData = await fetchPut(`courses/${props.selectedCourse.id}`, {
+    shortName: type.value,
+    year: +year.value,
+  });
+  emits("updatedEntry");
+}
+
+function courseExists(requestBody: CourseRequestType) {
   const found = props.courses.find(
     (c) =>
       c.courseTypeShortName == requestBody.shortName &&
       c.year == requestBody.year
   );
   return found ? true : false;
-}
-
-function clearCurrentEntries() {
-  type.value = "";
-  year.value = "";
 }
 </script>
