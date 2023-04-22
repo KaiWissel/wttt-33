@@ -8,3 +8,5 @@ app.use(morgan("combined"));
 app.use(ssrHandler);
 
 app.listen(54321);
+
+console.log("Server is up and");
