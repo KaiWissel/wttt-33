@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import LoadMore from "../tables/parts/LoadMore.vue";
 import type { BookingResponse } from "../../types/Booking";
+import { fetchGet } from "../../utils/fetchClient";
 
 let DEFAULT_TAKE = 25;
 
@@ -22,10 +23,9 @@ async function loadMore() {
 }
 
 async function fetchData(take: number, skip: number = 0) {
-  const response = await fetch(
-    `${PUBLIC_API_URL}/api/bookings?skip=${skip}&take=${take}`
-  );
-  return (await response.json()) as BookingResponse;
+  return (await fetchGet(
+    `bookings?skip=${skip}&take=${take}`
+  )) as BookingResponse;
 }
 </script>
 

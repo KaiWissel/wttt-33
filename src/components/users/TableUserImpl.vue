@@ -14,10 +14,9 @@ import { ref } from "vue";
 import type { UserResponse } from "../../types/User";
 import LoadMore from "../tables/parts/LoadMore.vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
+import { fetchGet } from "../../utils/fetchClient";
 
 let DEFAULT_TAKE = 10;
-
-const { PUBLIC_API_URL } = import.meta.env;
 
 const users = ref(await fetchData(DEFAULT_TAKE));
 const disableLoad = ref(false);
@@ -34,10 +33,7 @@ async function loadMore() {
 }
 
 async function fetchData(take: number, skip: number = 0) {
-  const response = await fetch(
-    `${PUBLIC_API_URL}/api/users?skip=${skip}&take=${take}`
-  );
-  return (await response.json()) as UserResponse;
+  return (await fetchGet(`users?skip=${skip}&take=${take}`)) as UserResponse;
 }
 
 function editUser(user: User) {

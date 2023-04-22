@@ -3,12 +3,11 @@ import type { Course } from ".prisma/client";
 import { ref } from "vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
 import CourseModal from "./CourseModal.vue";
-import { removeObjectByProperty } from "../../utils/arrayHelper";
+import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 import ConfirmModal from "../modals/BaseModal.vue";
+import { fetchGet, fetchDelete } from "../../utils/fetchClient";
 
 let DEFAULT_TAKE = 10;
-
-const { PUBLIC_API_URL } = import.meta.env;
 
 const addEditModal = ref<any>();
 const confirmModal = ref<any>();
@@ -20,10 +19,7 @@ const selectedCourse = ref<Course | undefined>(undefined);
 const courses = ref(await fetchData(DEFAULT_TAKE));
 
 async function fetchData(take: number, skip: number = 0) {
-  const response = await fetch(
-    `${PUBLIC_API_URL}/api/courses?skip=${skip}&take=${take}`
-  );
-  return (await response.json()) as Course[];
+  return (await fetchGet(`courses?skip=${skip}&take=${take}`)) as Course[];
 }
 
 function onDeleteEntry(course: Course) {
@@ -36,7 +32,8 @@ function handleNewEntry(course: Course) {
 }
 
 function editCourse(course: Course) {
-  console.log("edituser: " + course.courseTypeShortName);
+  selectedCourse.value = course;
+  toggleAddEditModal();
 }
 
 function toggleAddEditModal() {
@@ -52,7 +49,11 @@ async function deleteCourse() {
   try {
     isDeleting.value = true;
     await deleteRequest(selectedCourse.value.id);
-    removeObjectByProperty(courses.value, "id", selectedCourse.value.id);
+    removeObjectFromArrayByProperty(
+      courses.value,
+      "id",
+      selectedCourse.value.id
+    );
     toggleConfirmModal();
   } catch (error) {
     console.log(error);
@@ -62,10 +63,7 @@ async function deleteCourse() {
 }
 
 async function deleteRequest(id: String) {
-  const url = `${PUBLIC_API_URL}/api/courses/${id}`;
-  return await fetch(url, {
-    method: "DELETE",
-  });
+  await fetchDelete(`courses/${id}`);
 }
 </script>
 
@@ -99,6 +97,7 @@ async function deleteRequest(id: String) {
   <CourseModal
     ref="addEditModal"
     :courses="courses"
+    :selected-course="selectedCourse"
     @newEntry="handleNewEntry"
   />
   <ConfirmModal

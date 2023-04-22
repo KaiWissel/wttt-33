@@ -28,13 +28,13 @@
 import BaseModal from "../modals/BaseModal.vue";
 import TextInput from "../inputs/TextInput.vue";
 import { computed, ref, watchEffect } from "vue";
+import { fetchPost } from "../../utils/fetchClient";
 import type { NewCourseRequestType } from "../../types/Courses";
 import type { Course } from ".prisma/client";
 
-const { PUBLIC_API_URL } = import.meta.env;
-
 const props = defineProps<{
   courses: Course[];
+  selectedCourse?: Course;
 }>();
 
 defineExpose({
@@ -55,6 +55,12 @@ const isYearValidationInvalid = ref(true);
 
 const errorMessage = ref("");
 const isWaiting = ref(false);
+
+watchEffect(() => {
+  if (!props.selectedCourse) return;
+  type.value = props.selectedCourse?.courseTypeShortName;
+  year.value = "" + props.selectedCourse?.year;
+});
 
 watchEffect(() => {
   if (courseExists({ shortName: type.value, year: +year.value })) {
@@ -95,14 +101,15 @@ async function onConfirm() {
 }
 
 async function postRequest(requestBody: NewCourseRequestType) {
-  const url = `${PUBLIC_API_URL}/api/courses`;
-  return await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestBody),
-  }).then((response) => response.json());
+  return await fetchPost(`courses`, requestBody);
+  // const url = `${PUBLIC_API_URL}/api/courses`;
+  // return await fetch(url, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(requestBody),
+  // }).then((response) => response.json());
 }
 
 function courseExists(requestBody: NewCourseRequestType) {

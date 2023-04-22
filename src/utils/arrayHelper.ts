@@ -1,4 +1,4 @@
-export function removeObjectByProperty<T>(
+export function removeObjectFromArrayByProperty<T>(
   array: T[],
   propertyName: keyof T,
   propertyValue: T[keyof T]
