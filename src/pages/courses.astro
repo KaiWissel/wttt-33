@@ -1,6 +1,5 @@
 ---
-import Modal from "../components/modals/CourseModal.vue";
-import TableCourse from "../components/tables/TableCourse.vue";
+import TableCourse from "../components/courses/TableCourse.vue";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const pageTitle = "Klassen";
@@ -8,8 +7,7 @@ const pageTitle = "Klassen";
 
 <BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
   <h1>{pageTitle}</h1>
-  <Modal client:only />
-  <TableCourse />
+  <TableCourse client:only />
 </BaseLayout>
 
 <script>

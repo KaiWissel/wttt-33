@@ -3,10 +3,10 @@ import type { BookingRequestType } from "../types/Booking";
 
 const prisma = new PrismaClient();
 
-export async function findBookings(res: BookingRequestType) {
+export async function findBookings(request: BookingRequestType) {
   return await prisma.booking.findMany({
-    skip: res.skip,
-    take: res.take,
+    skip: request.skip,
+    take: request.take,
     orderBy: {
       createdAt: "desc",
     },

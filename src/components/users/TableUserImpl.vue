@@ -12,8 +12,8 @@
 import type { User } from ".prisma/client";
 import { ref } from "vue";
 import type { UserResponse } from "../../types/User";
-import LoadMore from "./parts/LoadMore.vue";
-import TableActionColumn from "./parts/TableActionColumn.vue";
+import LoadMore from "../tables/parts/LoadMore.vue";
+import TableActionColumn from "../tables/parts/TableActionColumn.vue";
 
 let DEFAULT_TAKE = 10;
 

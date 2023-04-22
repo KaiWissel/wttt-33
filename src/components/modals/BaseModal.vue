@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="toggleModal" :data-target="modalId">
+    <button @click="toggleModal">
       {{ buttonText }}
     </button>
   </div>
@@ -8,31 +8,22 @@
   <!-- Modal -->
   <dialog :id="modalId">
     <article>
-      <a
-        href="#close"
-        aria-label="Close"
-        class="close"
-        :data-target="modalId"
-        @click="toggleModal"
-      >
+      <a href="#close" aria-label="Close" class="close" @click="toggleModal">
       </a>
       <h3>{{ modalTitle }}</h3>
       <slot></slot>
+      <label v="if" class="error-label">
+        {{ errorMessage }}
+      </label>
+      <div v-if="isWaiting" class="loader"></div>
       <footer>
-        <a
-          href="#cancel"
-          role="button"
-          class="secondary"
-          :data-target="modalId"
-          @click="toggleModal"
-        >
+        <a href="#cancel" role="button" class="secondary" @click="toggleModal">
           Abbrechen
         </a>
         <a
           href="#confirm"
           role="button"
-          :data-target="modalId"
-          @click="onConfirm"
+          @click="$emit('confirmed')"
           :disabled="disableConfirm ? true : undefined"
         >
           OK
@@ -48,13 +39,15 @@ const props = defineProps({
   modalTitle: { type: String, required: true },
   buttonText: { type: String, required: true },
   disableConfirm: { type: Boolean, default: undefined },
+  errorMessage: { type: String, default: undefined },
+  isWaiting: { type: Boolean, default: false },
 });
-const emit = defineEmits(["confirmed"]);
 
-function onConfirm(event: Event) {
-  toggleModal(event);
-  emit("confirmed");
-}
+defineEmits(["confirmed"]);
+
+defineExpose({
+  toggleModal,
+});
 
 // Config
 const isOpenClass = "modal-is-open";
@@ -64,17 +57,13 @@ const animationDuration = 400; // ms
 let visibleModal: HTMLElement | null = null;
 
 // Toggle modal
-const toggleModal = (event: Event) => {
-  event.preventDefault();
-  const target = event.currentTarget as HTMLButtonElement;
-  const dataTarget = target.getAttribute("data-target");
-  if (!dataTarget) throw "No data-target on button specified";
-  const modal = document.getElementById(dataTarget);
-  if (!modal) throw "No modal found with id " + dataTarget;
+function toggleModal(event: Event) {
+  const modal = document.getElementById(props.modalId);
+  if (!modal) throw "No modal found with id " + props.modalId;
   typeof modal != "undefined" && modal != null && isModalOpen(modal)
     ? closeModal(modal)
     : openModal(modal);
-};
+}
 
 // Is modal open
 const isModalOpen = (modal: HTMLElement) => {
@@ -100,7 +89,7 @@ const openModal = (modal: HTMLElement) => {
 };
 
 // Close modal
-const closeModal = (modal: HTMLElement) => {
+function closeModal(modal: HTMLElement) {
   visibleModal = null;
   document.documentElement.classList.add(closingClass);
   setTimeout(() => {
@@ -108,7 +97,7 @@ const closeModal = (modal: HTMLElement) => {
     document.documentElement.style.removeProperty("--scrollbar-width");
     modal.removeAttribute("open");
   }, animationDuration);
-};
+}
 
 // Close with a click outside
 document.addEventListener("click", (event) => {
@@ -152,5 +141,3 @@ const isScrollbarVisible = () => {
   return document.body.scrollHeight > screen.height;
 };
 </script>
-
-<style scoped></style>

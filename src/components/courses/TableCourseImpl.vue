@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Course } from ".prisma/client";
 import { ref } from "vue";
-import type { CourseResponse } from "../../types/Courses";
-import TableActionColumn from "./parts/TableActionColumn.vue";
+import TableActionColumn from "../tables/parts/TableActionColumn.vue";
+import Modal from "./CourseModal.vue";
 
 let DEFAULT_TAKE = 10;
 
@@ -14,9 +14,11 @@ async function fetchData(take: number, skip: number = 0) {
   const response = await fetch(
     `${PUBLIC_API_URL}/api/courses?skip=${skip}&take=${take}`
   );
-  return (await response.json()) as CourseResponse;
+  return (await response.json()) as Course[];
 }
-
+function handleNewEntry(course: Course) {
+  courses.value.push(course);
+}
 function editCourse(course: Course) {
   console.log("edituser: " + course.courseTypeShortName);
 }
@@ -26,6 +28,7 @@ function deleteCourse(course: Course) {
 </script>
 
 <template>
+  <Modal :courses="courses" @newEntry="handleNewEntry" />
   <table v-if="courses.length">
     <thead>
       <tr>
