@@ -117,24 +117,4 @@ async function login() {
     transform: translateY(0) rotate(0);
   }
 }
-
-.loader {
-  justify-content: center;
-  border: 6px solid;
-  border-top: 6px solid var(--primary);
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  margin: auto;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 </style>
