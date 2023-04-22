@@ -5,6 +5,10 @@ Worktime tracking tool for the ABW 33
 
 https://wttt-33.netlify.app/
 
+## TODO
+[] Add middleware for logging requests
+[] Add middleware for global request validation error
+
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:

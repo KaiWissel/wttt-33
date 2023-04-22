@@ -1,13 +1,10 @@
 import type { APIRoute } from "astro";
 import { createCourse, findCourses } from "../../../services/CourseService";
-import { CourseRequest, NewCourseRequest } from "../../../types/Courses";
-import {
-  handleErrorRequest,
-  parseRequestParams,
-} from "../../../utils/apiRequests";
+import { NewCourseRequest } from "../../../types/Courses";
+import { handleErrorRequest } from "../../../utils/apiRequests";
 import { parseRequestBody } from "../../../utils/apiRequests";
 
-export const get: APIRoute = async ({ params, request }) => {
+export const get: APIRoute = async ({ request }) => {
   console.log("R: ", request.url);
 
   try {

@@ -35,3 +35,16 @@ export async function createCourse(request: NewCourseRequestType) {
 
   return newCourse;
 }
+
+export async function deleteCourse(id: string) {
+  console.log("CS: Will try to delete course");
+
+  const res = await prisma.course.delete({
+    where: {
+      id,
+    },
+  });
+  console.log("CS: Course deleted");
+
+  return res;
+}

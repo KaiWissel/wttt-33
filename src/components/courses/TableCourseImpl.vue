@@ -3,6 +3,7 @@ import type { Course } from ".prisma/client";
 import { ref } from "vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
 import Modal from "./CourseModal.vue";
+import { removeObjectByProperty } from "../../utils/arrayHelper";
 
 let DEFAULT_TAKE = 10;
 
@@ -22,8 +23,20 @@ function handleNewEntry(course: Course) {
 function editCourse(course: Course) {
   console.log("edituser: " + course.courseTypeShortName);
 }
-function deleteCourse(course: Course) {
-  console.log("deleteuser: " + course.courseTypeShortName);
+async function deleteCourse(course: Course) {
+  try {
+    await deleteEntry(course.id);
+    removeObjectByProperty(courses.value, "id", course.id);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function deleteEntry(id: String) {
+  const url = `${PUBLIC_API_URL}/api/courses/${id}`;
+  return await fetch(url, {
+    method: "DELETE",
+  });
 }
 </script>
 
