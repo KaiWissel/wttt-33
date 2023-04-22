@@ -65,20 +65,3 @@ function onInput(event: Event) {
   emits("update:modelValue", value);
 }
 </script>
-
-<style scoped>
-.error-label {
-  color: darkred;
-  font-size: medium;
-  animation: fadeInAnimation 0.83s;
-}
-
-@keyframes fadeInAnimation {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-</style>
