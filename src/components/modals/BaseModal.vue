@@ -1,10 +1,4 @@
 <template>
-  <div>
-    <button @click="toggleModal">
-      {{ buttonText }}
-    </button>
-  </div>
-
   <!-- Modal -->
   <dialog :id="modalId">
     <article>
@@ -23,6 +17,7 @@
         <a
           href="#confirm"
           role="button"
+          :class="isDangerous ? 'btn-danger' : undefined"
           @click="$emit('confirmed')"
           :disabled="disableConfirm ? true : undefined"
         >
@@ -37,10 +32,10 @@
 const props = defineProps({
   modalId: { type: String, required: true },
   modalTitle: { type: String, required: true },
-  buttonText: { type: String, required: true },
   disableConfirm: { type: Boolean, default: undefined },
   errorMessage: { type: String, default: undefined },
   isWaiting: { type: Boolean, default: false },
+  isDangerous: { type: Boolean, default: false },
 });
 
 defineEmits(["confirmed"]);
@@ -57,7 +52,7 @@ const animationDuration = 400; // ms
 let visibleModal: HTMLElement | null = null;
 
 // Toggle modal
-function toggleModal(event: Event) {
+function toggleModal() {
   const modal = document.getElementById(props.modalId);
   if (!modal) throw "No modal found with id " + props.modalId;
   typeof modal != "undefined" && modal != null && isModalOpen(modal)

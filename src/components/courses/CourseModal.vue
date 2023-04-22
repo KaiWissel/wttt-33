@@ -37,6 +37,10 @@ const props = defineProps<{
   courses: Course[];
 }>();
 
+defineExpose({
+  toggleModal,
+});
+
 const emits = defineEmits(["newEntry"]);
 
 const modal = ref<any>();
@@ -68,6 +72,10 @@ const disableConfirm = computed(() => {
   );
 });
 
+function toggleModal() {
+  modal.value.toggleModal();
+}
+
 async function onConfirm() {
   try {
     isWaiting.value = true;
@@ -76,8 +84,8 @@ async function onConfirm() {
       year: +year.value,
     });
     clearCurrentEntries();
+    toggleModal();
     emits("newEntry", responseData);
-    modal.value.toggleModal();
   } catch (error: any) {
     console.log(error);
     errorMessage.value = error;

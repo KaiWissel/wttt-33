@@ -2,12 +2,20 @@
 import type { Course } from ".prisma/client";
 import { ref } from "vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
-import Modal from "./CourseModal.vue";
+import CourseModal from "./CourseModal.vue";
 import { removeObjectByProperty } from "../../utils/arrayHelper";
+import ConfirmModal from "../modals/BaseModal.vue";
 
 let DEFAULT_TAKE = 10;
 
 const { PUBLIC_API_URL } = import.meta.env;
+
+const addEditModal = ref<any>();
+const confirmModal = ref<any>();
+
+const isDeleting = ref(false);
+
+const selectedCourse = ref<Course | undefined>(undefined);
 
 const courses = ref(await fetchData(DEFAULT_TAKE));
 
@@ -17,22 +25,43 @@ async function fetchData(take: number, skip: number = 0) {
   );
   return (await response.json()) as Course[];
 }
+
+function onDeleteEntry(course: Course) {
+  selectedCourse.value = course;
+  confirmModal.value.toggleModal();
+}
+
 function handleNewEntry(course: Course) {
   courses.value.push(course);
 }
+
 function editCourse(course: Course) {
   console.log("edituser: " + course.courseTypeShortName);
 }
-async function deleteCourse(course: Course) {
+
+function toggleAddEditModal() {
+  addEditModal.value.toggleModal();
+}
+
+function toggleConfirmModal() {
+  confirmModal.value.toggleModal();
+}
+
+async function deleteCourse() {
+  if (!selectedCourse.value) return;
   try {
-    await deleteEntry(course.id);
-    removeObjectByProperty(courses.value, "id", course.id);
+    isDeleting.value = true;
+    await deleteRequest(selectedCourse.value.id);
+    removeObjectByProperty(courses.value, "id", selectedCourse.value.id);
+    toggleConfirmModal();
   } catch (error) {
     console.log(error);
+  } finally {
+    isDeleting.value = false;
   }
 }
 
-async function deleteEntry(id: String) {
+async function deleteRequest(id: String) {
   const url = `${PUBLIC_API_URL}/api/courses/${id}`;
   return await fetch(url, {
     method: "DELETE",
@@ -41,7 +70,9 @@ async function deleteEntry(id: String) {
 </script>
 
 <template>
-  <Modal :courses="courses" @newEntry="handleNewEntry" />
+  <div>
+    <button @click="toggleAddEditModal">Neue Klasse anlegen</button>
+  </div>
   <table v-if="courses.length">
     <thead>
       <tr>
@@ -57,12 +88,27 @@ async function deleteEntry(id: String) {
         <td>
           <TableActionColumn
             :data="c"
-            @deleteEntry="deleteCourse"
-            @editEntry="editCourse"
+            @deleteEntry="onDeleteEntry(c)"
+            @editEntry="editCourse(c)"
           />
         </td>
       </tr>
     </tbody>
   </table>
   <div v-else>Loading...</div>
+  <CourseModal
+    ref="addEditModal"
+    :courses="courses"
+    @newEntry="handleNewEntry"
+  />
+  <ConfirmModal
+    ref="confirmModal"
+    @confirmed="deleteCourse"
+    modal-id="confirm-delete-course-modal"
+    modal-title="Klasse löschen"
+    :is-waiting="isDeleting"
+    :is-dangerous="true"
+    >Möchtest du die Klasse {{ selectedCourse?.courseTypeShortName }}
+    {{ selectedCourse?.year }} wirklich löschen?</ConfirmModal
+  >
 </template>

@@ -11,6 +11,15 @@
   ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
+.btn-danger {
+  background-color: darkred;
+  border-color: darkred;
+}
+.btn-danger:hover {
+  background-color: hsl(0, 100%, 50%);
+  border-color: hsl(0, 100%, 50%);
+}
+
 .error-label {
   color: darkred;
   font-size: medium;
