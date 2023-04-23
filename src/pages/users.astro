@@ -1,13 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import TableUser from "../components/users/TableUser.vue";
+import UserTable from "../components/users/UserTableWrapper.vue";
 
 const pageTitle = "Nutzer";
 ---
 
 <BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
   <h1>{pageTitle}</h1>
-  <TableUser client:load />
+  <UserTable client:load />
 </BaseLayout>
 
 <script>

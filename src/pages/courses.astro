@@ -1,5 +1,5 @@
 ---
-import TableCourse from "../components/courses/TableCourse.vue";
+import CourseTable from "../components/courses/CourseTableWrapper.vue";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const pageTitle = "Klassen";
@@ -7,7 +7,7 @@ const pageTitle = "Klassen";
 
 <BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
   <h1>{pageTitle}</h1>
-  <TableCourse client:only />
+  <CourseTable client:only />
 </BaseLayout>
 
 <script>

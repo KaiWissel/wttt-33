@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import TableBookingImpl from "./TableBookingImpl.vue";
+import CourseTable from "./CourseTable.vue";
 </script>
 
 <template>
   <suspense>
     <template #default>
-      <TableBookingImpl />
+      <CourseTable />
     </template>
     <template #fallback>
       <div>Loading...</div>

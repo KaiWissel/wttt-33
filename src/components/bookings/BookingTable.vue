@@ -6,8 +6,6 @@ import { fetchGet } from "../../utils/fetchClient";
 
 let DEFAULT_TAKE = 25;
 
-const { PUBLIC_API_URL } = import.meta.env;
-
 const bookings = ref(await fetchData(DEFAULT_TAKE));
 const disableLoad = ref(false);
 

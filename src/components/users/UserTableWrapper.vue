@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import TableUserImpl from "./TableUserImpl.vue";
+import UserTable from "./UserTable.vue";
 </script>
 
 <template>
   <suspense>
     <template #default>
-      <TableUserImpl />
+      <UserTable />
     </template>
     <template #fallback>
       <div>Loading...</div>

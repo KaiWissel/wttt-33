@@ -1,5 +1,5 @@
 ---
-import TableBooking from "../components/bookings/TableBooking.vue";
+import BookingTable from "../components/bookings/BookingTableWrapper.vue";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import redirectIfNotLoggedIn from "../scripts/checkLogin";
 import type { LOGIN_TOKEN } from "../utils/handleLoginToken";
@@ -9,7 +9,7 @@ const pageTitle = "Buchungen";
 
 <BaseLayout pageTitle={`WTTT 33 - ${pageTitle}`}>
   <h1>{pageTitle}</h1>
-  <TableBooking client:load />
+  <BookingTable client:load />
 </BaseLayout>
 
 <script>
