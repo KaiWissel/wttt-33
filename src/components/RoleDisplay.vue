@@ -24,6 +24,7 @@ onMounted(() => {
   border-radius: 100%;
   text-align: center;
   padding: 10px 0;
+  transition: 0.3s;
 }
 
 .role-icon:hover {
