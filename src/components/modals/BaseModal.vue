@@ -18,7 +18,7 @@
             name="double_check-check"
             v-model="checked"
           />
-          Ich bin mir wirklich sicher {{ checked }}
+          Ich bin mir wirklich sicher
         </label>
         <a href="#cancel" role="button" class="secondary" @click="toggleModal">
           Abbrechen
@@ -103,6 +103,7 @@ const openModal = (modal: HTMLElement) => {
 
 // Close modal
 function closeModal(modal: HTMLElement) {
+  checked.value = false;
   // visibleModal = null;
   document.documentElement.classList.add(closingClass);
   setTimeout(() => {
