@@ -94,21 +94,24 @@ function closeModal(modal: HTMLElement) {
   }, animationDuration);
 }
 
-// Close with a click outside
-document.addEventListener("click", (event) => {
-  if (visibleModal != null) {
-    const modalContent = visibleModal.querySelector("article");
-    const isClickInside = modalContent?.contains(event.target as Node);
-    !isClickInside && closeModal(visibleModal);
-  }
-});
+// TODO: This code uses the browser API and cannot be run in SSR.
+// Therefore we have to use client:only on this island in astro which is also bad practice.
+// Maybe checkout https://vueuse.org/core/onClickOutside/
+// // Close with a click outside
+// document.addEventListener("click", (event) => {
+//   if (visibleModal != null) {
+//     const modalContent = visibleModal.querySelector("article");
+//     const isClickInside = modalContent?.contains(event.target as Node);
+//     !isClickInside && closeModal(visibleModal);
+//   }
+// });
 
-// Close with Esc key
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && visibleModal != null) {
-    closeModal(visibleModal);
-  }
-});
+// // Close with Esc key
+// document.addEventListener("keydown", (event) => {
+//   if (event.key === "Escape" && visibleModal != null) {
+//     closeModal(visibleModal);
+//   }
+// });
 
 // Get scrollbar width
 const getScrollbarWidth = () => {
