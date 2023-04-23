@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-let prisma = null;
+let prisma: PrismaClient | null = null;
 
 let connectionUnchecked = true;
 
@@ -20,4 +20,4 @@ if (connectionUnchecked) {
   await init();
 }
 
-export default prisma;
+export default prisma as unknown as PrismaClient;

@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../plugins/prisma-client";
 import type { BookingRequestType } from "../types/Booking";
-
-const prisma = new PrismaClient();
 
 export async function findBookings(request: BookingRequestType) {
   return await prisma.booking.findMany({

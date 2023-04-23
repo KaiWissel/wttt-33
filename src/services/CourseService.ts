@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../plugins/prisma-client";
 import type { CourseRequestType } from "../types/Courses";
-
-const prisma = new PrismaClient();
 
 export async function findCourses() {
   return await prisma.course.findMany({
