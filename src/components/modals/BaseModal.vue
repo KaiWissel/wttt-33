@@ -11,6 +11,15 @@
       </label>
       <div v-if="isWaiting" class="loader"></div>
       <footer>
+        <label v-if="isDangerous" for="double_check">
+          <input
+            type="checkbox"
+            id="double-double_check"
+            name="double_check-check"
+            v-model="checked"
+          />
+          Ich bin mir wirklich sicher {{ checked }}
+        </label>
         <a href="#cancel" role="button" class="secondary" @click="toggleModal">
           Abbrechen
         </a>
@@ -19,7 +28,7 @@
           role="button"
           :class="isDangerous ? 'btn-danger' : undefined"
           @click="$emit('confirmed')"
-          :disabled="disableConfirm ? true : undefined"
+          :disabled="shouldOkButtonBeDisabled"
         >
           OK
         </a>
@@ -29,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from "vue";
+
 const props = defineProps({
   modalId: { type: String, required: true },
   modalTitle: { type: String, required: true },
@@ -44,12 +55,19 @@ defineExpose({
   toggleModal,
 });
 
+const checked = ref(false);
+
 // Config
 const isOpenClass = "modal-is-open";
 const openingClass = "modal-is-opening";
 const closingClass = "modal-is-closing";
 const animationDuration = 400; // ms
-let visibleModal: HTMLElement | null = null;
+// let visibleModal: HTMLElement | null = null;
+
+const shouldOkButtonBeDisabled = computed(() => {
+  if (props.disableConfirm) return true;
+  if (props.isDangerous && !checked.value) return true;
+});
 
 // Toggle modal
 function toggleModal() {
@@ -77,7 +95,7 @@ const openModal = (modal: HTMLElement) => {
   }
   document.documentElement.classList.add(isOpenClass, openingClass);
   setTimeout(() => {
-    visibleModal = modal;
+    // visibleModal = modal;
     document.documentElement.classList.remove(openingClass);
   }, animationDuration);
   modal.setAttribute("open", "true");
@@ -85,7 +103,7 @@ const openModal = (modal: HTMLElement) => {
 
 // Close modal
 function closeModal(modal: HTMLElement) {
-  visibleModal = null;
+  // visibleModal = null;
   document.documentElement.classList.add(closingClass);
   setTimeout(() => {
     document.documentElement.classList.remove(closingClass, isOpenClass);
