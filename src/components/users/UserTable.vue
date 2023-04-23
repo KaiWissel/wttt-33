@@ -1,24 +1,22 @@
 <script setup lang="ts">
-// defineProps({./TableUserImpl.vue
-//   results: {
-//     type: Array,
-//     required: true,
-//   },
-//   maxFlights: {
-//     type: Number,
-//     required: true,
-//   },
-
 import type { User } from ".prisma/client";
 import { ref } from "vue";
 import type { UserResponse } from "../../types/User";
 import LoadMore from "../tables/parts/LoadMore.vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
 import { fetchGet } from "../../utils/fetchClient";
+import ConfirmModal from "../modals/BaseModal.vue";
 
 let DEFAULT_TAKE = 10;
 
-const users = ref(await fetchData(DEFAULT_TAKE));
+const addEditModal = ref<any>();
+const confirmModal = ref<any>();
+
+const isDeleting = ref(false);
+
+const selectedUser = ref<User | undefined>(undefined);
+
+const users = ref(await fetchData());
 const disableLoad = ref(false);
 
 async function loadMore() {
@@ -32,13 +30,19 @@ async function loadMore() {
   users.value = users.value.concat(res);
 }
 
-async function fetchData(take: number, skip: number = 0) {
+async function fetchData(take: number = DEFAULT_TAKE, skip: number = 0) {
   return (await fetchGet(`users?skip=${skip}&take=${take}`)) as UserResponse;
 }
 
 function editUser(user: User) {
   console.log("edituser: " + user.firstName);
 }
+
+function onDeleteEntry(entry: User) {
+  selectedUser.value = entry;
+  confirmModal.value.toggleModal();
+}
+
 function deleteUser(user: User) {
   console.log("deleteuser: " + user.firstName);
 }
@@ -74,7 +78,7 @@ function deleteUser(user: User) {
         <td>
           <TableActionColumn
             :data="user"
-            @deleteEntry="deleteUser"
+            @deleteEntry="onDeleteEntry"
             @editEntry="editUser"
           />
         </td>
@@ -83,4 +87,14 @@ function deleteUser(user: User) {
   </table>
   <div v-else>Loading...</div>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
+  <ConfirmModal
+    ref="confirmModal"
+    @confirmed="deleteUser"
+    modal-id="confirm-delete-user-modal"
+    modal-title="Nutzer löschen"
+    :is-waiting="isDeleting"
+    :is-dangerous="true"
+    >Möchtest du die Klasse {{ selectedUser?.firstName }}
+    {{ selectedUser?.lastName }} wirklich löschen?</ConfirmModal
+  >
 </template>

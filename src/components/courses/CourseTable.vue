@@ -87,8 +87,8 @@ async function deleteRequest(id: String) {
         <td>
           <TableActionColumn
             :data="c"
-            @deleteEntry="onDeleteEntry(c)"
-            @editEntry="editCourse(c)"
+            @deleteEntry="onDeleteEntry"
+            @editEntry="editCourse"
           />
         </td>
       </tr>
