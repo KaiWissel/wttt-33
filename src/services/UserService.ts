@@ -7,9 +7,14 @@ export async function findUsers(res: UserRequestType) {
   return await prisma.user.findMany({
     skip: res.skip,
     take: res.take,
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      {
+        lastName: "asc",
+      },
+      {
+        firstName: "asc",
+      },
+    ],
     include: {
       course: {
         select: {
