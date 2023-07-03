@@ -13,7 +13,7 @@ export const UserRequest = z.object({
 export const UserAddEditRequest = z.object({
   firstName: z.string(),
   lastName: z.string(),
-  uId: z.string(),
+  uId: z.string().nullable(),
   courseId: z.string(),
   status: z.string(),
 });
