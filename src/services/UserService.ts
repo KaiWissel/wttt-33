@@ -3,10 +3,27 @@ import type { UserRequestType, UserAddEditType } from "../types/User";
 
 const prisma = new PrismaClient();
 
-export async function findUsers(res: UserRequestType) {
+export async function findUsers(req: UserRequestType) {
   return await prisma.user.findMany({
-    skip: res.skip,
-    take: res.take,
+    skip: req.skip,
+    take: req.take,
+    where: {
+      uId: {
+        contains: req.uId,
+      },
+      firstName: {
+        contains: req.firstName,
+      },
+      lastName: {
+        contains: req.lastName,
+      },
+      course: {
+        courseTypeShortName: {
+          contains: req.courseType,
+        },
+        year: req.year,
+      },
+    },
     orderBy: [
       {
         lastName: "asc",

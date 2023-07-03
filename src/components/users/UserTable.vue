@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { User } from ".prisma/client";
 import { Ref, ref } from "vue";
-import type { UserResponse } from "../../types/User";
+import type { UserFilterOption, UserResponse } from "../../types/User";
 import LoadMore from "../tables/parts/LoadMore.vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
 import { fetchDelete, fetchGet } from "../../utils/fetchClient";
 import ConfirmModal from "../modals/BaseModal.vue";
 import UserModal from "./UserModal.vue";
+import Filter from "./Filter.vue";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 
 let DEFAULT_TAKE = 50;
@@ -25,8 +26,8 @@ const confirmErrorMessage = ref("");
 
 await loadFirst();
 
-async function loadFirst() {
-  users.value = await fetchData(DEFAULT_TAKE);
+async function loadFirst(filterOptions?: UserFilterOption) {
+  users.value = await fetchData(DEFAULT_TAKE, 0, filterOptions);
 }
 
 async function loadMore() {
@@ -40,8 +41,21 @@ async function loadMore() {
   users.value = users.value.concat(res);
 }
 
-async function fetchData(take: number = DEFAULT_TAKE, skip: number = 0) {
-  return (await fetchGet(`users?skip=${skip}&take=${take}`)) as UserResponse;
+async function fetchData(
+  take: number = DEFAULT_TAKE,
+  skip: number = 0,
+  filterOptions?: UserFilterOption
+) {
+  let query = `skip=${skip}&take=${take}`;
+
+  for (const key in filterOptions) {
+    // @ts-ignore
+    const element = filterOptions[key];
+    if (!element) continue;
+    query += `&${key}=${element}`;
+  }
+
+  return (await fetchGet(`users?${query}`)) as UserResponse;
 }
 
 function editUser(user: User) {
@@ -81,19 +95,18 @@ async function deleteUser() {
 async function deleteRequest(id: String) {
   await fetchDelete(`users/${id}`);
 }
+
+async function onFilterTable(filterOptions: UserFilterOption) {
+  loadFirst(filterOptions);
+}
 </script>
 
 <template>
   <button @click="toggleAddEditModal(true)">Neuen Nutzer anlegen</button>
+
   <div>
     <hr />
-    <div class="grid">
-      <input type="text" placeholder="Name" />
-      <input type="text" placeholder="Klasse" />
-      <input type="text" placeholder="Jahrgang" />
-      <input type="text" placeholder="UID" />
-      <button class="secondary">Filter</button>
-    </div>
+    <Filter @filter-table="onFilterTable" />
   </div>
 
   <table v-if="users.length">
