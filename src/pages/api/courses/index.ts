@@ -2,30 +2,17 @@ import type { APIRoute } from "astro";
 import { createCourse, findCourses } from "../../../services/CourseService";
 import { CourseRequest } from "../../../types/Courses";
 import { parseRequestBody } from "../../../utils/requestParsing";
-import { handleErrorRequest } from "../../../utils/errorHandling";
-import { handleSuccessful } from "../../../utils/handleResponse";
+import { handleRequest } from "../../../utils/handleRequest";
 
 export const get: APIRoute = async ({ request }) => {
-  console.log("R: ", request.method, request.url);
-
-  try {
-    const result = await findCourses();
-
-    return handleSuccessful(result);
-  } catch (error) {
-    return handleErrorRequest(error);
-  }
+  return handleRequest(request, async () => {
+    return await findCourses();
+  });
 };
 
 export const post: APIRoute = async ({ request }) => {
-  console.log("R: ", request.method, request.url);
-
-  try {
+  return handleRequest(request, async () => {
     const requestBody = await parseRequestBody(request, CourseRequest);
-    const result = await createCourse(requestBody);
-
-    return handleSuccessful(result);
-  } catch (error) {
-    return handleErrorRequest(error);
-  }
+    return await createCourse(requestBody);
+  });
 };

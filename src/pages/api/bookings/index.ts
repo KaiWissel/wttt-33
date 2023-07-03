@@ -2,20 +2,13 @@ import type { APIRoute } from "astro";
 import { findBookings } from "../../../services/BookingService";
 import { BookingRequest } from "../../../types/Booking";
 import { parseRequestParams } from "../../../utils/requestParsing";
-import { handleErrorRequest } from "../../../utils/errorHandling";
-import { handleSuccessful } from "../../../utils/handleResponse";
+import { handleRequest } from "../../../utils/handleRequest";
 
 export const get: APIRoute = async ({ params, request }) => {
-  console.log("R: ", request.url);
-
-  try {
+  return handleRequest(request, async () => {
     const res = parseRequestParams(request, BookingRequest);
-    const result = await findBookings(res);
-
-    return handleSuccessful(result);
-  } catch (error) {
-    return handleErrorRequest(error);
-  }
+    return await findBookings(res);
+  });
 };
 
 export const post: APIRoute = ({ request }) => {

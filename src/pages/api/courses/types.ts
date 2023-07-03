@@ -1,16 +1,9 @@
 import type { APIRoute } from "astro";
 import { findCourseTypes } from "../../../services/CourseService";
-import { handleSuccessful } from "../../../utils/handleResponse";
-import { handleErrorRequest } from "../../../utils/errorHandling";
+import { handleRequest } from "../../../utils/handleRequest";
 
 export const get: APIRoute = async ({ request }) => {
-  console.log("R: ", request.method, request.url);
-
-  try {
-    const result = await findCourseTypes();
-
-    return handleSuccessful(result);
-  } catch (error) {
-    return handleErrorRequest(error);
-  }
+  return handleRequest(request, async () => {
+    return await findCourseTypes();
+  });
 };

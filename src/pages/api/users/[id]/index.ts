@@ -6,30 +6,19 @@ import {
   parseRequestBody,
 } from "../../../../utils/requestParsing";
 import { UserAddEditRequest } from "../../../../types/User";
-import { handleErrorRequest } from "../../../../utils/errorHandling";
-import { handleSuccessful } from "../../../../utils/handleResponse";
+import { handleRequest } from "../../../../utils/handleRequest";
 
 export const del: APIRoute = async ({ params, request }) => {
-  console.log("R: ", request.method, request.url);
-
-  try {
+  return handleRequest(request, async () => {
     const requestParams = parseParams(params, IdParam);
-    const result = await deleteUser(requestParams.id);
-    return handleSuccessful(result);
-  } catch (error) {
-    return handleErrorRequest(error);
-  }
+    return await deleteUser(requestParams.id);
+  });
 };
 
 export const put: APIRoute = async ({ params, request }) => {
-  console.log("R: ", request.method, request.url);
-
-  try {
+  return handleRequest(request, async () => {
     const requestParams = parseParams(params, IdParam);
     const requestBody = await parseRequestBody(request, UserAddEditRequest);
-    const result = await updateUser(requestParams.id, requestBody);
-    return handleSuccessful(result);
-  } catch (error) {
-    return handleErrorRequest(error);
-  }
+    return await updateUser(requestParams.id, requestBody);
+  });
 };

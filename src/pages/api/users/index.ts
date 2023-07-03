@@ -5,31 +5,18 @@ import {
   parseRequestBody,
   parseRequestParams,
 } from "../../../utils/requestParsing";
-import { handleErrorRequest } from "../../../utils/errorHandling";
-import { handleSuccessful } from "../../../utils/handleResponse";
+import { handleRequest } from "../../../utils/handleRequest";
 
 export const get: APIRoute = async ({ params, request }) => {
-  console.log("R: ", request.method, request.url);
-
-  try {
+  return handleRequest(request, async () => {
     const res = parseRequestParams(request, UserRequest);
-    const result = await findUsers(res);
-
-    return handleSuccessful(result);
-  } catch (error) {
-    return handleErrorRequest(error);
-  }
+    return await findUsers(res);
+  });
 };
 
 export const post: APIRoute = async ({ request }) => {
-  console.log("R: ", request.method, request.url);
-
-  try {
+  return handleRequest(request, async () => {
     const requestBody = await parseRequestBody(request, UserAddEditRequest);
-    const result = await createUser(requestBody);
-
-    return handleSuccessful(result);
-  } catch (error) {
-    return handleErrorRequest(error);
-  }
+    return await createUser(requestBody);
+  });
 };
