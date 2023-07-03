@@ -20,6 +20,7 @@
       placeholder="Nachname"
       :validation="notEmpty"
     />
+    <TextInput v-model="uId" placeholder="Karten-ID" />
     <BaseSelect
       v-model="course"
       :options="courseOptions"
@@ -32,7 +33,7 @@
 import BaseModal from "../modals/BaseModal.vue";
 import TextInput from "../inputs/TextInput.vue";
 import BaseSelect from "../inputs/BaseSelect.vue";
-import { computed, ref, watchEffect } from "vue";
+import { Ref, computed, ref, watchEffect } from "vue";
 import { fetchGet, fetchPost, fetchPut } from "../../utils/fetchClient";
 import type { UserAddEditType } from "../../types/User";
 import type { User, Course } from ".prisma/client";
@@ -131,7 +132,7 @@ async function postRequest() {
     lastName: lastName.value,
     courseId: findCourseId(course.value),
     status: "",
-    uId: "",
+    uId: uId.value ? uId.value : null,
   });
 }
 
