@@ -1,10 +1,9 @@
 import type { APIRoute } from "astro";
 import { findBookings } from "../../../services/BookingService";
 import { BookingRequest } from "../../../types/Booking";
-import {
-  handleErrorRequest,
-  parseRequestParams,
-} from "../../../utils/apiRequests";
+import { parseRequestParams } from "../../../utils/requestParsing";
+import { handleErrorRequest } from "../../../utils/errorHandling";
+import { handleSuccessful } from "../../../utils/handleResponse";
 
 export const get: APIRoute = async ({ params, request }) => {
   console.log("R: ", request.url);
@@ -13,12 +12,7 @@ export const get: APIRoute = async ({ params, request }) => {
     const res = parseRequestParams(request, BookingRequest);
     const result = await findBookings(res);
 
-    return new Response(JSON.stringify(result), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return handleSuccessful(result);
   } catch (error) {
     return handleErrorRequest(error);
   }

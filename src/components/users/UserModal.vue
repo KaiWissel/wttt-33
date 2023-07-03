@@ -109,6 +109,7 @@ async function onConfirm() {
     await functionToCall();
     toggleModal();
     clearFields();
+    emits("updatedEntry");
   } catch (error: any) {
     console.log(error);
     errorMessage.value = error;
@@ -125,14 +126,13 @@ async function fetchCourses() {
 }
 
 async function postRequest() {
-  const responseData = await fetchPost<UserAddEditType>(`users`, {
+  const res = await fetchPost<UserAddEditType>(`users`, {
     firstName: firstName.value,
     lastName: lastName.value,
     courseId: findCourseId(course.value),
     status: "",
     uId: "",
   });
-  emits("updatedEntry");
 }
 
 async function updateRequest() {

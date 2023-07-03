@@ -2,10 +2,11 @@ import type { APIRoute } from "astro";
 import { findUsers, createUser } from "../../../services/UserService";
 import { UserRequest, UserAddEditRequest } from "../../../types/User";
 import {
-  handleErrorRequest,
   parseRequestBody,
   parseRequestParams,
-} from "../../../utils/apiRequests";
+} from "../../../utils/requestParsing";
+import { handleErrorRequest } from "../../../utils/errorHandling";
+import { handleSuccessful } from "../../../utils/handleResponse";
 
 export const get: APIRoute = async ({ params, request }) => {
   console.log("R: ", request.method, request.url);
@@ -14,12 +15,7 @@ export const get: APIRoute = async ({ params, request }) => {
     const res = parseRequestParams(request, UserRequest);
     const result = await findUsers(res);
 
-    return new Response(JSON.stringify(result), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return handleSuccessful(result);
   } catch (error) {
     return handleErrorRequest(error);
   }
@@ -32,12 +28,7 @@ export const post: APIRoute = async ({ request }) => {
     const requestBody = await parseRequestBody(request, UserAddEditRequest);
     const result = await createUser(requestBody);
 
-    return new Response(JSON.stringify(result), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return handleSuccessful(result);
   } catch (error) {
     return handleErrorRequest(error);
   }

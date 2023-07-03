@@ -97,6 +97,7 @@ async function onConfirm() {
     await functionToCall();
     toggleModal();
     clearFields();
+    emits("updatedEntry");
   } catch (error: any) {
     console.log(error);
     errorMessage.value = error;
@@ -115,7 +116,6 @@ async function postRequest() {
     shortName: type.value,
     year: +year.value,
   });
-  emits("updatedEntry");
 }
 
 async function updateRequest() {
@@ -127,7 +127,6 @@ async function updateRequest() {
       year: +year.value,
     }
   );
-  emits("updatedEntry");
 }
 
 function courseExists(requestBody: CourseRequestType) {

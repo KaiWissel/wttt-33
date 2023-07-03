@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { User } from ".prisma/client";
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import type { UserResponse } from "../../types/User";
 import LoadMore from "../tables/parts/LoadMore.vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
@@ -18,8 +18,16 @@ const isDeleting = ref(false);
 
 const selectedUser = ref<User | undefined>(undefined);
 
-const users = ref(await fetchData());
+const users: Ref<UserResponse> = ref([]);
 const disableLoad = ref(false);
+
+const confirmErrorMessage = ref("");
+
+await loadFirst();
+
+async function loadFirst() {
+  users.value = await fetchData(DEFAULT_TAKE);
+}
 
 async function loadMore() {
   const res = await fetchData(DEFAULT_TAKE, users.value.length);
@@ -64,13 +72,14 @@ async function deleteUser() {
     toggleConfirmModal();
   } catch (error) {
     console.log(error);
+    confirmErrorMessage.value = new String(error).toString();
   } finally {
     isDeleting.value = false;
   }
 }
 
 async function deleteRequest(id: String) {
-  await fetchDelete(`courses/${id}`);
+  await fetchDelete(`users/${id}`);
 }
 </script>
 
@@ -121,7 +130,7 @@ async function deleteRequest(id: String) {
     ref="addEditModal"
     :users="users"
     :selected-user="selectedUser"
-    @updatedEntry="fetchData"
+    @updatedEntry="loadFirst"
   />
   <ConfirmModal
     ref="confirmModal"
@@ -130,7 +139,8 @@ async function deleteRequest(id: String) {
     modal-title="Nutzer löschen"
     :is-waiting="isDeleting"
     :is-dangerous="true"
-    >Möchtest du die Klasse {{ selectedUser?.firstName }}
+    :error-message="confirmErrorMessage"
+    >Möchtest du den Nutzer {{ selectedUser?.firstName }}
     {{ selectedUser?.lastName }} wirklich löschen?</ConfirmModal
   >
 </template>

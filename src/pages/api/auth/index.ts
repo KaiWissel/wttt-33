@@ -1,10 +1,9 @@
 import type { APIRoute } from "astro";
 import { login } from "../../../services/AuthService";
 import { AuthRequest } from "../../../types/Auth";
-import {
-  handleErrorRequest,
-  parseRequestBody,
-} from "../../../utils/apiRequests";
+import { parseRequestBody } from "../../../utils/requestParsing";
+import { handleErrorRequest } from "../../../utils/errorHandling";
+import { handleSuccessful } from "../../../utils/handleResponse";
 
 export const post: APIRoute = async ({ params, request }) => {
   console.log("R: ", request.url);
@@ -18,15 +17,8 @@ export const post: APIRoute = async ({ params, request }) => {
       return new Response(null, { status: 401 });
     }
 
-    return new Response(JSON.stringify(token), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return handleSuccessful(token);
   } catch (error) {
-    console.log("test");
-
     return handleErrorRequest(error);
   }
 };

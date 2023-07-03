@@ -5,10 +5,10 @@ export async function findCourses() {
   return await prisma.course.findMany({
     orderBy: [
       {
-        year: "desc",
+        courseTypeShortName: "asc",
       },
       {
-        courseTypeShortName: "asc",
+        year: "desc",
       },
     ],
   });

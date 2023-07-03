@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Course } from ".prisma/client";
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
 import CourseModal from "./CourseModal.vue";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
@@ -14,9 +14,17 @@ const confirmModal = ref<any>();
 
 const isDeleting = ref(false);
 
+const confirmErrorMessage = ref("");
+
 const selectedCourse = ref<Course | undefined>(undefined);
 
-const courses = ref(await fetchData());
+const courses: Ref<Course[]> = ref([]);
+
+await loadFirst();
+
+async function loadFirst() {
+  courses.value = await fetchData(DEFAULT_TAKE);
+}
 
 async function fetchData(take: number = DEFAULT_TAKE, skip: number = 0) {
   return (await fetchGet(`courses?skip=${skip}&take=${take}`)) as Course[];
@@ -54,6 +62,7 @@ async function deleteCourse() {
     toggleConfirmModal();
   } catch (error) {
     console.log(error);
+    confirmErrorMessage.value = new String(error).toString();
   } finally {
     isDeleting.value = false;
   }
@@ -95,13 +104,14 @@ async function deleteRequest(id: String) {
     ref="addEditModal"
     :courses="courses"
     :selected-course="selectedCourse"
-    @updatedEntry="fetchData"
+    @updatedEntry="loadFirst"
   />
   <ConfirmModal
     ref="confirmModal"
     @confirmed="deleteCourse"
     modal-id="confirm-delete-course-modal"
     modal-title="Klasse löschen"
+    :error-message="confirmErrorMessage"
     :is-waiting="isDeleting"
     :is-dangerous="true"
     >Möchtest du die Klasse {{ selectedCourse?.courseTypeShortName }}
