@@ -9,7 +9,7 @@ import ConfirmModal from "../modals/BaseModal.vue";
 import UserModal from "./UserModal.vue";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 
-let DEFAULT_TAKE = 10;
+let DEFAULT_TAKE = 50;
 
 const addEditModal = ref<any>();
 const confirmModal = ref<any>();

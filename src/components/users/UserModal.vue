@@ -79,15 +79,8 @@ watchEffect(() => {
   firstName.value = props.selectedUser?.firstName;
   lastName.value = props.selectedUser?.lastName;
   uId.value = "" + props.selectedUser?.uId;
+  course.value = findCourseOptionById(props.selectedUser?.courseId);
 });
-
-// watchEffect(() => {
-//   if (courseExists({ shortName: type.value, year: +year.value })) {
-//     errorMessage.value = "Dieser Kurs existiert bereits";
-//   } else {
-//     errorMessage.value = "";
-//   }
-// });
 
 const disableConfirm = computed(() => {
   return firstNameValidation.value || !course.value || lastNameValidation.value;
@@ -137,14 +130,18 @@ async function postRequest() {
 }
 
 async function updateRequest() {
-  // if (!props.selectedUser) return;
-  // const responseData = await fetchPut<UserAddEditType>(
-  //   `users/${props.selectedUser.id}`,
-  //   {}
-  // );
-  // emits("updatedEntry");
+  if (!props.selectedUser) return;
 
-  console.log("Update request user");
+  const res = await fetchPut<UserAddEditType>(
+    `users/${props.selectedUser.id}`,
+    {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      courseId: findCourseId(course.value),
+      status: "",
+      uId: uId.value ? uId.value : null,
+    }
+  );
 }
 
 function findCourseId(courseOption: string) {
@@ -159,5 +156,17 @@ function findCourseId(courseOption: string) {
   }
 
   return courseObject.id;
+}
+
+function findCourseOptionById(courseId?: string | null) {
+  const courseObject = courseObjects.value.find(
+    (c) => c.id == props.selectedUser?.courseId
+  );
+
+  if (courseObject == null) {
+    return "";
+  }
+
+  return courseObject.courseTypeShortName + " " + courseObject.year;
 }
 </script>

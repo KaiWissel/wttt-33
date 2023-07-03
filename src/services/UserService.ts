@@ -42,16 +42,22 @@ export async function createUser(data: UserAddEditType) {
   return newUser;
 }
 
-// export async function updateUser(id: string, data: UserRequestType) {
-//   console.log("US: Will update user");
-//   const newUser = await prisma.user.update({
-//     where: { id },
-//     data: { courseTypeShortName: data.shortName, year: data.year },
-//   });
-//   console.log("US: user updated");
+export async function updateUser(id: string, data: UserAddEditType) {
+  console.log("US: Will update user");
+  const newUser = await prisma.user.update({
+    where: { id },
+    data: {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      status: data.status,
+      uId: data.uId,
+      courseId: data.courseId,
+    },
+  });
+  console.log("US: user updated");
 
-//   return newUser;
-// }
+  return newUser;
+}
 
 export async function deleteUser(id: string) {
   console.log("US: Will try to delete user");
