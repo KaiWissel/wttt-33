@@ -11,10 +11,10 @@ export const UserRequest = z.object({
 });
 
 export const UserAddEditRequest = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  uId: z.string().nullable(),
-  courseId: z.string(),
+  firstName: z.string().nonempty(),
+  lastName: z.string().nonempty(),
+  uId: z.string().nonempty().nullable(),
+  courseId: z.string().nonempty(),
   status: z.string(),
 });
 

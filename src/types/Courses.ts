@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const CourseRequest = z.object({
   year: z.number(),
-  shortName: z.string(),
+  shortName: z.string().nonempty(),
 });
 
 export type CourseRequestType = z.infer<typeof CourseRequest>;
