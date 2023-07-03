@@ -77,6 +77,7 @@ watchEffect(() => {
 const disableConfirm = computed(() => {
   return (
     isYearValidationInvalid.value ||
+    !type.value ||
     courseExists({ shortName: type.value, year: +year.value })
   );
 });

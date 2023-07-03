@@ -90,7 +90,7 @@ watchEffect(() => {
 // });
 
 const disableConfirm = computed(() => {
-  return firstNameValidation.value || lastNameValidation.value;
+  return firstNameValidation.value || !course.value || lastNameValidation.value;
 });
 
 function clearFields() {
