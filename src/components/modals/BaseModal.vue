@@ -14,8 +14,8 @@
         <label v-if="isDangerous" for="double_check">
           <input
             type="checkbox"
-            id="double-double_check"
-            name="double_check-check"
+            id="double_check"
+            name="double_check"
             v-model="checked"
           />
           Ich bin mir wirklich sicher
