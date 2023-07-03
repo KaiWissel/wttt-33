@@ -1,5 +1,7 @@
-import { handleErrorRequest } from "./errorHandling";
-import { handleSuccessful } from "./handleResponse";
+import {
+  handleError,
+  handleSuccessful as handleSuccess,
+} from "./handleResponse";
 
 export async function handleRequest(request: Request, callable: Function) {
   console.log("R: ", request.method, request.url);
@@ -7,8 +9,8 @@ export async function handleRequest(request: Request, callable: Function) {
   try {
     const result = await callable();
 
-    return handleSuccessful(result);
+    return handleSuccess(result);
   } catch (error) {
-    return handleErrorRequest(error);
+    return handleError(error);
   }
 }

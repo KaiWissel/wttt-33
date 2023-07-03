@@ -2,8 +2,7 @@ import type { APIRoute } from "astro";
 import { login } from "../../../services/AuthService";
 import { AuthRequest } from "../../../types/Auth";
 import { parseRequestBody } from "../../../utils/requestParsing";
-import { handleErrorRequest } from "../../../utils/errorHandling";
-import { handleSuccessful } from "../../../utils/handleResponse";
+import { handleError, handleSuccessful } from "../../../utils/handleResponse";
 
 export const post: APIRoute = async ({ params, request }) => {
   console.log("R: ", request.url);
@@ -19,6 +18,6 @@ export const post: APIRoute = async ({ params, request }) => {
 
     return handleSuccessful(token);
   } catch (error) {
-    return handleErrorRequest(error);
+    return handleError(error);
   }
 };
