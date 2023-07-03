@@ -1,13 +1,14 @@
 import type { APIRoute } from "astro";
-import { findUsers } from "../../../services/UserService";
-import { UserRequest } from "../../../types/User";
+import { findUsers, createUser } from "../../../services/UserService";
+import { UserRequest, UserAddEditRequest } from "../../../types/User";
 import {
   handleErrorRequest,
+  parseRequestBody,
   parseRequestParams,
 } from "../../../utils/apiRequests";
 
 export const get: APIRoute = async ({ params, request }) => {
-  console.log("R: ", request.url);
+  console.log("R: ", request.method, request.url);
 
   try {
     const res = parseRequestParams(request, UserRequest);
@@ -24,10 +25,20 @@ export const get: APIRoute = async ({ params, request }) => {
   }
 };
 
-export const post: APIRoute = ({ request }) => {
-  return {
-    body: JSON.stringify({
-      message: "Das war ein POST!",
-    }),
-  };
+export const post: APIRoute = async ({ request }) => {
+  console.log("R: ", request.method, request.url);
+
+  try {
+    const requestBody = await parseRequestBody(request, UserAddEditRequest);
+    const result = await createUser(requestBody);
+
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    return handleErrorRequest(error);
+  }
 };

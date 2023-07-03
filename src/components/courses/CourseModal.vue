@@ -2,7 +2,6 @@
   <BaseModal
     modal-id="modal-add-edit-course"
     :modal-title="selectedCourse ? 'Klasse bearbeiten' : 'Klasse erstellen'"
-    button-text="Neue Klasse anlegen"
     :disable-confirm="disableConfirm"
     @confirmed="onConfirm"
     :error-message="errorMessage"
@@ -12,14 +11,13 @@
     <BaseSelect
       v-model="type"
       :options="typeOptions"
-      options-key="shortName"
       placeholder="Bitte wähle einen Typ aus"
     />
     <TextInput
       v-model="year"
       v-model:is-validation-invalid="isYearValidationInvalid"
       placeholder="Jahrgang"
-      :validation="yearValidation"
+      :validation="yearIn20thCentury"
     />
   </BaseModal>
 </template>
@@ -32,6 +30,7 @@ import { computed, ref, watchEffect } from "vue";
 import { fetchGet, fetchPost, fetchPut } from "../../utils/fetchClient";
 import type { CourseRequestType } from "../../types/Courses";
 import type { Course, CourseType } from ".prisma/client";
+import { yearIn20thCentury } from "../../utils/validationRegExp";
 
 const props = defineProps<{
   courses: Course[];
@@ -50,7 +49,6 @@ const typeOptions = ref<string[]>([]);
 const type = ref("");
 
 const year = ref("");
-const yearValidation = new RegExp(/^20\d{2}$/);
 const isYearValidationInvalid = ref(true);
 
 const errorMessage = ref("");
@@ -60,8 +58,7 @@ fetchTypes();
 
 watchEffect(() => {
   if (!props.selectedCourse) {
-    type.value = "";
-    year.value = "";
+    clearFields();
     return;
   }
 
@@ -84,6 +81,11 @@ const disableConfirm = computed(() => {
   );
 });
 
+function clearFields() {
+  type.value = "";
+  year.value = "";
+}
+
 function toggleModal() {
   modal.value.toggleModal();
 }
@@ -94,6 +96,7 @@ async function onConfirm() {
     isWaiting.value = true;
     await functionToCall();
     toggleModal();
+    clearFields();
   } catch (error: any) {
     console.log(error);
     errorMessage.value = error;
@@ -108,7 +111,7 @@ async function fetchTypes() {
 }
 
 async function postRequest() {
-  const responseData = await fetchPost(`courses`, {
+  const responseData = await fetchPost<CourseRequestType>(`courses`, {
     shortName: type.value,
     year: +year.value,
   });
@@ -117,10 +120,13 @@ async function postRequest() {
 
 async function updateRequest() {
   if (!props.selectedCourse) return;
-  const responseData = await fetchPut(`courses/${props.selectedCourse.id}`, {
-    shortName: type.value,
-    year: +year.value,
-  });
+  const responseData = await fetchPut<CourseRequestType>(
+    `courses/${props.selectedCourse.id}`,
+    {
+      shortName: type.value,
+      year: +year.value,
+    }
+  );
   emits("updatedEntry");
 }
 

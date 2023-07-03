@@ -4,8 +4,10 @@ import { ref } from "vue";
 import type { UserResponse } from "../../types/User";
 import LoadMore from "../tables/parts/LoadMore.vue";
 import TableActionColumn from "../tables/parts/TableActionColumn.vue";
-import { fetchGet } from "../../utils/fetchClient";
+import { fetchDelete, fetchGet } from "../../utils/fetchClient";
 import ConfirmModal from "../modals/BaseModal.vue";
+import UserModal from "./UserModal.vue";
+import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 
 let DEFAULT_TAKE = 10;
 
@@ -35,7 +37,8 @@ async function fetchData(take: number = DEFAULT_TAKE, skip: number = 0) {
 }
 
 function editUser(user: User) {
-  console.log("edituser: " + user.firstName);
+  selectedUser.value = user;
+  toggleAddEditModal();
 }
 
 function onDeleteEntry(entry: User) {
@@ -43,18 +46,45 @@ function onDeleteEntry(entry: User) {
   confirmModal.value.toggleModal();
 }
 
-function deleteUser(user: User) {
-  console.log("deleteuser: " + user.firstName);
+function toggleAddEditModal(isNew?: boolean) {
+  if (isNew) selectedUser.value = undefined;
+  addEditModal.value.toggleModal(isNew);
+}
+
+function toggleConfirmModal() {
+  confirmModal.value.toggleModal();
+}
+
+async function deleteUser() {
+  if (!selectedUser.value) return;
+  try {
+    isDeleting.value = true;
+    await deleteRequest(selectedUser.value.id);
+    removeObjectFromArrayByProperty(users.value, "id", selectedUser.value.id);
+    toggleConfirmModal();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isDeleting.value = false;
+  }
+}
+
+async function deleteRequest(id: String) {
+  await fetchDelete(`courses/${id}`);
 }
 </script>
 
 <template>
-  <button>Neuen Nutzer anlegen</button>
-  <div class="grid">
-    <input type="text" placeholder="Name" />
-    <input type="text" placeholder="Klasse" />
-    <input type="text" placeholder="Jahrgang" />
-    <input type="text" placeholder="UID" />
+  <button @click="toggleAddEditModal(true)">Neuen Nutzer anlegen</button>
+  <div>
+    <hr />
+    <div class="grid">
+      <input type="text" placeholder="Name" />
+      <input type="text" placeholder="Klasse" />
+      <input type="text" placeholder="Jahrgang" />
+      <input type="text" placeholder="UID" />
+      <button class="secondary">Filter</button>
+    </div>
   </div>
 
   <table v-if="users.length">
@@ -87,6 +117,12 @@ function deleteUser(user: User) {
   </table>
   <div v-else>Loading...</div>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
+  <UserModal
+    ref="addEditModal"
+    :users="users"
+    :selected-user="selectedUser"
+    @updatedEntry="fetchData"
+  />
   <ConfirmModal
     ref="confirmModal"
     @confirmed="deleteUser"

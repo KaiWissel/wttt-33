@@ -16,14 +16,10 @@ const isDeleting = ref(false);
 
 const selectedCourse = ref<Course | undefined>(undefined);
 
-const courses = ref<Course[]>([]);
-
-fetchData();
+const courses = ref(await fetchData());
 
 async function fetchData(take: number = DEFAULT_TAKE, skip: number = 0) {
-  courses.value = (await fetchGet(
-    `courses?skip=${skip}&take=${take}`
-  )) as Course[];
+  return (await fetchGet(`courses?skip=${skip}&take=${take}`)) as Course[];
 }
 
 function onDeleteEntry(course: Course) {
@@ -31,7 +27,7 @@ function onDeleteEntry(course: Course) {
   confirmModal.value.toggleModal();
 }
 
-function editCourse(course: Course) {
+function onEditCourse(course: Course) {
   selectedCourse.value = course;
   toggleAddEditModal();
 }
@@ -88,7 +84,7 @@ async function deleteRequest(id: String) {
           <TableActionColumn
             :data="c"
             @deleteEntry="onDeleteEntry"
-            @editEntry="editCourse"
+            @editEntry="onEditCourse"
           />
         </td>
       </tr>
