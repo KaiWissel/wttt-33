@@ -7,7 +7,7 @@
       :value="modelValue"
       @input="onInput"
       @focus="wasFocused = true"
-      :aria-invalid="wasFocused ? isInvalid : undefined"
+      :aria-invalid="wasFocused && validation ? isInvalid : undefined"
     />
     <label
       v-if="isInvalid"
