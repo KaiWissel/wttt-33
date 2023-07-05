@@ -22,7 +22,7 @@ export function useDeleteEntry<T>(
 
   // Edit --------------------------------------------
 
-  function editEntry(entry: T) {
+  function onEditEntry(entry: T) {
     selectedEntry.value = entry;
     toggleAddEditModal();
   }
@@ -52,7 +52,7 @@ export function useDeleteEntry<T>(
     selectedEntry,
     isDeleting,
     confirmErrorMessage,
-    editEntry,
+    onEditEntry,
     onDeleteEntry,
     deleteEntry,
     toggleAddEditModal,

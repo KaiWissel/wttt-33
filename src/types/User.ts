@@ -25,7 +25,7 @@ export type UserAddEditType = z.infer<typeof UserAddEditRequest>;
 
 export type UserFilterOption = Omit<UserRequestType, "skip" | "take">;
 
-export type UserResponse = (Omit<User, "createdAt" | "updatedAt"> & {
+export type UserResponse = Omit<User, "createdAt" | "updatedAt"> & {
   createdAt: string;
   updatedAt: string;
 } & {
@@ -33,4 +33,4 @@ export type UserResponse = (Omit<User, "createdAt" | "updatedAt"> & {
     courseTypeShortName: string;
     year: number;
   } | null;
-})[];
+};

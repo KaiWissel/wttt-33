@@ -24,3 +24,16 @@ export async function findBookings(request: BookingRequestType) {
     },
   });
 }
+
+export async function deleteBooking(id: string) {
+  console.log("US: Will try to delete booking");
+
+  const res = await prisma.booking.delete({
+    where: {
+      id,
+    },
+  });
+  console.log("US: User booking");
+
+  return res;
+}

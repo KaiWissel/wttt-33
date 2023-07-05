@@ -12,7 +12,7 @@ export const BookingRequest = z.object({
 
 export type BookingRequestType = z.infer<typeof BookingRequest>;
 
-export type BookingResponse = (Omit<Booking, "createdAt" | "updatedAt"> & {
+export type BookingResponse = Omit<Booking, "createdAt" | "updatedAt"> & {
   createdAt: string;
   updatedAt: string;
 } & {
@@ -24,4 +24,4 @@ export type BookingResponse = (Omit<Booking, "createdAt" | "updatedAt"> & {
       year: number;
     } | null;
   };
-})[];
+};

@@ -18,16 +18,16 @@ const confirmModal = ref<any>();
 
 const isLoading = ref(false);
 
-const users: Ref<UserResponse> = ref([]);
+const users: Ref<UserResponse[]> = ref([]);
 const disableLoad = ref(false);
 
 const {
-  deleteEntry,
-  onDeleteEntry,
   confirmErrorMessage,
   isDeleting,
   selectedEntry,
-  editEntry,
+  onEditEntry,
+  onDeleteEntry,
+  deleteEntry,
   toggleAddEditModal,
 } = useDeleteEntry<User>(addEditModal, confirmModal, deleteUserFunction);
 
@@ -64,7 +64,7 @@ async function fetchData(
       query += `&${key}=${element}`;
     }
 
-    return (await fetchGet(`users?${query}`)) as UserResponse;
+    return (await fetchGet(`users?${query}`)) as UserResponse[];
   } catch (error) {
     console.log("Error while loading data");
     return [];
@@ -99,7 +99,7 @@ async function onFilterTable(filterOptions: UserFilterOption) {
         <th scope="col">Vorname</th>
         <th scope="col">Klasse</th>
         <th scope="col">UID</th>
-        <th></th>
+        <th class="table-action-col"></th>
       </tr>
     </thead>
     <tbody>
@@ -114,7 +114,7 @@ async function onFilterTable(filterOptions: UserFilterOption) {
           <TableActionColumn
             :data="user"
             @deleteEntry="onDeleteEntry"
-            @editEntry="editEntry"
+            @editEntry="onEditEntry"
           />
         </td>
       </tr>

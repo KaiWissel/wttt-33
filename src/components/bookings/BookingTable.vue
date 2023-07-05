@@ -1,13 +1,36 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import LoadMore from "../tables/LoadMore.vue";
 import type { BookingResponse } from "../../types/Booking";
-import { fetchGet } from "../../utils/fetchClient";
+import { fetchDelete, fetchGet } from "../../utils/fetchClient";
+import { useDeleteEntry } from "../tables/EditDeleteEntry";
+import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
+import TableActionColumn from "../tables/TableActionColumn.vue";
+import ConfirmModal from "../modals/BaseModal.vue";
 
 let DEFAULT_TAKE = 25;
 
+const isLoading = ref(false);
+
 const bookings = ref(await fetchData(DEFAULT_TAKE));
 const disableLoad = ref(false);
+
+const addEditModal = ref<any>();
+const confirmModal = ref<any>();
+
+const {
+  confirmErrorMessage,
+  isDeleting,
+  selectedEntry,
+  onEditEntry,
+  deleteEntry,
+  onDeleteEntry,
+  toggleAddEditModal,
+} = useDeleteEntry<BookingResponse>(
+  addEditModal,
+  confirmModal,
+  deleteBookingFunction
+);
 
 async function loadMore() {
   const res = await fetchData(DEFAULT_TAKE, bookings.value.length);
@@ -21,9 +44,23 @@ async function loadMore() {
 }
 
 async function fetchData(take: number, skip: number = 0) {
-  return (await fetchGet(
-    `bookings?skip=${skip}&take=${take}`
-  )) as BookingResponse;
+  try {
+    isLoading.value = true;
+    return (await fetchGet(
+      `bookings?skip=${skip}&take=${take}`
+    )) as BookingResponse[];
+  } catch (error) {
+    console.log("Error while loading data");
+    return [];
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
+  await fetchDelete(`bookings/${selectedEntry.value.id}`);
+  //^?
+  removeObjectFromArrayByProperty(bookings.value, "id", selectedEntry.value.id);
 }
 </script>
 
@@ -35,7 +72,8 @@ async function fetchData(take: number, skip: number = 0) {
     <input type="text" placeholder="Standort" />
   </div>
 
-  <table v-if="bookings.length">
+  <div v-if="isLoading" aria-busy="true"></div>
+  <table v-else-if="bookings.length">
     <thead>
       <tr>
         <th scope="col">Datum</th>
@@ -44,6 +82,7 @@ async function fetchData(take: number, skip: number = 0) {
         <th scope="col">Aktion</th>
         <th scope="col">Klasse</th>
         <th scope="col">Standort</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -56,9 +95,33 @@ async function fetchData(take: number, skip: number = 0) {
           {{ b.user.course?.courseTypeShortName + " " + b.user.course?.year }}
         </td>
         <td>{{ b.location }}</td>
+        <td>
+          <TableActionColumn
+            :data="b"
+            @deleteEntry="onDeleteEntry"
+            @editEntry="onEditEntry"
+          />
+        </td>
       </tr>
     </tbody>
   </table>
-  <div v-else>Loading...</div>
+  <h4 v-else>Es wurden keine Einträge gefunden</h4>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
+  <!-- <UserModal
+    ref="addEditModal"
+    :users="users"
+    :selected-user="selectedEntry"
+    @updatedEntry="loadFirst"
+  /> -->
+  <confirmModal
+    ref="confirmModal"
+    @confirmed="deleteEntry"
+    modal-id="confirm-delete-booking-modal"
+    modal-title="Nutzer löschen"
+    :is-waiting="isDeleting"
+    :is-dangerous="true"
+    :error-message="confirmErrorMessage"
+    >Möchtest du den Eintrag von {{ selectedEntry?.user.firstName }}
+    {{ selectedEntry?.user.lastName }} wirklich löschen?</confirmModal
+  >
 </template>

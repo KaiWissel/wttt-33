@@ -41,7 +41,7 @@ import type { UserResponse } from "../../types/User";
 import { notEmpty } from "../../utils/validationRegExp";
 
 const props = defineProps<{
-  users: UserResponse;
+  users: UserResponse[];
   selectedUser?: User;
 }>();
 
