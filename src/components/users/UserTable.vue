@@ -9,21 +9,27 @@ import ConfirmModal from "../modals/BaseModal.vue";
 import UserModal from "./UserModal.vue";
 import Filter from "./Filter.vue";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
+import { useDeleteEntry } from "../tables/EditDeleteEntry";
 
 let DEFAULT_TAKE = 50;
 
 const addEditModal = ref<any>();
 const confirmModal = ref<any>();
 
-const isDeleting = ref(false);
 const isLoading = ref(false);
-
-const selectedUser = ref<User | undefined>(undefined);
 
 const users: Ref<UserResponse> = ref([]);
 const disableLoad = ref(false);
 
-const confirmErrorMessage = ref("");
+const {
+  deleteEntry,
+  onDeleteEntry,
+  confirmErrorMessage,
+  isDeleting,
+  selectedEntry,
+  editEntry,
+  toggleAddEditModal,
+} = useDeleteEntry<User>(addEditModal, confirmModal, deleteUserFunction);
 
 await loadFirst();
 
@@ -67,42 +73,9 @@ async function fetchData(
   }
 }
 
-function editUser(user: User) {
-  selectedUser.value = user;
-  toggleAddEditModal();
-}
-
-function onDeleteEntry(entry: User) {
-  selectedUser.value = entry;
-  confirmModal.value.toggleModal();
-}
-
-function toggleAddEditModal(isNew?: boolean) {
-  if (isNew) selectedUser.value = undefined;
-  addEditModal.value.toggleModal(isNew);
-}
-
-function toggleConfirmModal() {
-  confirmModal.value.toggleModal();
-}
-
-async function deleteUser() {
-  if (!selectedUser.value) return;
-  try {
-    isDeleting.value = true;
-    await deleteRequest(selectedUser.value.id);
-    removeObjectFromArrayByProperty(users.value, "id", selectedUser.value.id);
-    toggleConfirmModal();
-  } catch (error) {
-    console.log(error);
-    confirmErrorMessage.value = new String(error).toString();
-  } finally {
-    isDeleting.value = false;
-  }
-}
-
-async function deleteRequest(id: String) {
-  await fetchDelete(`users/${id}`);
+async function deleteUserFunction(selectedEntry: Ref<User>) {
+  await fetchDelete(`users/${selectedEntry.value.id}`);
+  removeObjectFromArrayByProperty(users.value, "id", selectedEntry.value.id);
 }
 
 async function onFilterTable(filterOptions: UserFilterOption) {
@@ -141,7 +114,7 @@ async function onFilterTable(filterOptions: UserFilterOption) {
           <TableActionColumn
             :data="user"
             @deleteEntry="onDeleteEntry"
-            @editEntry="editUser"
+            @editEntry="editEntry"
           />
         </td>
       </tr>
@@ -152,18 +125,18 @@ async function onFilterTable(filterOptions: UserFilterOption) {
   <UserModal
     ref="addEditModal"
     :users="users"
-    :selected-user="selectedUser"
+    :selected-user="selectedEntry"
     @updatedEntry="loadFirst"
   />
   <ConfirmModal
     ref="confirmModal"
-    @confirmed="deleteUser"
+    @confirmed="deleteEntry"
     modal-id="confirm-delete-user-modal"
     modal-title="Nutzer löschen"
     :is-waiting="isDeleting"
     :is-dangerous="true"
     :error-message="confirmErrorMessage"
-    >Möchtest du den Nutzer {{ selectedUser?.firstName }}
-    {{ selectedUser?.lastName }} wirklich löschen?</ConfirmModal
+    >Möchtest du den Nutzer {{ selectedEntry?.firstName }}
+    {{ selectedEntry?.lastName }} wirklich löschen?</ConfirmModal
   >
 </template>
