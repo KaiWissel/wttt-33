@@ -16,6 +16,7 @@ const addEditModal = ref<any>();
 const confirmModal = ref<any>();
 
 const isDeleting = ref(false);
+const isLoading = ref(false);
 
 const selectedUser = ref<User | undefined>(undefined);
 
@@ -46,16 +47,24 @@ async function fetchData(
   skip: number = 0,
   filterOptions?: UserFilterOption
 ) {
-  let query = `skip=${skip}&take=${take}`;
+  try {
+    isLoading.value = true;
+    let query = `skip=${skip}&take=${take}`;
 
-  for (const key in filterOptions) {
-    // @ts-ignore
-    const element = filterOptions[key];
-    if (!element) continue;
-    query += `&${key}=${element}`;
+    for (const key in filterOptions) {
+      // @ts-ignore
+      const element = filterOptions[key];
+      if (!element) continue;
+      query += `&${key}=${element}`;
+    }
+
+    return (await fetchGet(`users?${query}`)) as UserResponse;
+  } catch (error) {
+    console.log("Error while loading data");
+    return [];
+  } finally {
+    isLoading.value = false;
   }
-
-  return (await fetchGet(`users?${query}`)) as UserResponse;
 }
 
 function editUser(user: User) {
@@ -109,7 +118,8 @@ async function onFilterTable(filterOptions: UserFilterOption) {
     <Filter @filter-table="onFilterTable" />
   </div>
 
-  <table v-if="users.length">
+  <div v-if="isLoading" aria-busy="true"></div>
+  <table v-else-if="users.length">
     <thead>
       <tr>
         <th scope="col">Nachname</th>
@@ -137,7 +147,7 @@ async function onFilterTable(filterOptions: UserFilterOption) {
       </tr>
     </tbody>
   </table>
-  <div v-else>Loading...</div>
+  <h4 v-else>Es wurden keine Einträge gefunden</h4>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
   <UserModal
     ref="addEditModal"

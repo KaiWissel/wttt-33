@@ -8,7 +8,7 @@ import UserTable from "./UserTable.vue";
       <UserTable />
     </template>
     <template #fallback>
-      <div>Loading...</div>
+      <div aria-busy="true"></div>
     </template>
   </suspense>
 </template>

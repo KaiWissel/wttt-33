@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 
 const isFilterActive = ref(false);
 
@@ -28,6 +28,11 @@ function onFilter() {
   isFilterActive.value = true;
   emit("filterTable", filterOptions);
 }
+
+const isDisabled = computed(() => {
+  const result = !Object.values(filterOptions).some(Boolean);
+  return result;
+});
 </script>
 
 <template>
@@ -49,12 +54,12 @@ function onFilter() {
     />
     <input v-model="filterOptions.year" type="text" placeholder="Jahrgang" />
     <input v-model="filterOptions.uId" type="text" placeholder="UID" />
-    <button @click="onFilter" class="secondary">
+    <button @click="onFilter" class="secondary" :disabled="isDisabled">
       Filter
       <a
         v-show="isFilterActive"
         href="#"
-        @click.prevent="clear"
+        @click.stop="clear"
         style="margin-left: 1rem"
       >
         <img class="zoom-on-hover" src="assets/clearicon.svg" alt="Delete" />
