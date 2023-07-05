@@ -1,14 +1,10 @@
 <script setup lang="ts">
+import SuspenseWrapper from "../tables/SuspenseWrapper.vue";
 import CourseTable from "./CourseTable.vue";
 </script>
 
 <template>
-  <suspense>
-    <template #default>
-      <CourseTable />
-    </template>
-    <template #fallback>
-      <div>Loading...</div>
-    </template>
-  </suspense>
+  <SuspenseWrapper>
+    <CourseTable />
+  </SuspenseWrapper>
 </template>

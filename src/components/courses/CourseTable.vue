@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Course } from ".prisma/client";
 import { Ref, ref } from "vue";
-import TableActionColumn from "../tables/parts/TableActionColumn.vue";
+import TableActionColumn from "../tables/TableActionColumn.vue";
 import CourseModal from "./CourseModal.vue";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 import ConfirmModal from "../modals/BaseModal.vue";

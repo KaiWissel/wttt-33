@@ -1,14 +1,10 @@
 <script setup lang="ts">
+import SuspenseWrapper from "../tables/SuspenseWrapper.vue";
 import BookingTable from "./BookingTable.vue";
 </script>
 
 <template>
-  <suspense>
-    <template #default>
-      <BookingTable />
-    </template>
-    <template #fallback>
-      <div>Loading...</div>
-    </template>
-  </suspense>
+  <SuspenseWrapper>
+    <BookingTable />
+  </SuspenseWrapper>
 </template>

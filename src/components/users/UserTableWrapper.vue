@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import UserTable from "./UserTable.vue";
+import SuspenseWrapper from "../tables/SuspenseWrapper.vue";
 </script>
 
 <template>
-  <suspense>
-    <template #default>
-      <UserTable />
-    </template>
-    <template #fallback>
-      <div aria-busy="true"></div>
-    </template>
-  </suspense>
+  <SuspenseWrapper>
+    <UserTable />
+  </SuspenseWrapper>
 </template>

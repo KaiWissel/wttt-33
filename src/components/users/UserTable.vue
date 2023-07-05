@@ -2,8 +2,8 @@
 import type { User } from ".prisma/client";
 import { Ref, ref } from "vue";
 import type { UserFilterOption, UserResponse } from "../../types/User";
-import LoadMore from "../tables/parts/LoadMore.vue";
-import TableActionColumn from "../tables/parts/TableActionColumn.vue";
+import LoadMore from "../tables/LoadMore.vue";
+import TableActionColumn from "../tables/TableActionColumn.vue";
 import { fetchDelete, fetchGet } from "../../utils/fetchClient";
 import ConfirmModal from "../modals/BaseModal.vue";
 import UserModal from "./UserModal.vue";
