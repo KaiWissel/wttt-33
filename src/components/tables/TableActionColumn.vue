@@ -18,3 +18,14 @@ defineProps({
     </div>
   </div>
 </template>
+
+<style scoped>
+img {
+  min-width: 16px;
+}
+
+.grid {
+  justify-items: end;
+  grid-column-gap: 2rem;
+}
+</style>
