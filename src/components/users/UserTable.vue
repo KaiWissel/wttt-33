@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { User } from ".prisma/client";
-import { Ref, ref } from "vue";
+import { type Ref, ref } from "vue";
 import type { UserFilterOption, UserResponse } from "../../types/User";
 import LoadMore from "../tables/LoadMore.vue";
 import TableActionColumn from "../tables/TableActionColumn.vue";

@@ -33,7 +33,7 @@
 import BaseModal from "../modals/BaseModal.vue";
 import TextInput from "../inputs/TextInput.vue";
 import BaseSelect from "../inputs/BaseSelect.vue";
-import { Ref, computed, ref, watchEffect } from "vue";
+import { type Ref, computed, ref, watchEffect } from "vue";
 import { fetchGet, fetchPost, fetchPut } from "../../utils/fetchClient";
 import type { UserAddEditType } from "../../types/User";
 import type { User, Course } from ".prisma/client";

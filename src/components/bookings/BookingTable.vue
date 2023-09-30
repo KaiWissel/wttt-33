@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref } from "vue";
+import { type Ref, ref } from "vue";
 import LoadMore from "../tables/LoadMore.vue";
 import type { BookingResponse } from "../../types/Booking";
 import { fetchDelete, fetchGet } from "../../utils/fetchClient";
