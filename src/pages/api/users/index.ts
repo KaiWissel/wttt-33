@@ -7,14 +7,14 @@ import {
 } from "../../../utils/requestParsing";
 import { handleRequest } from "../../../utils/handleRequest";
 
-export const get: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   return handleRequest(request, async () => {
     const res = parseRequestParams(request, UserRequest);
     return await findUsers(res);
   });
 };
 
-export const post: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
   return handleRequest(request, async () => {
     const requestBody = await parseRequestBody(request, UserAddEditRequest);
     return await createUser(requestBody);

@@ -8,14 +8,14 @@ import {
 import { UserAddEditRequest } from "../../../../types/User";
 import { handleRequest } from "../../../../utils/handleRequest";
 
-export const del: APIRoute = async ({ params, request }) => {
+export const DEL: APIRoute = async ({ params, request }) => {
   return handleRequest(request, async () => {
     const requestParams = parseParams(params, IdParam);
     return await deleteUser(requestParams.id);
   });
 };
 
-export const put: APIRoute = async ({ params, request }) => {
+export const PUT: APIRoute = async ({ params, request }) => {
   return handleRequest(request, async () => {
     const requestParams = parseParams(params, IdParam);
     const requestBody = await parseRequestBody(request, UserAddEditRequest);

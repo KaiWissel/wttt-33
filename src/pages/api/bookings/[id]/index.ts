@@ -4,14 +4,14 @@ import { IdParam } from "../../../../types/Common";
 import { parseParams } from "../../../../utils/requestParsing";
 import { handleRequest } from "../../../../utils/handleRequest";
 
-export const del: APIRoute = async ({ params, request }) => {
+export const DEL: APIRoute = async ({ params, request }) => {
   return handleRequest(request, async () => {
     const requestParams = parseParams(params, IdParam);
     return await deleteBooking(requestParams.id);
   });
 };
 
-// export const put: APIRoute = async ({ params, request }) => {
+// export const PUT: APIRoute = async ({ params, request }) => {
 //   return handleRequest(request, async () => {
 //     const requestParams = parseParams(params, IdParam);
 //     const requestBody = await parseRequestBody(request, UserAddEditRequest);

@@ -4,7 +4,7 @@ import { AuthRequest } from "../../../types/Auth";
 import { parseRequestBody } from "../../../utils/requestParsing";
 import { handleError, handleSuccessful } from "../../../utils/handleResponse";
 
-export const post: APIRoute = async ({ params, request }) => {
+export const POST: APIRoute = async ({ params, request }) => {
   console.log("R: ", request.url);
 
   try {
