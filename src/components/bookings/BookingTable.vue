@@ -22,7 +22,7 @@ const {
   confirmErrorMessage,
   isDeleting,
   selectedEntry,
-  onEditEntry,
+  // onEditEntry,
   deleteEntry,
   onDeleteEntry,
   toggleAddEditModal,
@@ -59,8 +59,11 @@ async function fetchData(take: number, skip: number = 0) {
 
 async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
   await fetchDelete(`bookings/${selectedEntry.value.id}`);
-  //^?
   removeObjectFromArrayByProperty(bookings.value, "id", selectedEntry.value.id);
+}
+
+function onEditEntry() {
+  alert("Not implemented");
 }
 </script>
 
@@ -113,7 +116,7 @@ async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
     :selected-user="selectedEntry"
     @updatedEntry="loadFirst"
   /> -->
-  <confirmModal
+  <ConfirmModal
     ref="confirmModal"
     @confirmed="deleteEntry"
     modal-id="confirm-delete-booking-modal"
@@ -122,6 +125,6 @@ async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
     :is-dangerous="true"
     :error-message="confirmErrorMessage"
     >Möchtest du den Eintrag von {{ selectedEntry?.user.firstName }}
-    {{ selectedEntry?.user.lastName }} wirklich löschen?</confirmModal
+    {{ selectedEntry?.user.lastName }} wirklich löschen?</ConfirmModal
   >
 </template>
