@@ -5,8 +5,6 @@ import { parseRequestBody } from "../../../utils/requestParsing";
 import { handleError, handleSuccessful } from "../../../utils/handleResponse";
 
 export const POST: APIRoute = async ({ params, request }) => {
-  console.log("R: ", request.url);
-
   try {
     const body = await parseRequestBody(request, AuthRequest);
     const token = await login(body);
