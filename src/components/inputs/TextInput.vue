@@ -13,13 +13,15 @@
       v-if="isInvalid"
       class="error-label"
       for="`input-${type}-${placeholder}`"
-      >Die Eingabe entspricht nicht der Vorgabe {{ validation }}</label
+    >
+      {{ validation?.message }}</label
     >
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
+import { ValidationDefinition } from "../../utils/validationRegExp";
 
 const props = defineProps({
   modelValue: {
@@ -28,7 +30,7 @@ const props = defineProps({
   },
   type: { type: String, default: "text" },
   placeholder: { type: String, required: false },
-  validation: { type: RegExp, required: false },
+  validation: { type: ValidationDefinition, required: false },
   isValidationInvalid: {
     type: Boolean,
     required: false,
@@ -48,7 +50,7 @@ watchEffect(() => {
   if (!wasFocused.value) return;
   if (!props.validation) return;
 
-  const match = props.modelValue.toString().match(props.validation);
+  const match = props.modelValue.toString().match(props.validation.regex);
   if (match) {
     isInvalid.value = false;
     emits("update:isValidationInvalid", false);

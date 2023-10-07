@@ -17,7 +17,7 @@
       v-model="year"
       v-model:is-validation-invalid="isYearValidationInvalid"
       placeholder="Jahrgang"
-      :validation="yearIn20thCentury"
+      :validation="yearIn21thCentury"
     />
   </BaseModal>
 </template>
@@ -30,7 +30,7 @@ import { computed, ref, watchEffect } from "vue";
 import { fetchGet, fetchPost, fetchPut } from "../../utils/fetchClient";
 import type { CourseRequestType } from "../../types/Courses";
 import type { Course, CourseType } from ".prisma/client";
-import { yearIn20thCentury } from "../../utils/validationRegExp";
+import { yearIn21thCentury } from "../../utils/validationRegExp";
 
 const props = defineProps<{
   courses: Course[];
