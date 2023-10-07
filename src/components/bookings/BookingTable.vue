@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { type Ref, ref } from "vue";
 import LoadMore from "../tables/LoadMore.vue";
-import type { BookingResponse } from "../../types/Booking";
+import type { BookingFilterOption, BookingResponse } from "../../types/Booking";
 import { fetchDelete, fetchGet } from "../../utils/fetchClient";
 import { useDeleteEntry } from "../tables/EditDeleteEntry";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 import TableActionColumn from "../tables/TableActionColumn.vue";
 import ConfirmModal from "../modals/BaseModal.vue";
+import BookingModal from "./BookingModal.vue";
 
 let DEFAULT_TAKE = 25;
 
@@ -22,7 +23,7 @@ const {
   confirmErrorMessage,
   isDeleting,
   selectedEntry,
-  // onEditEntry,
+  onEditEntry,
   deleteEntry,
   onDeleteEntry,
   toggleAddEditModal,
@@ -31,6 +32,12 @@ const {
   confirmModal,
   deleteBookingFunction
 );
+
+await loadFirst();
+
+async function loadFirst(filterOptions?: BookingFilterOption) {
+  bookings.value = await fetchData(DEFAULT_TAKE, 0, filterOptions);
+}
 
 async function loadMore() {
   const res = await fetchData(DEFAULT_TAKE, bookings.value.length);
@@ -43,7 +50,11 @@ async function loadMore() {
   bookings.value = bookings.value.concat(res);
 }
 
-async function fetchData(take: number, skip: number = 0) {
+async function fetchData(
+  take: number,
+  skip: number = 0,
+  filterOptions?: BookingFilterOption
+) {
   try {
     isLoading.value = true;
     return (await fetchGet(
@@ -62,9 +73,9 @@ async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
   removeObjectFromArrayByProperty(bookings.value, "id", selectedEntry.value.id);
 }
 
-function onEditEntry() {
-  alert("Not implemented");
-}
+// function onEditEntry() {
+//   toggleAddEditModal();
+// }
 </script>
 
 <template>
@@ -110,17 +121,16 @@ function onEditEntry() {
   </table>
   <h4 v-else>Es wurden keine Einträge gefunden</h4>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
-  <!-- <UserModal
+  <BookingModal
     ref="addEditModal"
-    :users="users"
-    :selected-user="selectedEntry"
+    :selected-booking="selectedEntry"
     @updatedEntry="loadFirst"
-  /> -->
+  />
   <ConfirmModal
     ref="confirmModal"
     @confirmed="deleteEntry"
     modal-id="confirm-delete-booking-modal"
-    modal-title="Nutzer löschen"
+    modal-title="Buchung löschen"
     :is-waiting="isDeleting"
     :is-dangerous="true"
     :error-message="confirmErrorMessage"

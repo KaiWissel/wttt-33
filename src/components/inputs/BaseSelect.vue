@@ -13,7 +13,7 @@
 defineProps<{
   modelValue: any;
   placeholder?: string;
-  options: string[];
+  options: readonly string[];
 }>();
 
 const emits = defineEmits(["update:modelValue"]);

@@ -1,6 +1,6 @@
 import logger from "../logger";
 import prisma from "../plugins/prisma-client";
-import type { BookingRequestType } from "../types/Booking";
+import type { BookingAddEditType, BookingRequestType } from "../types/Booking";
 
 export async function findBookings(request: BookingRequestType) {
   return await prisma.booking.findMany({
@@ -27,14 +27,29 @@ export async function findBookings(request: BookingRequestType) {
 }
 
 export async function deleteBooking(id: string) {
-  logger.debug("US: Will try to delete booking");
+  logger.debug("BS: Will try to delete booking");
 
   const res = await prisma.booking.delete({
     where: {
       id,
     },
   });
-  logger.debug("US: User booking");
+  logger.debug("BS: Delete booking");
 
   return res;
+}
+
+export async function updateBooking(id: string, data: BookingAddEditType) {
+  logger.debug("BS: Will update booking");
+  const updatedBooking = await prisma.booking.update({
+    where: { id },
+    data: {
+      action: data.action,
+      userId: data.userId,
+      location: data.location,
+    },
+  });
+  logger.debug("BS: booking updated");
+
+  return updatedBooking;
 }
