@@ -8,7 +8,7 @@ import {
 import { UserAddEditRequest } from "../../../../types/User";
 import { handleRequest } from "../../../../utils/handleRequest";
 
-export const DEL: APIRoute = async ({ params, request }) => {
+export const DELETE: APIRoute = async ({ params, request }) => {
   return handleRequest(request, async () => {
     const requestParams = parseParams(params, IdParam);
     return await deleteUser(requestParams.id);

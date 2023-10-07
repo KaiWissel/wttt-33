@@ -8,7 +8,7 @@ import {
 import { CourseRequest } from "../../../../types/Courses";
 import { handleRequest } from "../../../../utils/handleRequest";
 
-export const DEL: APIRoute = async ({ params, request }) => {
+export const DELETE: APIRoute = async ({ params, request }) => {
   return handleRequest(request, async () => {
     const requestParams = parseParams(params, IdParam);
     return await deleteCourse(requestParams.id);

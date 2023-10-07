@@ -4,7 +4,7 @@ import { IdParam } from "../../../../types/Common";
 import { parseParams } from "../../../../utils/requestParsing";
 import { handleRequest } from "../../../../utils/handleRequest";
 
-export const DEL: APIRoute = async ({ params, request }) => {
+export const DELETE: APIRoute = async ({ params, request }) => {
   return handleRequest(request, async () => {
     const requestParams = parseParams(params, IdParam);
     return await deleteBooking(requestParams.id);
