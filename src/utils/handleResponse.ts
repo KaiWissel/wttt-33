@@ -1,3 +1,5 @@
+import logger from "../logger";
+
 export function handleSuccessful(payload: any) {
   return new Response(JSON.stringify(payload), {
     status: 200,
@@ -8,8 +10,8 @@ export function handleSuccessful(payload: any) {
 }
 
 export function handleError(error: unknown) {
-  console.log("HR: An error occurred");
-  console.log(JSON.stringify(error, null, 2));
+  logger.error("HR: An error occurred");
+  logger.error(JSON.stringify(error, null, 2));
 
   return new Response(JSON.stringify(error, null, 2), {
     status: 400,

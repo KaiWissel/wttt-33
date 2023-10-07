@@ -3,6 +3,7 @@ import { login } from "../../../services/AuthService";
 import { AuthRequest } from "../../../types/Auth";
 import { parseRequestBody } from "../../../utils/requestParsing";
 import { handleError, handleSuccessful } from "../../../utils/handleResponse";
+import logger from "../../../logger";
 
 export const POST: APIRoute = async ({ params, request }) => {
   try {
@@ -10,7 +11,7 @@ export const POST: APIRoute = async ({ params, request }) => {
     const token = await login(body);
 
     if (!token) {
-      console.log("A: Wrong credentials");
+      logger.warn("A: Wrong credentials");
       return new Response(null, { status: 401 });
     }
 

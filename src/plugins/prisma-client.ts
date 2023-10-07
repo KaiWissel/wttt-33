@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import logger from "../logger";
 
 let prisma: PrismaClient | null = null;
 
@@ -7,11 +8,13 @@ let connectionUnchecked = true;
 async function init() {
   try {
     prisma = new PrismaClient();
-    console.log("PC: Try to connect to database");
+    logger.info("PC: Try to connect to database");
     await prisma.$connect();
-    console.log("PC: Connected to database");
+    logger.info("PC: Connected to database");
   } catch (error) {
-    console.error("PC: Could not connect to database", error);
+    logger.error(
+      "PC: Could not connect to database " + JSON.stringify(error, null, 2)
+    );
   }
 }
 

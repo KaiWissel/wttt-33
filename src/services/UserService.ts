@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import type { UserRequestType, UserAddEditType } from "../types/User";
+import logger from "../logger";
 
 const prisma = new PrismaClient();
 
@@ -44,7 +45,7 @@ export async function findUsers(req: UserRequestType) {
 }
 
 export async function createUser(data: UserAddEditType) {
-  console.log("US: Will create new user");
+  logger.debug("US: Will create new user");
   const newUser = await prisma.user.create({
     data: {
       firstName: data.firstName,
@@ -54,13 +55,13 @@ export async function createUser(data: UserAddEditType) {
       courseId: data.courseId,
     },
   });
-  console.log("US: New user created");
+  logger.debug("US: New user created");
 
   return newUser;
 }
 
 export async function updateUser(id: string, data: UserAddEditType) {
-  console.log("US: Will update user");
+  logger.debug("US: Will update user");
   const newUser = await prisma.user.update({
     where: { id },
     data: {
@@ -71,20 +72,20 @@ export async function updateUser(id: string, data: UserAddEditType) {
       courseId: data.courseId,
     },
   });
-  console.log("US: user updated");
+  logger.debug("US: user updated");
 
   return newUser;
 }
 
 export async function deleteUser(id: string) {
-  console.log("US: Will try to delete user");
+  logger.debug("US: Will try to delete user");
 
   const res = await prisma.user.delete({
     where: {
       id,
     },
   });
-  console.log("US: User deleted");
+  logger.debug("US: User deleted");
 
   return res;
 }
