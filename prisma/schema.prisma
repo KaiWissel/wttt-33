@@ -48,11 +48,12 @@ model Authentication {
 }
 
 model Booking {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  location  String
-  action    String
-  user      User     @relation(references: [id], fields: [userId])
-  userId    String
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  bookingTime DateTime @default(now())
+  location    String
+  action      String
+  user        User     @relation(references: [id], fields: [userId])
+  userId      String
 }

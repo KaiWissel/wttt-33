@@ -8,6 +8,7 @@ import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 import TableActionColumn from "../tables/TableActionColumn.vue";
 import ConfirmModal from "../modals/BaseModal.vue";
 import BookingModal from "./BookingModal.vue";
+import { retrieveLocaleDate, retrieveLocaleTime } from "../../utils/dateUtils";
 
 let DEFAULT_TAKE = 25;
 
@@ -101,8 +102,8 @@ async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
     </thead>
     <tbody>
       <tr v-for="b in bookings">
-        <td>{{ b.createdAt.slice(0, 10) }}</td>
-        <td>{{ b.createdAt.slice(11, 16) }}</td>
+        <td>{{ retrieveLocaleDate(b.bookingTime) }}</td>
+        <td>{{ retrieveLocaleTime(b.bookingTime) }}</td>
         <td>{{ b.user.firstName + " " + b.user.lastName }}</td>
         <td>{{ b.action }}</td>
         <td>

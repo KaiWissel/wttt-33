@@ -22,6 +22,7 @@ export const BookingAddEditRequest = z.object({
   location: z.string().nonempty(),
   action: z.string().nonempty(),
   userId: z.string().nonempty(),
+  bookingTime: z.string().nonempty(),
 });
 
 export type BookingRequestType = z.infer<typeof BookingRequest>;

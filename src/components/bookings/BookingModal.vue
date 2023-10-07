@@ -44,6 +44,7 @@ import { dateFormatRegex, timeFormatRegex } from "../../utils/validationRegExp";
 import type { BookingAddEditType, BookingResponse } from "../../types/Booking";
 import { BOOKING_ACTIONS } from "../../types/Booking";
 import type { UserResponse } from "../../types/User";
+import { retrieveLocaleDate, retrieveLocaleTime } from "../../utils/dateUtils";
 
 const props = defineProps<{
   selectedBooking?: BookingResponse;
@@ -82,8 +83,8 @@ watchEffect(() => {
     return;
   }
   selectedUser.value = createFullUserName(props.selectedBooking.user);
-  date.value = props.selectedBooking.createdAt.toString().substring(0, 10);
-  time.value = props.selectedBooking.createdAt.toString().substring(11, 16);
+  date.value = retrieveLocaleDate(props.selectedBooking.bookingTime);
+  time.value = retrieveLocaleTime(props.selectedBooking.bookingTime);
   selectedAction.value = props.selectedBooking.action;
 });
 
@@ -133,6 +134,7 @@ async function postRequest() {
     action: selectedAction.value,
     location: "Manueller Eintrag",
     userId: "",
+    bookingTime: createBookingTime(date.value, time.value),
   });
 }
 
@@ -145,12 +147,17 @@ async function updateRequest() {
       action: selectedAction.value,
       location: "Manuelle Änderung",
       userId: findUserId(selectedUser.value),
+      bookingTime: createBookingTime(date.value, time.value),
     }
   );
 }
 
 function createFullUserName(user: User | UserResponse) {
   return user.firstName + " " + user.lastName;
+}
+
+function createBookingTime(date: string, time: string) {
+  return new Date(date + "T" + time).toISOString();
 }
 
 function findUserId(fullUserName: string): string {

@@ -47,6 +47,7 @@ export async function updateBooking(id: string, data: BookingAddEditType) {
       action: data.action,
       userId: data.userId,
       location: data.location,
+      bookingTime: data.bookingTime,
     },
   });
   logger.debug("BS: booking updated");
