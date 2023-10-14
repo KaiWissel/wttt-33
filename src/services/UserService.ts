@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function findUsers(req: UserRequestType) {
   return await prisma.user.findMany({
     skip: req.skip,
-    take: req.take,
+    take: req.take ?? 50,
     where: {
       uId: {
         contains: req.uId,

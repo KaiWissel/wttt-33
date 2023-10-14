@@ -10,8 +10,8 @@ export const BOOKING_ACTIONS = [
 ] as const;
 
 export const BookingRequest = z.object({
-  skip: z.coerce.number(),
-  take: z.coerce.number(),
+  skip: z.coerce.number().optional(),
+  take: z.coerce.number().optional(),
   location: z.string().optional(),
   from: z.string().datetime().optional(),
   till: z.string().datetime().optional(),

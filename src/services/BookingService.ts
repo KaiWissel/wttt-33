@@ -5,7 +5,7 @@ import type { BookingAddEditType, BookingRequestType } from "../types/Booking";
 export async function findBookings(request: BookingRequestType) {
   return await prisma.booking.findMany({
     skip: request.skip,
-    take: request.take,
+    take: request.take ?? 50,
     orderBy: {
       createdAt: "desc",
     },
