@@ -8,7 +8,10 @@ import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 import TableActionColumn from "../tables/TableActionColumn.vue";
 import ConfirmModal from "../modals/BaseModal.vue";
 import BookingModal from "./BookingModal.vue";
+import Filter from "../inputs/Filter.vue";
 import { retrieveLocaleDate, retrieveLocaleTime } from "../../utils/dateUtils";
+import type { FilterOptions } from "../../types/Components";
+import { addFilterOptionsToRequest } from "../../utils/requestFilter";
 
 let DEFAULT_TAKE = 25;
 
@@ -16,6 +19,25 @@ const isLoading = ref(false);
 
 const bookings = ref(await fetchData(DEFAULT_TAKE));
 const disableLoad = ref(false);
+
+const filterConfiguration: FilterOptions = {
+  from: {
+    placeholder: "Von (11.11.2011)",
+    value: "",
+  },
+  till: {
+    placeholder: "Bis (12.12.2012)",
+    value: "",
+  },
+  course: {
+    placeholder: "Klasse",
+    value: "",
+  },
+  location: {
+    placeholder: "Standort",
+    value: "",
+  },
+};
 
 const addEditModal = ref<any>();
 const confirmModal = ref<any>();
@@ -58,9 +80,10 @@ async function fetchData(
 ) {
   try {
     isLoading.value = true;
-    return (await fetchGet(
-      `bookings?skip=${skip}&take=${take}`
-    )) as BookingResponse[];
+    let query = `skip=${skip}&take=${take}`;
+    query = addFilterOptionsToRequest(query, filterOptions);
+
+    return (await fetchGet(`bookings?${query}`)) as BookingResponse[];
   } catch (error) {
     console.log("Error while loading data");
     return [];
@@ -77,14 +100,17 @@ async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
 // function onEditEntry() {
 //   toggleAddEditModal();
 // }
+async function onFilterTable(filterOptions: BookingFilterOption) {
+  loadFirst(filterOptions);
+}
 </script>
 
 <template>
-  <div class="grid">
-    <input type="text" placeholder="Von (11.11.2011)" />
-    <input type="text" placeholder="Bis (12.12.2012)" />
-    <input type="text" placeholder="Klasse" />
-    <input type="text" placeholder="Standort" />
+  <div>
+    <Filter
+      @filter-table="onFilterTable"
+      :filter-configuration="filterConfiguration"
+    />
   </div>
 
   <div v-if="isLoading" aria-busy="true"></div>
