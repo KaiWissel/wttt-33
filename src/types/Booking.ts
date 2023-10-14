@@ -18,15 +18,27 @@ export const BookingRequest = z.object({
   course: z.string().optional(),
 });
 
-export const BookingAddEditRequest = z.object({
+const addEditRequest = z.object({
   location: z.string().nonempty(),
   action: z.string().nonempty(),
-  userId: z.string().nonempty(),
   bookingTime: z.string().nonempty(),
 });
 
+addEditRequest.extend({ bookingTime: z.string().nonempty() });
+
+export const BookingAddEditRequest = addEditRequest.extend({
+  userId: z.string().nonempty(),
+});
+
+export const BookingTerminalRequest = addEditRequest
+  .extend({
+    uId: z.string().nonempty(),
+  })
+  .omit({ bookingTime: true });
+
 export type BookingRequestType = z.infer<typeof BookingRequest>;
 export type BookingAddEditType = z.infer<typeof BookingAddEditRequest>;
+export type BookingTerminalType = z.infer<typeof BookingTerminalRequest>;
 
 export type BookingFilterOption = Omit<BookingRequestType, "skip" | "take">;
 
