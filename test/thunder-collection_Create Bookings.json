@@ -1,0 +1,61 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Create Bookings",
+    "dateExported": "2023-10-14T18:42:40.721Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "f79720b7-34ed-4b71-ade6-d7c8c032017f",
+            "colId": "4b5e4af2-6cb7-43a1-a5a3-34f1c8865c3f",
+            "containerId": "",
+            "name": "Terminal_1",
+            "url": "http://localhost:1234/api/bookings/terminal",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-10-14T18:36:54.274Z",
+            "modified": "2023-10-14T18:36:54.274Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"location\":\"Terminal 1\",\n  \"action\":\"Kommen\",\n  \"uId\":\"2jwvmp0jay\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "cdf846eb-6501-4881-8365-83f3609f6c71",
+            "colId": "4b5e4af2-6cb7-43a1-a5a3-34f1c8865c3f",
+            "containerId": "",
+            "name": "Empty_Json_Body",
+            "url": "http://localhost:1234/api/bookings/terminal",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-10-14T18:38:49.187Z",
+            "modified": "2023-10-14T18:39:10.972Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "f74ed25a-c207-446d-9657-8a959bdc9419",
+            "colId": "4b5e4af2-6cb7-43a1-a5a3-34f1c8865c3f",
+            "containerId": "",
+            "name": "No_Body",
+            "url": "http://localhost:1234/api/bookings/terminal",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-10-14T18:39:14.298Z",
+            "modified": "2023-10-14T18:39:29.604Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
