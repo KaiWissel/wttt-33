@@ -1,6 +1,6 @@
 import type { User } from ".prisma/client";
 import { z } from "zod";
-import { Pagination } from "./Common";
+import { Pagination, type PaginationType } from "./Common";
 
 export const UserRequest = z
   .object({
@@ -23,7 +23,7 @@ export const UserAddEditRequest = z.object({
 export type UserRequestType = z.infer<typeof UserRequest>;
 export type UserAddEditType = z.infer<typeof UserAddEditRequest>;
 
-export type UserFilterOption = Omit<UserRequestType, "skip" | "take">;
+export type UserFilterOption = Omit<UserRequestType, keyof PaginationType>;
 
 export type UserResponse = Omit<User, "createdAt" | "updatedAt"> & {
   createdAt: string;

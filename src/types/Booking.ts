@@ -1,7 +1,7 @@
 import type { Booking } from ".prisma/client";
 import { z } from "zod";
 import type { UserResponse } from "./User";
-import { Pagination } from "./Common";
+import { Pagination, type PaginationType } from "./Common";
 
 export const BOOKING_ACTIONS = [
   "Kommen",
@@ -41,7 +41,10 @@ export type BookingRequestType = z.infer<typeof BookingRequest>;
 export type BookingAddEditType = z.infer<typeof BookingAddEditRequest>;
 export type BookingTerminalType = z.infer<typeof BookingTerminalRequest>;
 
-export type BookingFilterOption = Omit<BookingRequestType, "skip" | "take">;
+export type BookingFilterOption = Omit<
+  BookingRequestType,
+  keyof PaginationType
+> & { userId: string };
 
 export type BookingResponse = Omit<Booking, "createdAt" | "updatedAt"> & {
   createdAt: string;

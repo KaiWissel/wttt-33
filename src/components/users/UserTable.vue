@@ -7,9 +7,11 @@ import TableActionColumn from "../tables/TableActionColumn.vue";
 import { fetchDelete, fetchGet } from "../../utils/fetchClient";
 import ConfirmModal from "../modals/BaseModal.vue";
 import UserModal from "./UserModal.vue";
-import Filter from "./Filter.vue";
+import Filter from "../inputs/Filter.vue";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
 import { useDeleteEntry } from "../tables/EditDeleteEntry";
+import { addFilterOptionsToRequest } from "../../utils/requestFilter";
+import type { FilterOptions } from "../../types/Components";
 
 let DEFAULT_TAKE = 50;
 
@@ -20,6 +22,29 @@ const isLoading = ref(false);
 
 const users: Ref<UserResponse[]> = ref([]);
 const disableLoad = ref(false);
+
+const filterConfiguration: FilterOptions = {
+  lastName: {
+    placeholder: "Nachname",
+    value: "",
+  },
+  firstName: {
+    placeholder: "Vorname",
+    value: "",
+  },
+  courseType: {
+    placeholder: "Klasse",
+    value: "",
+  },
+  year: {
+    placeholder: "Jahr",
+    value: "",
+  },
+  uId: {
+    placeholder: "UID",
+    value: "",
+  },
+};
 
 const {
   confirmErrorMessage,
@@ -56,13 +81,7 @@ async function fetchData(
   try {
     isLoading.value = true;
     let query = `skip=${skip}&take=${take}`;
-
-    for (const key in filterOptions) {
-      // @ts-ignore
-      const element = filterOptions[key];
-      if (!element) continue;
-      query += `&${key}=${element}`;
-    }
+    query = addFilterOptionsToRequest(query, filterOptions);
 
     return (await fetchGet(`users?${query}`)) as UserResponse[];
   } catch (error) {
@@ -86,9 +105,12 @@ async function onFilterTable(filterOptions: UserFilterOption) {
 <template>
   <button @click="toggleAddEditModal(true)">Neuen Nutzer anlegen</button>
 
+  <hr />
   <div>
-    <hr />
-    <Filter @filter-table="onFilterTable" />
+    <Filter
+      @filter-table="onFilterTable"
+      :filter-configuration="filterConfiguration"
+    />
   </div>
 
   <div v-if="isLoading" aria-busy="true"></div>
