@@ -1,16 +1,16 @@
 import type { User } from ".prisma/client";
 import { z } from "zod";
+import { Pagination } from "./Common";
 
-export const UserRequest = z.object({
-  // TODO: Can we extract skip & take into a common definition for pagination?
-  skip: z.coerce.number().optional(),
-  take: z.coerce.number().optional(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  uId: z.string().optional(),
-  courseType: z.string().optional(),
-  year: z.coerce.number().optional(),
-});
+export const UserRequest = z
+  .object({
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    uId: z.string().optional(),
+    courseType: z.string().optional(),
+    year: z.coerce.number().optional(),
+  })
+  .merge(Pagination);
 
 export const UserAddEditRequest = z.object({
   firstName: z.string().nonempty(),

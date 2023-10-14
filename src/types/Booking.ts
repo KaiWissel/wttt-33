@@ -1,6 +1,7 @@
 import type { Booking } from ".prisma/client";
 import { z } from "zod";
 import type { UserResponse } from "./User";
+import { Pagination } from "./Common";
 
 export const BOOKING_ACTIONS = [
   "Kommen",
@@ -9,14 +10,14 @@ export const BOOKING_ACTIONS = [
   "Pause Ende",
 ] as const;
 
-export const BookingRequest = z.object({
-  skip: z.coerce.number().optional(),
-  take: z.coerce.number().optional(),
-  location: z.string().optional(),
-  from: z.string().datetime().optional(),
-  till: z.string().datetime().optional(),
-  course: z.string().optional(),
-});
+export const BookingRequest = z
+  .object({
+    location: z.string().optional(),
+    from: z.string().datetime().optional(),
+    till: z.string().datetime().optional(),
+    course: z.string().optional(),
+  })
+  .merge(Pagination);
 
 const addEditRequest = z.object({
   location: z.string().nonempty(),
