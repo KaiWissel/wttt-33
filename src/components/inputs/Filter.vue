@@ -21,7 +21,7 @@ const emit = defineEmits(["filterTable"]);
 function clear() {
   Object.values(filterOptions.value).forEach((v) => (v.value = ""));
   isFilterActive.value = false;
-  emit("filterTable", filterOptions);
+  emit("filterTable", []);
 }
 
 function onFilter() {
