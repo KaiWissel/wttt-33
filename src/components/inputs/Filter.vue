@@ -53,6 +53,7 @@ function flattenFilterOptions(filterOptions: Ref<FilterOptions>) {
       v-model="option.value"
       type="text"
       :placeholder="option.placeholder"
+      @keyup.enter="onFilter"
     />
     <button @click="onFilter" class="secondary" :disabled="isDisabled">
       Filter
