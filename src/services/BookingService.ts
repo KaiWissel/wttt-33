@@ -7,9 +7,28 @@ import type {
 } from "../types/Booking";
 
 export async function findBookings(request: BookingRequestType) {
+  const whereUser = createWhereStatementForName(request.name);
+  const whereCourse = createWhereStatementForCourse(request.course);
+
   return await prisma.booking.findMany({
     skip: request.skip,
     take: request.take ?? 50,
+    where: {
+      AND: [
+        { location: { contains: request.location } },
+        {
+          bookingTime: {
+            gt: request.from ? new Date(request.from).toISOString() : undefined,
+          },
+        },
+        {
+          bookingTime: {
+            lt: request.till ? new Date(request.till).toISOString() : undefined,
+          },
+        },
+        { user: { ...whereUser, course: whereCourse } },
+      ],
+    },
     orderBy: {
       createdAt: "desc",
     },
@@ -99,4 +118,77 @@ async function findUserIdByUId(uId: string) {
   if (!user?.id) throw new Error(`No user found for uId ${uId}`);
 
   return user.id;
+}
+
+function createWhereStatementForName(name: string | undefined) {
+  if (!name) return;
+
+  const names = name.split(" ");
+  const noSpace = {
+    OR: [
+      {
+        firstName: {
+          startsWith: names[0],
+        },
+      },
+      {
+        lastName: {
+          startsWith: names[0],
+        },
+      },
+    ],
+  };
+
+  const withSpace = {
+    AND: [
+      {
+        firstName: {
+          startsWith: names[0],
+        },
+      },
+      {
+        lastName: {
+          startsWith: names[1],
+        },
+      },
+    ],
+  };
+
+  return names.length > 1 ? withSpace : noSpace;
+}
+function createWhereStatementForCourse(input: string | undefined) {
+  if (!input) return;
+
+  const parts = input.split(" ");
+  const noSpace = {
+    OR: [
+      {
+        type: {
+          shortName: {
+            startsWith: parts[0],
+          },
+        },
+      },
+      // {
+      //   year: { equals: 2023 },
+      // },
+    ],
+  };
+
+  const withSpace = {
+    AND: [
+      {
+        type: {
+          shortName: {
+            startsWith: parts[0],
+          },
+        },
+      },
+      // {
+      //   year: { equals: 2023 },
+      // },
+    ],
+  };
+
+  return parts.length > 1 ? withSpace : noSpace;
 }

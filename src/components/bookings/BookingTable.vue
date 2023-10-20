@@ -22,11 +22,15 @@ const disableLoad = ref(false);
 
 const filterConfiguration: FilterOptions = {
   from: {
-    placeholder: "Von (11.11.2011)",
+    placeholder: "Von (2011-11-11)",
     value: "",
   },
   till: {
-    placeholder: "Bis (12.12.2012)",
+    placeholder: "Bis (2012-12-12)",
+    value: "",
+  },
+  name: {
+    placeholder: "Name",
     value: "",
   },
   course: {

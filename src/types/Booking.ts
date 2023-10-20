@@ -13,8 +13,15 @@ export const BOOKING_ACTIONS = [
 export const BookingRequest = z
   .object({
     location: z.string().optional(),
-    from: z.string().datetime().optional(),
-    till: z.string().datetime().optional(),
+    name: z.string().optional(),
+    from: z
+      .string()
+      .regex(/\d{4}-\d{2}-\d{2}/)
+      .optional(),
+    till: z
+      .string()
+      .regex(/\d{4}-\d{2}-\d{2}/)
+      .optional(),
     course: z.string().optional(),
   })
   .merge(Pagination);
