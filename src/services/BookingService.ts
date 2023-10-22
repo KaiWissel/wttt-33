@@ -18,12 +18,12 @@ export async function findBookings(request: BookingRequestType) {
         { location: { contains: request.location } },
         {
           bookingTime: {
-            gt: request.from ? new Date(request.from).toISOString() : undefined,
+            gt: createDateFromString(request.from),
           },
         },
         {
           bookingTime: {
-            lt: request.till ? new Date(request.till).toISOString() : undefined,
+            lt: createDateFromString(request.till),
           },
         },
         { user: { ...whereUser, course: whereCourse } },
@@ -156,6 +156,10 @@ function createWhereStatementForName(name: string | undefined) {
 
   return names.length > 1 ? withSpace : noSpace;
 }
+function createDateFromString(date: string | undefined) {
+  return date ? new Date(date).toISOString() : undefined;
+}
+
 function createWhereStatementForCourse(input: string | undefined) {
   if (!input) return;
 
