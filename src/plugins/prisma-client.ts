@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import logger from "../logger";
+import type { PrismaClientInitializationError } from "@prisma/client/runtime/library";
 
 let prisma: PrismaClient | null = null;
 
@@ -42,10 +43,17 @@ async function init() {
     logger.info("PC: Try to connect to database");
     await prisma.$connect();
     logger.info("PC: Connected to database");
-  } catch (error) {
-    logger.error(
-      "PC: Could not connect to database " + JSON.stringify(error, null, 2)
-    );
+  } catch (error: any) {
+    if (error.name == "PrismaClientInitializationError") {
+      logger.error(
+        "PC: Could not connect to database " +
+          JSON.stringify(
+            (error as PrismaClientInitializationError).message,
+            null,
+            2
+          )
+      );
+    }
   }
 }
 
