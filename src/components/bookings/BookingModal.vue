@@ -133,7 +133,7 @@ async function postRequest() {
   const res = await fetchPost<BookingAddEditType>(`bookings`, {
     action: selectedAction.value,
     location: "Manueller Eintrag",
-    userId: "",
+    userId: findUserId(selectedUser.value),
     bookingTime: createBookingTime(date.value, time.value),
   });
 }

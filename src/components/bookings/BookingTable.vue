@@ -110,7 +110,9 @@ async function onFilterTable(filterOptions: BookingFilterOption) {
 </script>
 
 <template>
-  <button @click="toggleAddEditModal(true)">Neuen Nutzer anlegen</button>
+  <button @click="toggleAddEditModal(true)">
+    Manuelle Buchung durchführen
+  </button>
   <div>
     <Filter
       @filter-table="onFilterTable"
