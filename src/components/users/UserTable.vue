@@ -2,14 +2,14 @@
 import type { User } from ".prisma/client";
 import { type Ref, ref } from "vue";
 import type { UserFilterOption, UserResponse } from "../../types/User";
-import LoadMore from "../tables/LoadMore.vue";
-import TableActionColumn from "../tables/TableActionColumn.vue";
+import LoadMore from "../base/tables/LoadMore.vue";
+import TableActionColumn from "../base/tables/TableActionColumn.vue";
 import { fetchDelete, fetchGet } from "../../utils/fetchClient";
-import ConfirmModal from "../modals/BaseModal.vue";
+import ConfirmModal from "../base/BaseModal.vue";
 import UserModal from "./UserModal.vue";
-import Filter from "../inputs/Filter.vue";
+import Filter from "../base/Filter.vue";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
-import { useDeleteEntry } from "../tables/EditDeleteEntry";
+import { useDeleteEntry } from "../base/tables/EditDeleteEntry";
 import { addFilterOptionsToRequest } from "../../utils/requestFilter";
 import type { FilterOptions } from "../../types/Components";
 

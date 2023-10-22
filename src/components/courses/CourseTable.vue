@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { Course } from ".prisma/client";
 import { type Ref, ref } from "vue";
-import TableActionColumn from "../tables/TableActionColumn.vue";
+import TableActionColumn from "../base/tables/TableActionColumn.vue";
 import CourseModal from "./CourseModal.vue";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
-import ConfirmModal from "../modals/BaseModal.vue";
+import ConfirmModal from "../base/BaseModal.vue";
 import { fetchGet, fetchDelete } from "../../utils/fetchClient";
 
 let DEFAULT_TAKE = 10;

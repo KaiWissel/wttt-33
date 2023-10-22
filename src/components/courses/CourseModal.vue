@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import BaseModal from "../modals/BaseModal.vue";
-import TextInput from "../inputs/TextInput.vue";
-import BaseSelect from "../inputs/BaseSelect.vue";
+import BaseModal from "../base/BaseModal.vue";
+import TextInput from "../base/TextInput.vue";
+import BaseSelect from "../base/BaseSelect.vue";
 import { computed, ref, watchEffect } from "vue";
 import { fetchGet, fetchPost, fetchPut } from "../../utils/fetchClient";
 import type { CourseRequestType } from "../../types/Courses";

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { type Ref, ref } from "vue";
-import LoadMore from "../tables/LoadMore.vue";
+import LoadMore from "../base/tables/LoadMore.vue";
 import type { BookingFilterOption, BookingResponse } from "../../types/Booking";
 import { fetchDelete, fetchGet } from "../../utils/fetchClient";
-import { useDeleteEntry } from "../tables/EditDeleteEntry";
+import { useDeleteEntry } from "../base/tables/EditDeleteEntry";
 import { removeObjectFromArrayByProperty } from "../../utils/arrayHelper";
-import TableActionColumn from "../tables/TableActionColumn.vue";
-import ConfirmModal from "../modals/BaseModal.vue";
+import TableActionColumn from "../base/tables/TableActionColumn.vue";
+import ConfirmModal from "../base/BaseModal.vue";
 import BookingModal from "./BookingModal.vue";
-import Filter from "../inputs/Filter.vue";
+import Filter from "../base/Filter.vue";
 import { retrieveLocaleDate, retrieveLocaleTime } from "../../utils/dateUtils";
 import type { FilterOptions } from "../../types/Components";
 import { addFilterOptionsToRequest } from "../../utils/requestFilter";
@@ -110,6 +110,7 @@ async function onFilterTable(filterOptions: BookingFilterOption) {
 </script>
 
 <template>
+  <button @click="toggleAddEditModal(true)">Neuen Nutzer anlegen</button>
   <div>
     <Filter
       @filter-table="onFilterTable"

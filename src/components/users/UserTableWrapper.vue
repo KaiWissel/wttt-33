@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import UserTable from "./UserTable.vue";
-import SuspenseWrapper from "../tables/SuspenseWrapper.vue";
+import SuspenseWrapper from "../base/tables/SuspenseWrapper.vue";
 </script>
 
 <template>
