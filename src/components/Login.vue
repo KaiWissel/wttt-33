@@ -10,7 +10,12 @@
         {{ option }}
       </option>
     </select>
-    <input type="password" placeholder="Passwort" v-model="password" />
+    <input
+      @keydown.enter="login"
+      type="password"
+      placeholder="Passwort"
+      v-model="password"
+    />
 
     <button @click="login" :disabled="password.length === 0">Login</button>
     <a href="/bookings" id="bookingsLink"></a>
