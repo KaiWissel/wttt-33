@@ -22,11 +22,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { Ref } from "vue";
-import {
-  storeToken,
-  clearToken,
-  getLoggedInRole,
-} from "../utils/handleLoginToken";
+import { storeToken, clearToken, retrieveUserRole } from "../utils/handleLogin";
 
 const { PUBLIC_API_URL } = import.meta.env;
 
@@ -40,12 +36,12 @@ const showLoader = ref(false);
 
 onMounted(() => {
   // Because of hydration errors we have to call DOM changing effects only after the component was successfully mounted
-  loggedInRole.value = getLoggedInRole();
+  loggedInRole.value = retrieveUserRole();
 });
 
 async function logoff() {
   clearToken();
-  loggedInRole.value = getLoggedInRole();
+  loggedInRole.value = retrieveUserRole();
 }
 
 async function login() {
@@ -69,7 +65,7 @@ async function login() {
       const token = await response.json();
       console.log("BODY: ", token);
       storeToken(token);
-      loggedInRole.value = getLoggedInRole();
+      loggedInRole.value = retrieveUserRole();
       return;
     }
 

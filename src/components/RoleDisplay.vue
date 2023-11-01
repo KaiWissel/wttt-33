@@ -7,13 +7,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { Ref } from "vue";
-import { getLoggedInRole } from "../utils/handleLoginToken";
+import { retrieveUserRole } from "../utils/handleLogin";
 
 const loggedInRole: Ref<string | null> = ref(null);
 
 onMounted(() => {
   // Because of hydration errors we have to call DOM changing effects only after the component was successfully mounted
-  loggedInRole.value = getLoggedInRole();
+  loggedInRole.value = retrieveUserRole();
 });
 </script>
 <style scoped>
