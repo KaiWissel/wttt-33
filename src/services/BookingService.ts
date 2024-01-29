@@ -52,17 +52,23 @@ export async function findBookings(request: BookingRequestType) {
 export async function createBookingFromTerminal(data: BookingTerminalType) {
   logger.debug("CS: Will create new booking from terminal");
 
-  const userId = await findUserIdByUId(data.uId);
+  const user = await findUserByUId(data.uId);
 
   const newBooking = await createBooking({
     ...data,
-    userId,
+    userId: user.id,
     bookingTime: new Date().toISOString(),
   });
 
   logger.debug("CS: New course booking from terminal");
 
-  return newBooking;
+  const bookingWithUser = {
+    userFirstName: user.firstName,
+    userLastName: user.lastName,
+    ...newBooking,
+  };
+
+  return bookingWithUser;
 }
 
 export async function createBooking(data: BookingAddEditType) {
@@ -110,14 +116,14 @@ export async function updateBooking(id: string, data: BookingAddEditType) {
   return updatedBooking;
 }
 
-async function findUserIdByUId(uId: string) {
+async function findUserByUId(uId: string) {
   const user = await prisma.user.findFirst({ where: { uId } });
 
   logger.debug(`BS: User entry found: ` + JSON.stringify(user, null, 2));
 
   if (!user?.id) throw new Error(`No user found for uId ${uId}`);
 
-  return user.id;
+  return user;
 }
 
 function createWhereStatementForName(name: string | undefined) {

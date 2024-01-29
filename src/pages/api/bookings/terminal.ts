@@ -7,6 +7,6 @@ import { handleRequest } from "../../../utils/handleRequest";
 export const POST: APIRoute = async ({ request }) => {
   return handleRequest(request, async () => {
     const req = await parseRequestBody(request, BookingTerminalRequest);
-    createBookingFromTerminal(req);
+    return await createBookingFromTerminal(req);
   });
 };
