@@ -25,34 +25,25 @@ services:
       - wttt-network
     depends_on:
       - db
-    # server:
-    #   build:
-    #     context: .
-    #     dockerfile: Dockerfile
-    #   image: wttt-33/server
-    #   container_name: wttt-33_server
-    #   restart: always
-    #   env_file: .env
-    #   # environment:
-    #   #   - NODE_ENV=development
-    #   ports:
-    #     - "63000:1234"
-    #   volumes:
-    #     - .:/home/node/app
-    #   # networks:
-    #   #   - wttt-network
-    #   depends_on:
-    #     - db
-    # yarn:
-    #   image: node:18.10.0-alpine3.16
-    #   working_dir: /home/node/app
-    #   profiles: ["cli"]
-    #   volumes:
-    #     - ../.yarn-cache:/yarn-cache:rw
-    #     - .:/home/node/app
-    #   entrypoint: ["yarn"]
-    #   environment:
-    #     YARN_CACHE_FOLDER: "/yarn-cache"
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: wttt-33/server
+    container_name: wttt-33_server
+    restart: always
+    env_file: .env
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "63000:1234"
+    volumes:
+      - .:/home/node/app
+    networks:
+      - wttt-network
+    depends_on:
+      - db
 
 volumes:
   db:

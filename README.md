@@ -22,3 +22,5 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro --help`   | Get help using the Astro CLI                                               |
 | `npx prisma generate`    | Generates the correct data source client code                              |
 | `npx prisma migrate dev` | Reads the data sources and data model definition to create a new migration |
+| `docker compose build`   | Builds the application image                                               |
+| `docker compose up -d`   | Starts the whole application environment                                   |
