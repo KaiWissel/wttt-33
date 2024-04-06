@@ -8,11 +8,7 @@
     :is-waiting="isWaiting"
     ref="modal"
   >
-    <BaseSelect
-      v-model="type"
-      :options="typeOptions"
-      placeholder="Bitte wähle einen Typ aus"
-    />
+    <BaseSelect v-model="type" :options="typeOptions" placeholder="Bitte wähle einen Typ aus" />
     <TextInput
       v-model="year"
       v-model:is-validation-invalid="isYearValidationInvalid"
@@ -75,11 +71,7 @@ watchEffect(() => {
 });
 
 const disableConfirm = computed(() => {
-  return (
-    isYearValidationInvalid.value ||
-    !type.value ||
-    courseExists({ shortName: type.value, year: +year.value })
-  );
+  return isYearValidationInvalid.value || !type.value || courseExists({ shortName: type.value, year: +year.value });
 });
 
 function clearFields() {
@@ -109,6 +101,7 @@ async function onConfirm() {
 
 async function fetchTypes() {
   const typeObjects = (await fetchGet("courses/types")) as CourseType[];
+  if (!typeObjects) return;
   typeOptions.value = typeObjects.map((t) => t.shortName);
 }
 
@@ -121,20 +114,15 @@ async function postRequest() {
 
 async function updateRequest() {
   if (!props.selectedCourse) return;
-  const responseData = await fetchPut<CourseRequestType>(
-    `courses/${props.selectedCourse.id}`,
-    {
-      shortName: type.value,
-      year: +year.value,
-    }
-  );
+  const responseData = await fetchPut<CourseRequestType>(`courses/${props.selectedCourse.id}`, {
+    shortName: type.value,
+    year: +year.value,
+  });
 }
 
 function courseExists(requestBody: CourseRequestType) {
-  const found = props.courses.find(
-    (c) =>
-      c.courseTypeShortName == requestBody.shortName &&
-      c.year == requestBody.year
+  const found = props.courses?.find(
+    (c) => c.courseTypeShortName == requestBody.shortName && c.year == requestBody.year
   );
   return found ? true : false;
 }

@@ -54,11 +54,7 @@ async function deleteCourse() {
   try {
     isDeleting.value = true;
     await deleteRequest(selectedCourse.value.id);
-    removeObjectFromArrayByProperty(
-      courses.value,
-      "id",
-      selectedCourse.value.id
-    );
+    removeObjectFromArrayByProperty(courses.value, "id", selectedCourse.value.id);
     toggleConfirmModal();
   } catch (error) {
     console.log(error);
@@ -77,7 +73,7 @@ async function deleteRequest(id: String) {
   <div>
     <button @click="toggleAddEditModal(true)">Neue Klasse anlegen</button>
   </div>
-  <table v-if="courses.length">
+  <table v-if="courses?.length">
     <thead>
       <tr>
         <th scope="col">Art</th>
@@ -90,22 +86,13 @@ async function deleteRequest(id: String) {
         <td>{{ c.courseTypeShortName }}</td>
         <td>{{ c.year }}</td>
         <td>
-          <TableActionColumn
-            :data="c"
-            @deleteEntry="onDeleteEntry"
-            @editEntry="onEditCourse"
-          />
+          <TableActionColumn :data="c" @deleteEntry="onDeleteEntry" @editEntry="onEditCourse" />
         </td>
       </tr>
     </tbody>
   </table>
   <div v-else>Loading...</div>
-  <CourseModal
-    ref="addEditModal"
-    :courses="courses"
-    :selected-course="selectedCourse"
-    @updatedEntry="loadFirst"
-  />
+  <CourseModal ref="addEditModal" :courses="courses" :selected-course="selectedCourse" @updatedEntry="loadFirst" />
   <ConfirmModal
     ref="confirmModal"
     @confirmed="deleteCourse"
@@ -114,7 +101,7 @@ async function deleteRequest(id: String) {
     :error-message="confirmErrorMessage"
     :is-waiting="isDeleting"
     :is-dangerous="true"
-    >Möchtest du die Klasse {{ selectedCourse?.courseTypeShortName }}
-    {{ selectedCourse?.year }} wirklich löschen?</ConfirmModal
+    >Möchtest du die Klasse {{ selectedCourse?.courseTypeShortName }} {{ selectedCourse?.year }} wirklich
+    löschen?</ConfirmModal
   >
 </template>

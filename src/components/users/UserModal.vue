@@ -21,11 +21,7 @@
       :validation="notEmpty"
     />
     <TextInput v-model="uId" placeholder="Karten-ID" />
-    <BaseSelect
-      v-model="course"
-      :options="courseOptions"
-      placeholder="Bitte wähle einen Kurs aus"
-    />
+    <BaseSelect v-model="course" :options="courseOptions" placeholder="Bitte wähle einen Kurs aus" />
   </BaseModal>
 </template>
 
@@ -114,9 +110,8 @@ async function onConfirm() {
 
 async function fetchCourses() {
   courseObjects.value = (await fetchGet("courses")) as Course[];
-  courseOptions.value = courseObjects.value.map(
-    (c) => c.courseTypeShortName + " " + c.year
-  );
+  if (!courseObjects.value) return;
+  courseOptions.value = courseObjects.value.map((c) => c.courseTypeShortName + " " + c.year);
 }
 
 async function postRequest() {
@@ -132,23 +127,18 @@ async function postRequest() {
 async function updateRequest() {
   if (!props.selectedUser) return;
 
-  const res = await fetchPut<UserAddEditType>(
-    `users/${props.selectedUser.id}`,
-    {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      courseId: findCourseId(course.value),
-      status: "",
-      uId: uId.value ? uId.value : null,
-    }
-  );
+  const res = await fetchPut<UserAddEditType>(`users/${props.selectedUser.id}`, {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    courseId: findCourseId(course.value),
+    status: "",
+    uId: uId.value ? uId.value : null,
+  });
 }
 
 function findCourseId(courseOption: string) {
   const courseObject = courseObjects.value.find(
-    (c) =>
-      courseOption.includes(c.courseTypeShortName) &&
-      courseOption.includes("" + c.year)
+    (c) => courseOption.includes(c.courseTypeShortName) && courseOption.includes("" + c.year)
   );
 
   if (courseObject == null) {
@@ -159,9 +149,7 @@ function findCourseId(courseOption: string) {
 }
 
 function findCourseOptionById(courseId?: string | null) {
-  const courseObject = courseObjects.value.find(
-    (c) => c.id == props.selectedUser?.courseId
-  );
+  const courseObject = courseObjects.value.find((c) => c.id == props.selectedUser?.courseId);
 
   if (courseObject == null) {
     return "";

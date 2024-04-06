@@ -8,11 +8,7 @@
     :is-waiting="isWaiting"
     ref="modal"
   >
-    <BaseSelect
-      v-model="selectedUser"
-      :options="userNames"
-      placeholder="Bitte wähle eine Person aus"
-    />
+    <BaseSelect v-model="selectedUser" :options="userNames" placeholder="Bitte wähle eine Person aus" />
     <TextInput
       v-model="date"
       v-model:is-validation-invalid="dateValidation"
@@ -25,11 +21,7 @@
       placeholder="Uhrzeit (13:42)"
       :validation="timeFormatRegex"
     />
-    <BaseSelect
-      v-model="selectedAction"
-      :options="BOOKING_ACTIONS"
-      placeholder="Bitte wähle eine Aktion aus"
-    />
+    <BaseSelect v-model="selectedAction" :options="BOOKING_ACTIONS" placeholder="Bitte wähle eine Aktion aus" />
   </BaseModal>
 </template>
 
@@ -89,12 +81,7 @@ watchEffect(() => {
 });
 
 const disableConfirm = computed(() => {
-  return (
-    !selectedUser.value ||
-    !selectedAction.value ||
-    dateValidation.value ||
-    timeValidation.value
-  );
+  return !selectedUser.value || !selectedAction.value || dateValidation.value || timeValidation.value;
 });
 
 function clearFields() {
@@ -126,6 +113,7 @@ async function onConfirm() {
 
 async function fetchUsers() {
   users = (await fetchGet("users")) as User[];
+  if (!users || !users.length) return;
   userNames.value = users.map((u) => createFullUserName(u));
 }
 
@@ -141,15 +129,12 @@ async function postRequest() {
 async function updateRequest() {
   if (!props.selectedBooking) return;
 
-  const res = await fetchPut<BookingAddEditType>(
-    `bookings/${props.selectedBooking.id}`,
-    {
-      action: selectedAction.value,
-      location: "Manuelle Änderung",
-      userId: findUserId(selectedUser.value),
-      bookingTime: createBookingTime(date.value, time.value),
-    }
-  );
+  const res = await fetchPut<BookingAddEditType>(`bookings/${props.selectedBooking.id}`, {
+    action: selectedAction.value,
+    location: "Manuelle Änderung",
+    userId: findUserId(selectedUser.value),
+    bookingTime: createBookingTime(date.value, time.value),
+  });
 }
 
 function createFullUserName(user: User | UserResponse) {
@@ -163,9 +148,6 @@ function createBookingTime(date: string, time: string) {
 function findUserId(fullUserName: string): string {
   // FIXME: This is super ambiguous; Imagine we have two Michael Müller; We need to pass the userId!
   // @ts-ignore
-  return users.find(
-    (u) =>
-      fullUserName.includes(u.firstName) && fullUserName.includes(u.lastName)
-  ).id;
+  return users.find((u) => fullUserName.includes(u.firstName) && fullUserName.includes(u.lastName)).id;
 }
 </script>

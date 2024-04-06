@@ -46,19 +46,8 @@ const filterConfiguration: FilterOptions = {
 const addEditModal = ref<any>();
 const confirmModal = ref<any>();
 
-const {
-  confirmErrorMessage,
-  isDeleting,
-  selectedEntry,
-  onEditEntry,
-  deleteEntry,
-  onDeleteEntry,
-  toggleAddEditModal,
-} = useDeleteEntry<BookingResponse>(
-  addEditModal,
-  confirmModal,
-  deleteBookingFunction
-);
+const { confirmErrorMessage, isDeleting, selectedEntry, onEditEntry, deleteEntry, onDeleteEntry, toggleAddEditModal } =
+  useDeleteEntry<BookingResponse>(addEditModal, confirmModal, deleteBookingFunction);
 
 await loadFirst();
 
@@ -77,11 +66,7 @@ async function loadMore() {
   bookings.value = bookings.value.concat(res);
 }
 
-async function fetchData(
-  take: number,
-  skip: number = 0,
-  filterOptions?: BookingFilterOption
-) {
+async function fetchData(take: number, skip: number = 0, filterOptions?: BookingFilterOption) {
   try {
     isLoading.value = true;
     let query = `skip=${skip}&take=${take}`;
@@ -110,18 +95,13 @@ async function onFilterTable(filterOptions: BookingFilterOption) {
 </script>
 
 <template>
-  <button @click="toggleAddEditModal(true)">
-    Manuelle Buchung durchführen
-  </button>
+  <button @click="toggleAddEditModal(true)">Manuelle Buchung durchführen</button>
   <div>
-    <Filter
-      @filter-table="onFilterTable"
-      :filter-configuration="filterConfiguration"
-    />
+    <Filter @filter-table="onFilterTable" :filter-configuration="filterConfiguration" />
   </div>
 
   <div v-if="isLoading" aria-busy="true"></div>
-  <table v-else-if="bookings.length">
+  <table v-else-if="bookings?.length">
     <thead>
       <tr>
         <th scope="col">Datum</th>
@@ -144,22 +124,14 @@ async function onFilterTable(filterOptions: BookingFilterOption) {
         </td>
         <td>{{ b.location }}</td>
         <td>
-          <TableActionColumn
-            :data="b"
-            @deleteEntry="onDeleteEntry"
-            @editEntry="onEditEntry"
-          />
+          <TableActionColumn :data="b" @deleteEntry="onDeleteEntry" @editEntry="onEditEntry" />
         </td>
       </tr>
     </tbody>
   </table>
   <h4 v-else>Es wurden keine Einträge gefunden</h4>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
-  <BookingModal
-    ref="addEditModal"
-    :selected-booking="selectedEntry"
-    @updatedEntry="loadFirst"
-  />
+  <BookingModal ref="addEditModal" :selected-booking="selectedEntry" @updatedEntry="loadFirst" />
   <ConfirmModal
     ref="confirmModal"
     @confirmed="deleteEntry"
@@ -168,7 +140,7 @@ async function onFilterTable(filterOptions: BookingFilterOption) {
     :is-waiting="isDeleting"
     :is-dangerous="true"
     :error-message="confirmErrorMessage"
-    >Möchtest du den Eintrag von {{ selectedEntry?.user.firstName }}
-    {{ selectedEntry?.user.lastName }} wirklich löschen?</ConfirmModal
+    >Möchtest du den Eintrag von {{ selectedEntry?.user.firstName }} {{ selectedEntry?.user.lastName }} wirklich
+    löschen?</ConfirmModal
   >
 </template>

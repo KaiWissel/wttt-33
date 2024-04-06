@@ -46,15 +46,8 @@ const filterConfiguration: FilterOptions = {
   },
 };
 
-const {
-  confirmErrorMessage,
-  isDeleting,
-  selectedEntry,
-  onEditEntry,
-  onDeleteEntry,
-  deleteEntry,
-  toggleAddEditModal,
-} = useDeleteEntry<User>(addEditModal, confirmModal, deleteUserFunction);
+const { confirmErrorMessage, isDeleting, selectedEntry, onEditEntry, onDeleteEntry, deleteEntry, toggleAddEditModal } =
+  useDeleteEntry<User>(addEditModal, confirmModal, deleteUserFunction);
 
 await loadFirst();
 
@@ -73,11 +66,7 @@ async function loadMore() {
   users.value = users.value.concat(res);
 }
 
-async function fetchData(
-  take: number = DEFAULT_TAKE,
-  skip: number = 0,
-  filterOptions?: UserFilterOption
-) {
+async function fetchData(take: number = DEFAULT_TAKE, skip: number = 0, filterOptions?: UserFilterOption) {
   try {
     isLoading.value = true;
     let query = `skip=${skip}&take=${take}`;
@@ -107,14 +96,11 @@ async function onFilterTable(filterOptions: UserFilterOption) {
 
   <hr />
   <div>
-    <Filter
-      @filter-table="onFilterTable"
-      :filter-configuration="filterConfiguration"
-    />
+    <Filter @filter-table="onFilterTable" :filter-configuration="filterConfiguration" />
   </div>
 
   <div v-if="isLoading" aria-busy="true"></div>
-  <table v-else-if="users.length">
+  <table v-else-if="users?.length">
     <thead>
       <tr>
         <th scope="col">Nachname</th>
@@ -133,23 +119,14 @@ async function onFilterTable(filterOptions: UserFilterOption) {
         </td>
         <td>{{ user.uId }}</td>
         <td>
-          <TableActionColumn
-            :data="user"
-            @deleteEntry="onDeleteEntry"
-            @editEntry="onEditEntry"
-          />
+          <TableActionColumn :data="user" @deleteEntry="onDeleteEntry" @editEntry="onEditEntry" />
         </td>
       </tr>
     </tbody>
   </table>
   <h4 v-else>Es wurden keine Einträge gefunden</h4>
   <LoadMore @loadMore="loadMore" :disable-load="disableLoad" />
-  <UserModal
-    ref="addEditModal"
-    :users="users"
-    :selected-user="selectedEntry"
-    @updatedEntry="loadFirst"
-  />
+  <UserModal ref="addEditModal" :users="users" :selected-user="selectedEntry" @updatedEntry="loadFirst" />
   <ConfirmModal
     ref="confirmModal"
     @confirmed="deleteEntry"
@@ -158,7 +135,6 @@ async function onFilterTable(filterOptions: UserFilterOption) {
     :is-waiting="isDeleting"
     :is-dangerous="true"
     :error-message="confirmErrorMessage"
-    >Möchtest du den Nutzer {{ selectedEntry?.firstName }}
-    {{ selectedEntry?.lastName }} wirklich löschen?</ConfirmModal
+    >Möchtest du den Nutzer {{ selectedEntry?.firstName }} {{ selectedEntry?.lastName }} wirklich löschen?</ConfirmModal
   >
 </template>
