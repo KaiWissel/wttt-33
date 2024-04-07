@@ -13,14 +13,14 @@
     "seed": "node prisma/seed.mjs"
   },
   "dependencies": {
-    "@astrojs/netlify": "^3.0.2",
-    "@astrojs/node": "^6.0.1",
-    "@astrojs/vue": "^3.0.0",
+    "@astrojs/netlify": "^5.2.0",
+    "@astrojs/node": "^8.2.5",
+    "@astrojs/vue": "^4.0.10",
     "@nanostores/vue": "^0.10.0",
     "@picocss/pico": "^1.5.10",
     "@prisma/client": "^5.3.1",
     "@vueuse/core": "^10.5.0",
-    "astro": "^3.2.0",
+    "astro": "^4.5.16",
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "nanostores": "^0.9.3",
