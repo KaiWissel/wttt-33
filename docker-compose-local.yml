@@ -26,25 +26,6 @@ services:
     depends_on:
       - db
 
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: wttt-33/server
-    container_name: wttt-33_server
-    restart: always
-    env_file: .env
-    environment:
-      - NODE_ENV=development
-    ports:
-      - "63033:8033"
-    volumes:
-      - .:/home/node/app
-    networks:
-      - wttt-network
-    depends_on:
-      - db
-
 volumes:
   db:
   db-admin:

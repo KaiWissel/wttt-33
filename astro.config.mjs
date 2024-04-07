@@ -14,7 +14,7 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
-  server: { port: 1234, host: true },
+  server: { port: 8033, host: true },
   //   // adapter: netlify(),
   integrations: [vue(), prisma],
 });

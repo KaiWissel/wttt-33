@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro";
 import { createBooking, findBookings } from "../../../services/BookingService";
 import { BookingAddEditRequest, BookingRequest } from "../../../types/Booking";
-import {
-  parseRequestBody,
-  parseRequestParams,
-} from "../../../utils/requestParsing";
+import { parseRequestBody, parseRequestParams } from "../../../utils/requestParsing";
 import { handleRequest } from "../../../utils/handleRequest";
 
 export const GET: APIRoute = async ({ params, request }) => {

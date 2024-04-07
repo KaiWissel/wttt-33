@@ -1,13 +1,8 @@
-FROM node:20-alpine
-
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-
-WORKDIR /home/node/app
+FROM node:20-alpine AS runtime
+WORKDIR /app
 
 COPY . .
 
 RUN npm install
 
-USER node
-
-ENTRYPOINT [ "/bin/sh", "./docker-entrypoint.sh" ]
+CMD npm run dev
