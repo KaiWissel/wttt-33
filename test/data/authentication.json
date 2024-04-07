@@ -1,0 +1,10 @@
+[
+  {
+    "role": "Admin",
+    "password": "1234"
+  },
+  {
+    "role": "Viewer",
+    "password": "4321"
+  }
+]

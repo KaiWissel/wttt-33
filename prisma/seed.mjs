@@ -3,6 +3,8 @@ import users from "../test/data/users.json" assert { type: "json" };
 import bookings from "../test/data/bookings.json" assert { type: "json" };
 import courses from "../test/data/courses.json" assert { type: "json" };
 import courseTypes from "../test/data/courseTypes.json" assert { type: "json" };
+import courseTypes from "../test/data/courseTypes.json" assert { type: "json" };
+import authentication from "../test/data/authentication.json" assert { type: "json" };
 
 const prisma = new PrismaClient();
 
@@ -11,6 +13,7 @@ async function main() {
   await prisma.user.deleteMany({});
   await prisma.course.deleteMany({});
   await prisma.courseType.deleteMany({});
+  await prisma.authentication.deleteMany({});
 
   const resCt = await prisma.courseType.createMany({
     data: courseTypes,
@@ -26,6 +29,10 @@ async function main() {
 
   const resB = await prisma.booking.createMany({
     data: bookings,
+  });
+
+  const resA = await prisma.authentication.createMany({
+    data: authentication,
   });
 
   console.log({ resCt, resC, resU, resB });
