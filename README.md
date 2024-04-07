@@ -22,6 +22,7 @@ All commands are run from the root of the project, from a terminal:
 
 ## Build and setup WTTT-33 server
 
+- `cp .env.sample .env`     Create an .env file by copying the .env.sample
 - `docker compose build`    Builds the application image                                               
 - `docker compose up -d`    Starts the whole application environment    
 - `node prisma/seed.mjs`    Seeds the local database with test data                                   
