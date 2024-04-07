@@ -24,5 +24,7 @@ All commands are run from the root of the project, from a terminal:
 
 - `cp .env.sample .env`     Create an .env file by copying the .env.sample
 - `docker compose build`    Builds the application image                                               
-- `docker compose up -d`    Starts the whole application environment    
+- `docker compose up -d`    Starts the whole application environment 
+- `npx prisma generate`     Generates the correct data source client code   
+- `npx prisma migrate dev`  Creates tables in the database
 - `node prisma/seed.mjs`    Seeds the local database with test data                                   
