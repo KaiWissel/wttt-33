@@ -23,6 +23,7 @@ All commands are run from the root of the project, from a terminal:
 ## Build and setup WTTT-33 server
 
 - `cp .env.sample .env`     Create an .env file by copying the .env.sample
+- Adjust .env > PUBLIC_API_URL to the URL of the actual host machine
 - `docker compose build`    Builds the application image                                               
 - `docker compose up -d`    Starts the whole application environment 
 - `npx prisma generate`     Generates the correct data source client code   
