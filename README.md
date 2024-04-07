@@ -26,6 +26,17 @@ All commands are run from the root of the project, from a terminal:
 - Adjust to the URL of the actual host machine in `.env > PUBLIC_API_URL`
 - `docker compose build`    Builds the application image                                               
 - `docker compose up -d`    Starts the whole application environment 
+
+## Init database
+
+### Precondition
+- Node.js is installed locally
+- Database container is already up and running
+- Adjust these entries in .env and revert these changes after successful execution of commands
+    - `WTTT_33_DB_HOST=localhost`
+    - `WTTT_33_DB_PORT=63306`
+
+### Commands
 - `npx prisma generate`     Generates the correct data source client code   
 - `npx prisma migrate dev`  Creates tables in the database
 - `node prisma/seed.mjs`    Seeds the local database with test data                                   
