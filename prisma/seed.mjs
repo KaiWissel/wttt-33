@@ -1,9 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import users from "../test/data/users.json" assert { type: "json" };
-import bookings from "../test/data/bookings.json" assert { type: "json" };
-import courses from "../test/data/courses.json" assert { type: "json" };
-import courseTypes from "../test/data/courseTypes.json" assert { type: "json" };
-import authentssication from "../test/data/authentication.json" assert { type: "json" };
+import {
+  authentication,
+  bookings,
+  courseTypes,
+  courses,
+  users,
+} from "./json-data-loader.mjs";
 
 const prisma = new PrismaClient();
 
@@ -14,7 +16,7 @@ async function main() {
   await prisma.courseType.deleteMany({});
   await prisma.authentication.deleteMany({});
 
-  const resCt = await prisma.courseType.crseateMany({
+  const resCt = await prisma.courseType.createMany({
     data: courseTypes,
   });
 
@@ -34,7 +36,7 @@ async function main() {
     data: authentication,
   });
 
-  console.log({ resCt, resC, resU, resB });
+  console.log({ resCt, resC, resU, resB, resA });
 }
 
 main()
