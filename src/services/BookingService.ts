@@ -170,20 +170,19 @@ function createWhereStatementForCourse(input: string | undefined) {
   if (!input) return;
 
   const parts = input.split(" ");
-  const noSpace = {
-    OR: [
-      {
+  const isFirstPartInt = Number.isInteger(+parts[0]);
+
+  const noSpace = isFirstPartInt
+    ? {
+        year: { equals: +parts[0] },
+      }
+    : {
         type: {
           shortName: {
             startsWith: parts[0],
           },
         },
-      },
-      // {
-      //   year: { equals: 2023 },
-      // },
-    ],
-  };
+      };
 
   const withSpace = {
     AND: [
@@ -194,9 +193,9 @@ function createWhereStatementForCourse(input: string | undefined) {
           },
         },
       },
-      // {
-      //   year: { equals: 2023 },
-      // },
+      {
+        year: { equals: +parts[1] },
+      },
     ],
   };
 

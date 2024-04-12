@@ -43,6 +43,8 @@ const filterConfiguration: FilterOptions = {
   },
 };
 
+let filterValues: BookingFilterOption;
+
 const addEditModal = ref<any>();
 const confirmModal = ref<any>();
 
@@ -51,12 +53,12 @@ const { confirmErrorMessage, isDeleting, selectedEntry, onEditEntry, deleteEntry
 
 await loadFirst();
 
-async function loadFirst(filterOptions?: BookingFilterOption) {
-  bookings.value = await fetchData(DEFAULT_TAKE, 0, filterOptions);
+async function loadFirst() {
+  bookings.value = await fetchData(DEFAULT_TAKE, 0, filterValues);
 }
 
 async function loadMore() {
-  const res = await fetchData(DEFAULT_TAKE, bookings.value.length);
+  const res = await fetchData(DEFAULT_TAKE, bookings.value.length, filterValues);
 
   if (!res.length) {
     disableLoad.value = true;
@@ -90,7 +92,8 @@ async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
 //   toggleAddEditModal();
 // }
 async function onFilterTable(filterOptions: BookingFilterOption) {
-  loadFirst(filterOptions);
+  filterValues = filterOptions;
+  loadFirst();
 }
 </script>
 
