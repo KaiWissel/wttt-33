@@ -1,10 +1,6 @@
 import logger from "../logger";
 import prisma from "../plugins/prisma-client";
-import type {
-  BookingAddEditType,
-  BookingRequestType,
-  BookingTerminalType,
-} from "../types/Booking";
+import type { BookingAddEditType, BookingRequestType, BookingTerminalType } from "../types/Booking";
 
 export async function findBookings(request: BookingRequestType) {
   const whereUser = createWhereStatementForName(request.name);
@@ -30,7 +26,7 @@ export async function findBookings(request: BookingRequestType) {
       ],
     },
     orderBy: {
-      createdAt: "desc",
+      bookingTime: "desc",
     },
     include: {
       user: {

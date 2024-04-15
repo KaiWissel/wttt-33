@@ -55,6 +55,7 @@ await loadFirst();
 
 async function loadFirst() {
   bookings.value = await fetchData(DEFAULT_TAKE, 0, filterValues);
+  sortBookings();
 }
 
 async function loadMore() {
@@ -66,6 +67,7 @@ async function loadMore() {
   }
 
   bookings.value = bookings.value.concat(res);
+  sortBookings();
 }
 
 async function fetchData(take: number, skip: number = 0, filterOptions?: BookingFilterOption) {
@@ -88,12 +90,25 @@ async function deleteBookingFunction(selectedEntry: Ref<BookingResponse>) {
   removeObjectFromArrayByProperty(bookings.value, "id", selectedEntry.value.id);
 }
 
-// function onEditEntry() {
-//   toggleAddEditModal();
-// }
 async function onFilterTable(filterOptions: BookingFilterOption) {
   filterValues = filterOptions;
   loadFirst();
+}
+
+/**
+ * Will sort bookings descending on date part of booking time. If bookings have the same day, we sort ascending alphabetically.
+ */
+function sortBookings() {
+  bookings.value.sort((a, b) => {
+    const aIsoDay = new Date(a.bookingTime).toISOString().substring(0, 10);
+    const bIsoDay = new Date(b.bookingTime).toISOString().substring(0, 10);
+
+    const dayResult = bIsoDay.localeCompare(aIsoDay);
+
+    if (dayResult != 0) return dayResult;
+
+    return a.user.lastName.localeCompare(b.user.lastName);
+  });
 }
 </script>
 
